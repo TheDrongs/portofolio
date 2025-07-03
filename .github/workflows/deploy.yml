@@ -22,9 +22,11 @@ jobs:
           node-version: 18
 
       - name: Install dependencies
+        working-directory: ./portofolio
         run: npm install
 
       - name: Build project
+        working-directory: ./portofolio
         run: npm run build
 
       - name: Deploy to GitHub Pages
