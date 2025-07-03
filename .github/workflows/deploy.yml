@@ -16,9 +16,9 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Change to React project directory
-        working-directory: ./portofolio
+      - name: Install dependencies & build project
         run: |
+          cd portofolio
           npm install
           npm run build
 
