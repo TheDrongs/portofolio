@@ -14,6 +14,10 @@ import DockerKubernetesCertificate from "../assets/certificate/dockerKubernetes.
 import EDCScreenshot from "../assets/projectScreenshot/EDC-LIST.png"
 import TermManageEDC from "../assets/projectScreenshot/Terminal-Management-System.jpg"
 import PelayaranNelly from "../assets/projectScreenshot/Pelayaran-Nelly-Dwi-Putri-Tbk.png"
+import ErpScreenshot from "../assets/projectScreenshot/ERP.png"
+import SfaScreenshot from "../assets/projectScreenshot/SFA.png"
+import SurveyorScreenshot from "../assets/projectScreenshot/surveyor-app.png"
+import RestaurantScreenshot from "../assets/projectScreenshot/restaurant-system.png"
 
 const footerIcons = [
   {
@@ -112,11 +116,11 @@ const projectsPage = [
    {
     projectName: "Internal Web Systems(SaaS) at KSNI", 
     projectDescription: "ERP, SFA, UI Library, HRIS, Geo-Mapping App, Geo-Tagging App, etc",
-    projectDetails: "-",
+    projectDetails: "Not all Screenshot provided, since some contains confidential information",
     projectRole: "Sr. Frontend Developer -> Technical Lead Frontend & Full-Stack Developer",
     projectURL: "",
-    screenshots: [],
-    tags: "React.js, React Native, Next.js, Node.js, Express.js, etc",
+    screenshots: [ErpScreenshot, SfaScreenshot, RestaurantScreenshot, SurveyorScreenshot],
+    tags: "React.js, React Native, Next.js, Node.js, Express.js",
     date: "Mar 2023 - current", 
   },
 ];
