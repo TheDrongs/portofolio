@@ -21,7 +21,7 @@ import ProductOwnershipLogo from "../assets/productOwner.jpg"
 import PrototypingLogo from "../assets/prototyping.png"
 import RestAPILogo from "../assets/restApi.png"
 import WebDevIcon from "../assets/webdevicon.jpg"
-import AppDevIcon from "../assets/appdevicon.jpg"
+import AppDevIcon from "../assets/appdevicon.png"
 
 const versioningTools = [
   { Component: SiGit, name: "Git", description: "3+ Years Experience", percentage: 82 },
