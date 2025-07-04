@@ -36,7 +36,7 @@ const Navbar = ({ activeElem, setActiveElem }) => {
          <a
           href={`#${navElements[0]}`}
           onClick={() => setActiveElem(navElements[0])}
-          className="font-bold py-3 sm:py-4 md:py-5 select-none whitespace-nowrap overflow-hidden text-ellipsis text-[clamp(1rem,6vw,2.5rem)] max-w-full"
+          className="font-bold py-3 sm:py-4 md:py-5 select-none text-[clamp(1rem,4vw,2rem)] max-w-full text-center break-words"
         >
           {textLogo}
         </a>
