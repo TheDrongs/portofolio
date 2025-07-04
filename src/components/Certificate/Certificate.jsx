@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { IoEyeSharp } from "react-icons/io5";
-import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
 const Certificate = ({ isFlexShrink, img, title, description, issuedBy, credentialURL }) => {

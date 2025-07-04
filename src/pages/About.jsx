@@ -1,9 +1,7 @@
-import { Link } from "react-router-dom";
 import { AboutPage } from "../assets/assets";
 
 const {
   authorDescription,
-  getInTouchUrl,
   authorName,
 } = AboutPage;
 

@@ -8,11 +8,6 @@ import {
 } from "react-icons/fa";
 import { TbBrandCpp, TbBrandKotlin, TbBrandTypescript } from "react-icons/tb";
 import { IoLogoGithub } from "react-icons/io";
-import PMLogo from "../assets/PM.png";
-import ManPowerPlanLogo from "../assets/MPP.jpg"
-import TechStandardsLogo from "../assets/techStandards.png"
-import UXLogo from "../assets/UX.png"
-import LeadershipLogo from "../assets/leadership.jpg"
 import Hacktiv8Certificate from "../assets/certificate/hacktiv8.jpg"
 import GolangCertificate from "../assets/certificate/golang.jpg"
 import DockerKubernetesCertificate from "../assets/certificate/dockerKubernetes.jpg"
