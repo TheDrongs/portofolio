@@ -25,9 +25,9 @@ const Project = ({
         <div className="border-b border-white mt-2" />
       </div>
 
-      <div className="mb-2">DESCRIPTION : {projectDescription}</div>
-      <div className="mb-2">CLIENTS : {projectDetails}</div>
-      <div className="mb-2">ROLE : {projectRole}</div>
+      <div className="mb-2">Description : {projectDescription}</div>
+      <div className="mb-2">Notes : {projectDetails}</div>
+      <div className="mb-2">Role : {projectRole}</div>
 
       <div className="mb-4">
         <button
