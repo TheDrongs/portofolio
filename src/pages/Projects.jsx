@@ -94,19 +94,19 @@ const Projects = () => {
                     alt={`Screenshot ${currentIndex + 1}`}
                     className="w-full max-h-[400px] md:max-h-[600px] object-contain border border-gray-300 rounded transition-all duration-300"
                   />
-                  <div className="flex items-center justify-center gap-4 mt-4">
+                  <div className="relative w-full flex items-center justify-between mt-6">
                     <button
                       onClick={() =>
                         setCurrentIndex((prev) =>
                           prev === 0 ? selectedScreenshots.length - 1 : prev - 1
                         )
                       }
-                      className="p-2 rounded-full bg-white shadow hover:bg-gray-100 transition"
+                      className="p-3 border border-black rounded-full bg-white shadow hover:bg-gray-100 transition text-2xl"
                       aria-label="Previous"
                     >
                       ←
                     </button>
-                    <div className="text-base text-gray-500 font-light tracking-wide tabular-nums">
+                    <div className="text-base text-gray-600 font-light tracking-wide tabular-nums">
                       {currentIndex + 1} <span className="opacity-60">/</span> {selectedScreenshots.length}
                     </div>
                     <button
@@ -115,7 +115,7 @@ const Projects = () => {
                           prev === selectedScreenshots.length - 1 ? 0 : prev + 1
                         )
                       }
-                      className="p-2 rounded-full bg-white shadow hover:bg-gray-100 transition"
+                      className="p-3 border border-black rounded-full bg-white shadow hover:bg-gray-100 transition text-2xl"
                       aria-label="Next"
                     >
                       →
