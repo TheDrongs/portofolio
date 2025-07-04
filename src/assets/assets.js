@@ -14,8 +14,8 @@ import DockerKubernetesCertificate from "../assets/certificate/dockerKubernetes.
 import EDCScreenshot from "../assets/projectScreenshot/EDC-LIST.png"
 import TermManageEDC from "../assets/projectScreenshot/Terminal-Management-System.jpg"
 import PelayaranNelly from "../assets/projectScreenshot/Pelayaran-Nelly-Dwi-Putri-Tbk.png"
-import ErpScreenshot from "../assets/projectScreenshot/ERP.png"
-import SfaScreenshot from "../assets/projectScreenshot/SFA.png"
+import ErpScreenshot from "../assets/projectScreenshot/Erp.png"
+import SfaScreenshot from "../assets/projectScreenshot/Sfa.png"
 import SurveyorScreenshot from "../assets/projectScreenshot/surveyor-app.png"
 import RestaurantScreenshot from "../assets/projectScreenshot/restaurant-system.png"
 
