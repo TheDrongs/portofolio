@@ -7,7 +7,7 @@ import {
   SiKubernetes, SiRabbitmq, SiGo, SiNodedotjs, SiJest, SiSonarqube, SiExpress, 
   SiPhp, SiMysql, SiMongodb, SiNextdotjs, SiC, SiStorybook, SiRollupdotjs,
   SiAntdesign, SiTailwindcss, SiRedux, SiOpenstreetmap, SiGooglemaps,
-  SiHtml5, SiCss3
+  SiHtml5, SiCss3, SiHtmx, SiBuddy
 } from "react-icons/si";
 import ViteLogo from "../assets/Vitejs-logo.png";
 import ZustandLogo from "../assets/zustand.svg";
@@ -107,6 +107,8 @@ const nonTechnicalSkills = {
     { src: ProductOwnershipLogo, name: "Product Ownership", description: "1+ Years Experience." }, 
   ],
   individualContributor: [
+    { src: SiHtmx, name: "Web Development", description: "9+ Years Experience." },
+    { src: SiBuddy, name: "App Development", description: "6+ Years Experience." },
     { src: PrototypingLogo, name: "Full-Stack Prototyping", description: "2+ Years Experience." },
   ],
 };
