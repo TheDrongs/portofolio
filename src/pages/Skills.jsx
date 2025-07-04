@@ -7,7 +7,9 @@ import {
   SiKubernetes, SiRabbitmq, SiGo, SiNodedotjs, SiJest, SiSonarqube, SiExpress, 
   SiPhp, SiMysql, SiMongodb, SiNextdotjs, SiC, SiStorybook, SiRollupdotjs,
   SiAntdesign, SiTailwindcss, SiRedux, SiOpenstreetmap, SiGooglemaps,
-  SiHtml5, SiCss3
+  SiHtml5, SiCss3,
+  SiAngular,
+  SiVuedotjs
 } from "react-icons/si";
 import ViteLogo from "../assets/Vitejs-logo.png";
 import ZustandLogo from "../assets/zustand.svg";
@@ -37,6 +39,8 @@ const technicalSkillsByCategory = {
       "UI Library & Frameworks": [
         { Component: SiReact, name: "React", description: "4+ Years Experience", percentage: 88 },
         { Component: SiNextdotjs, name: "NextJS", description: "3+ Years Experience", percentage: 81 },
+        { Component: SiAngular, name: "Angular", description: "1 Years Experience", percentage: 70 },
+        { Component: SiVuedotjs, name: "Vue", description: "1 Years Experience", percentage: 70 },
       ],
       "Styling": [
         { Component: SiHtml5, name: "HTML5", description: "6+ Years Experience", percentage: 86 },
@@ -149,6 +153,8 @@ const getSkillColor = (name) => {
     OpenStreetMap: "#7EBC6F",
     HTML5: "#E34F26",
     CSS3: "#1572B6",
+    Angular: "#DD0031",
+    Vue: "#42B883"
   };
   return colors[name] || "#1F2430";
 };
