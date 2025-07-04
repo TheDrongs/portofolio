@@ -163,7 +163,7 @@ const Projects = () => {
                     }
                     setShowAllProjects(!showAllProjects);
                   }}
-                  className="project-btn bg-mainColor hover:bg-mainHover text-white hover:text-black active:text-black py-3 px-4 rounded-full flex items-center gap-2 transition-all ease-linear"
+                  className="project-btn bg-mainColor hover:bg-mainHover text-white py-3 px-4 rounded-full flex items-center gap-2 transition-all ease-linear"
                 >
                   {showAllProjects ? "Show Less" : "More Projects"}
                   <IoIosArrowDown

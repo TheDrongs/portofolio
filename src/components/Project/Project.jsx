@@ -31,16 +31,16 @@ const Project = ({
 
       <div className="mb-4">
         <button
-          onClick={() => setShowStacks((prev) => !prev)}
-          className="flex items-center gap-2 bg-black text-mainColor font-medium py-1.5 px-3 rounded-full shadow hover:bg-yellow-100 transition-all"
-        >
-          {showStacks ? (
-            <IoEyeOffOutline className="w-5 h-5" />
-          ) : (
-            <IoEyeOutline className="w-5 h-5" />
-          )}
-          {showStacks ? "Hide Tech Stacks" : "Show Tech Stacks"}
-        </button>
+            onClick={() => setShowStacks((prev) => !prev)}
+            className="flex items-center gap-2 bg-black text-mainColor font-medium py-1.5 px-3 rounded-full shadow hover:text-black active:text-black hover:bg-yellow-100 transition-all"
+          >
+            {showStacks ? (
+              <IoEyeOffOutline className="w-5 h-5" />
+            ) : (
+              <IoEyeOutline className="w-5 h-5" />
+            )}
+            {showStacks ? "Hide Tech Stacks" : "Show Tech Stacks"}
+          </button>
         {showStacks && (
           <div className="mt-2 text-sm text-white/90">
             {tags}
