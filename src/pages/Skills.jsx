@@ -7,7 +7,7 @@ import {
   SiKubernetes, SiRabbitmq, SiGo, SiNodedotjs, SiJest, SiSonarqube, SiExpress, 
   SiPhp, SiMysql, SiMongodb, SiNextdotjs, SiC, SiStorybook, SiRollupdotjs,
   SiAntdesign, SiTailwindcss, SiRedux, SiOpenstreetmap, SiGooglemaps,
-  SiHtml5, SiCss3, SiHtmx, SiBuddy
+  SiHtml5, SiCss3
 } from "react-icons/si";
 import ViteLogo from "../assets/Vitejs-logo.png";
 import ZustandLogo from "../assets/zustand.svg";
@@ -20,6 +20,8 @@ import LeadershipLogo from "../assets/leadership.jpg"
 import ProductOwnershipLogo from "../assets/productOwner.jpg"
 import PrototypingLogo from "../assets/prototyping.png"
 import RestAPILogo from "../assets/restApi.png"
+import WebDevIcon from "../assets/webdevicon.jpg"
+import AppDevIcon from "../assets/appdevicon.jpg"
 
 const versioningTools = [
   { Component: SiGit, name: "Git", description: "3+ Years Experience", percentage: 82 },
@@ -107,8 +109,8 @@ const nonTechnicalSkills = {
     { src: ProductOwnershipLogo, name: "Product Ownership", description: "1+ Years Experience." }, 
   ],
   individualContributor: [
-    { src: SiHtmx, name: "Web Development", description: "9+ Years Experience." },
-    { src: SiBuddy, name: "App Development", description: "6+ Years Experience." },
+    { src: WebDevIcon, name: "Web Development", description: "9+ Years Experience." },
+    { src: AppDevIcon, name: "App Development", description: "6+ Years Experience." },
     { src: PrototypingLogo, name: "Full-Stack Prototyping", description: "2+ Years Experience." },
   ],
 };
@@ -200,9 +202,6 @@ const renderSkillCard = (skill, index) => (
 
 const Skills = () => {
   const mainTabs = Object.keys(technicalSkillsByCategory);
-  const subTabs = Object.keys(technicalSkillsByCategory["Web Programming"]).filter(
-    (key) => key !== "Versioning"
-  );
 
   const [activeMainTab, setActiveMainTab] = useState("Web Programming");
   const [activeSubTab, setActiveSubTab] = useState("Frontend Stack");
