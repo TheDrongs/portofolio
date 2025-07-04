@@ -1,5 +1,5 @@
 import { FaFolderOpen } from "react-icons/fa";
-import { IoEyeSharp } from "react-icons/io5";
+import { IoEyeSharp, IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 import { useState } from "react";
 
 const Project = ({
@@ -7,6 +7,7 @@ const Project = ({
   projectDescription,
   projectDetails,
   projectRole,
+  projectURL,
   screenshots,
   tags,
   date,
@@ -31,13 +32,18 @@ const Project = ({
       <div className="mb-4">
         <button
           onClick={() => setShowStacks((prev) => !prev)}
-          className="text-sm text-yellow-300 underline hover:opacity-80 transition"
+          className="flex items-center gap-2 bg-white text-mainColor font-medium py-1.5 px-3 rounded-full shadow hover:bg-yellow-100 transition-all"
         >
+          {showStacks ? (
+            <IoEyeOffOutline className="w-5 h-5" />
+          ) : (
+            <IoEyeOutline className="w-5 h-5" />
+          )}
           {showStacks ? "Hide Tech Stacks" : "Show Tech Stacks"}
         </button>
         {showStacks && (
           <div className="mt-2 text-sm text-white/90">
-            <span className="font-semibold">TECH STACK(s):</span> {tags}
+            {tags}
           </div>
         )}
       </div>
