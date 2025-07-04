@@ -110,13 +110,13 @@ const projectsPage = [
     date: "Oct 2018 - Feb 2019", 
   },
    {
-    projectName: "Internal Web Systems at KSNI", 
-    projectDescription: "Project as a worker in KSNI",
-    projectDetails: "Web SaaS at KSNI",
+    projectName: "Internal Web Systems(SaaS) at KSNI", 
+    projectDescription: "ERP, SFA, UI Library, HRIS, Geo-Mapping App, Geo-Tagging App, etc",
+    projectDetails: "-",
     projectRole: "Sr. Frontend Developer -> Technical Lead Frontend & Full-Stack Developer",
     projectURL: "",
     screenshots: [],
-    tags: "React.js, Next.js, Node.js, Express.js",
+    tags: "React.js, React Native, Next.js, Node.js, Express.js, etc",
     date: "Mar 2023 - current", 
   },
 ];
