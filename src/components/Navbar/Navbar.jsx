@@ -1,4 +1,4 @@
-import { imgLogo, textLogo, navElements } from "../../assets/assets";
+import { textLogo, navElements } from "../../assets/assets";
 import { useEffect, useState } from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { IoClose } from "react-icons/io5";
@@ -21,7 +21,7 @@ const Navbar = ({ activeElem, setActiveElem }) => {
   }, [isMenuHidden]);
 
   const toggleMenu = (e) => {
-    e.stopPropagation(); // Prevent body click when clicking the button
+    e.stopPropagation();
     setIsMenuHidden(!isMenuHidden);
   };
 
@@ -33,17 +33,13 @@ const Navbar = ({ activeElem, setActiveElem }) => {
       <div
         className={`flex items-center justify-between px-5 bedar-sc2:px-10 bedar-sc1:px-10 border rounded-full border-zinc-200 bg-[#ffffff85] backdrop-blur-[20px] backdrop-saturate-[180%]`}
       >
-        {imgLogo ? (
-          <img src={imgLogo} />
-        ) : (
-          <a
-            href={`#${navElements[0]}`}
-            onClick={() => setActiveElem(navElements[0])}
-            className="text-lg bedar-sc2:text-3xl font-bold py-3 bedar-sc2:py-4 bedar-sc1:py-5 select-none whitespace-nowrap"
-          >
-            {textLogo}
-          </a>
-        )}
+         <a
+          href={`#${navElements[0]}`}
+          onClick={() => setActiveElem(navElements[0])}
+          className="font-bold py-3 sm:py-4 md:py-5 select-none whitespace-nowrap overflow-hidden text-ellipsis text-[clamp(1rem,6vw,2.5rem)] max-w-full"
+        >
+          {textLogo}
+        </a>
         <div className="flex gap-2">
           {navElements.map((elem) => (
             <div key={1}>

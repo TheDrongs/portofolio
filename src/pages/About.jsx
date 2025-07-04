@@ -19,7 +19,13 @@ const About = () => {
         </div>
 
         <div style={{ textAlign: "justify" }} className="leading-7 text-lg">
-          {authorDescription}
+          {authorDescription.split('.').map((sentence, index) => (
+            sentence.trim() ? (
+              <p key={index} className="mb-3">
+                {sentence.trim()}.
+              </p>
+            ) : null
+          ))}
         </div>
       </div>
     </div>

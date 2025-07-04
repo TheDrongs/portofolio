@@ -41,7 +41,7 @@ const navElements = ["About", "Education", "Skills", "Projects", "Contact"];
 const AboutPage = {
   authorProfile: "", 
   authorDescription:
-  "I’m a Software Engineer with 12+ years of experience in IT, currently leading and managing the Frontend Development team at NABATI.\nAs a T-Shaped Engineer, I have a strong understanding of the full software development process, with deep expertise in frontend development. \nIn my current technical leadership role, I’m focusing on transitioning into a full managerial path in IT Engineering. I have a proven track record of leading teams to deliver measurable outcomes — from building successful applications to significantly improving team quality and efficiency. \n\nI’m committed to continuous learning as a way to drive personal, professional, and organizational growth.", // Short bio or description about yourself
+  "I’m a Software Engineer with 12+ years of experience in IT, currently leading and managing the Frontend Development team at NABATI.\nAs a T-Shaped Engineer, I have a strong understanding of the full software development process, with deep expertise in frontend development. \nIn my current technical leadership role, I’m focusing on transitioning into a full managerial path in IT Engineering. I have a proven track record of leading teams to deliver measurable outcomes — from building successful applications to significantly improving team quality and efficiency. \n\nI’m committed to continuous learning as a way to drive personal, professional, and organizational growth.",
   getInTouchUrl: "#Contact",
   authorName: "Andri Pramuji", 
   profileImgTagLine: "Technical Lead Frontend @ Kaldu Sari Nabati Indonesia", 
