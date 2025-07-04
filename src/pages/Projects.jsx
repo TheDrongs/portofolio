@@ -41,12 +41,19 @@ const Projects = () => {
     }
   }, []);
 
-    const getFilenameWithoutExtension = (path) => {
-      if (!path) return "";
-      const parts = path.split("/").pop().split(".");
-      parts.pop();
-      return parts.join(".");
-    };
+   const getFilenameWithoutExtension = (path) => {
+    if (!path) return "";
+
+    const filenameWithExt = path.split("/").pop();
+    const filename = filenameWithExt.split(".").slice(0, -1).join(".");
+
+    const lastDashIndex = filename.lastIndexOf("-");
+    if (lastDashIndex !== -1) {
+      return filename.slice(0, lastDashIndex);
+    }
+
+    return filename;
+  };
 
   return (
     <>
@@ -70,7 +77,7 @@ const Projects = () => {
                   onClick={(e) => e.stopPropagation()}
                 >
                   <div className="flex items-center justify-between mb-4">
-                    <h2 className="text-xl font-bold text-black">Project Preview</h2>
+                    <h2 className="text-xl font-bold text-black">Project Screenshot</h2>
                     <button
                       onClick={() => setShowModal(false)}
                       className="text-black hover:text-red-500 transition-colors"
@@ -87,31 +94,31 @@ const Projects = () => {
                     alt={`Screenshot ${currentIndex + 1}`}
                     className="w-full max-h-[400px] md:max-h-[600px] object-contain border border-gray-300 rounded transition-all duration-300"
                   />
-                  <div className="flex justify-between items-center mt-4">
+                  <div className="flex items-center justify-center gap-4 mt-4">
                     <button
                       onClick={() =>
                         setCurrentIndex((prev) =>
                           prev === 0 ? selectedScreenshots.length - 1 : prev - 1
                         )
                       }
-                      className="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded"
+                      className="p-2 rounded-full bg-white shadow hover:bg-gray-100 transition"
+                      aria-label="Previous"
                     >
-                      ← Prev
+                      ←
                     </button>
-
-                    <div className="text-sm text-gray-700">
-                      {currentIndex + 1} / {selectedScreenshots.length}
+                    <div className="text-base text-gray-500 font-light tracking-wide tabular-nums">
+                      {currentIndex + 1} <span className="opacity-60">/</span> {selectedScreenshots.length}
                     </div>
-
                     <button
                       onClick={() =>
                         setCurrentIndex((prev) =>
                           prev === selectedScreenshots.length - 1 ? 0 : prev + 1
                         )
                       }
-                      className="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded"
+                      className="p-2 rounded-full bg-white shadow hover:bg-gray-100 transition"
+                      aria-label="Next"
                     >
-                      Next →
+                      →
                     </button>
                   </div>
                 </motion.div>
