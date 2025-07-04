@@ -109,6 +109,16 @@ const projectsPage = [
     tags: "HTML, CSS, JavaScript, PHP, MySQL",
     date: "Oct 2018 - Feb 2019", 
   },
+   {
+    projectName: "Internal Web Systems at KSNI", 
+    projectDescription: "Project as a worker in KSNI",
+    projectDetails: "Web SaaS at KSNI",
+    projectRole: "Sr. Frontend Developer -> Technical Lead Frontend & Full-Stack Developer",
+    projectURL: "",
+    screenshots: [],
+    tags: "React.js, Next.js, Node.js, Express.js",
+    date: "Mar 2023 - current", 
+  },
 ];
 
 export {

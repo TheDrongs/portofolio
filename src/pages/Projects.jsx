@@ -1,9 +1,8 @@
 import { PageTitle, Project } from "../components/components.js";
 import { projectsPage } from "../assets/assets.js";
 import { containerStyle } from "./styles.js";
-import { Link } from "react-router-dom";
-import { IoIosArrowForward } from "react-icons/io";
-import { IoArrowBackOutline, IoClose } from "react-icons/io5";
+import { IoIosArrowDown  } from "react-icons/io";
+import { IoClose } from "react-icons/io5";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion"; 
 
@@ -12,6 +11,8 @@ const Projects = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedScreenshots, setSelectedScreenshots] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [showAllProjects, setShowAllProjects] = useState(false);
+  const visibleProjects = showAllProjects ? projectsPage : projectsPage.slice(0, 2);
 
     const handleViewClick = (screenshots) => {
       setSelectedScreenshots(screenshots || []);
@@ -127,45 +128,51 @@ const Projects = () => {
           </AnimatePresence>
           <PageTitle title={"Projects"} />
           <div>
-            <div className="grid grid-cols-1 bedar-sc2:grid-cols-2 gap-5">
-              {projectsPage.map(
-                ({
-                  projectName,
-                  projectDescription,
-                  projectDetails,
-                  projectRole,
-                  projectURL,
-                  tags,
-                  date,
-                  screenshots,
-                }) => (
-                  <Project
-                    key={1}
-                    projectName={projectName}
-                    projectDescription={projectDescription}
-                    projectDetails={projectDetails}
-                    projectRole={projectRole}
-                    projectURL={projectURL}
-                    screenshots={screenshots}
-                    tags={tags}
-                    date={date}
-                    onViewClick={handleViewClick}
+           <div className="grid grid-cols-1 bedar-sc2:grid-cols-2 gap-5">
+                {visibleProjects.map(
+                  ({
+                    projectName,
+                    projectDescription,
+                    projectDetails,
+                    projectRole,
+                    projectURL,
+                    tags,
+                    date,
+                    screenshots,
+                  }, index) => (
+                    <Project
+                      key={index}
+                      projectName={projectName}
+                      projectDescription={projectDescription}
+                      projectDetails={projectDetails}
+                      projectRole={projectRole}
+                      projectURL={projectURL}
+                      screenshots={screenshots}
+                      tags={tags}
+                      date={date}
+                      onViewClick={handleViewClick}
+                    />
+                  )
+                )}
+              </div>
+            <div className="flex justify-center mt-9">
+                <button
+                  onClick={() => {
+                    if (showAllProjects) {
+                      document.getElementById("Projects")?.scrollIntoView({ behavior: "smooth" });
+                    }
+                    setShowAllProjects(!showAllProjects);
+                  }}
+                  className="project-btn bg-mainColor hover:bg-mainHover text-white py-3 px-4 rounded-full flex items-center gap-2 transition-all ease-linear"
+                >
+                  {showAllProjects ? "Show Less" : "More Projects"}
+                  <IoIosArrowDown
+                    className={`w-5 h-5 transition-transform duration-300 ${
+                      showAllProjects ? "rotate-180" : "rotate-0"
+                    }`}
                   />
-                )
-              )}
-            </div>
-            <div>
-              <Link to={"/"} className="flex justify-center mt-9">
-                <button className="project-btn bg-mainColor hover:bg-mainHover text-white py-3 px-4 rounded-full flex items-center gap-2 transition-all ease-linear">
-                  More Projects{" "}
-                  {isHovered ? (
-                    <IoArrowBackOutline className="w-5 h-5 rotate-180" />
-                  ) : (
-                    <IoIosArrowForward className="w-5 h-5" />
-                  )}
                 </button>
-              </Link>
-            </div>
+              </div>
           </div>
         </div>
       }
