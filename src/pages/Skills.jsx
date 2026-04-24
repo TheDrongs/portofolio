@@ -397,7 +397,7 @@ const nonTechnicalSkills = {
   individualContributor: [
     nt(WebDevIcon, "Web Development", "9+ Years Experience."),
     nt(AppDevIcon, "App Development", "6+ Years Experience."),
-    nt(PrototypingLogo, "Full-Stack Prototyping", "2+ Years Experience."),
+    nt(PrototypingLogo, "Fullstack Development", "2+ Years Experience."),
   ],
 };
 
