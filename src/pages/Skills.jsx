@@ -296,10 +296,10 @@ const workExperiences = [
         ],
         techStacks: [
           ["Frontend", "React, Next.js, TypeScript"],
-          ["Backend", "GO, MongoDB"],
+          ["Backend", "GO, MongoDB, Redis"],
           ["Testing & Quality", "Jest"],
           ["Observability", "Grafana, OpenTelemetry, Elastic APM"],
-          ["Tools & Platforms", "Redis, Vault, ArgoCD"],
+          ["Tools & Platforms", "Vault", "ArgoCD"],
         ],
       },
       {
