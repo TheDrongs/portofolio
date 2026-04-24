@@ -7,9 +7,9 @@ import {
   SiKubernetes, SiRabbitmq, SiGo, SiNodedotjs, SiJest, SiExpress,
   SiPhp, SiMysql, SiMongodb, SiNextdotjs, SiC, SiStorybook, SiRollupdotjs,
   SiAntdesign, SiTailwindcss, SiRedux, SiOpenstreetmap, SiGooglemaps,
-  SiHtml5, SiCss, SiAngular, SiVuedotjs, SiSonarqubecloud, SiRadixui,
+  SiHtml5, SiAngular, SiVuedotjs, SiRadixui,
 } from "react-icons/si";
-
+import { FaCss3Alt, FaChartLine } from "react-icons/fa";
 import ViteLogo from "../assets/Vitejs-logo.png";
 import ZustandLogo from "../assets/zustand.svg";
 import FinclipLogo from "../assets/finclip.png";
@@ -65,7 +65,7 @@ const technicalSkillsByCategory = {
       ],
       Styling: [
         sk(SiHtml5, "HTML5", "7+ Years Experience", 86),
-        sk(SiCss, "CSS", "7+ Years Experience", 85),
+        sk(FaCss3Alt, "CSS", "7+ Years Experience", 85),
         sk(SiAntdesign, "AntDesign", "3+ Years Experience", 85),
         sk(SiTailwindcss, "TailwindCSS", "2 Years Experience", 80),
         sk(SiRadixui, "RadixUi", "2 Years Experience", 82),
@@ -105,7 +105,7 @@ const technicalSkillsByCategory = {
     ],
     "Testing & Quality": [
       sk(SiJest, "Jest", "1+ Years Experience", 77),
-      sk(SiSonarqubecloud, "Sonarqube", "2 Year Experience", 77),
+      sk(FaChartLine, "Sonarqube", "2 Year Experience", 77),
     ],
   },
   "Mobile Programming": [
