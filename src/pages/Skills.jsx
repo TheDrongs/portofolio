@@ -123,6 +123,10 @@ const technicalSkillsByCategory = {
           "Advanced",
           "Production Use",
         ]),
+        sk(ViteLogo, "ViteJS", "3+ Years Experience", [
+          "Advanced",
+          "Production Use",
+        ]),
         sk(SiAngular, "Angular", "1 Year Experience", [
           "Working Knowledge",
           "Project Exposure",
@@ -169,10 +173,6 @@ const technicalSkillsByCategory = {
         ]),
       ],
       "Build Tools & Config": [
-        sk(ViteLogo, "ViteJS", "3+ Years Experience", [
-          "Advanced",
-          "Production Use",
-        ]),
         sk(SiRollupdotjs, "RollupJS", "1+ Years Experience", [
           "Working Knowledge",
           "Project Exposure",
@@ -235,7 +235,7 @@ const technicalSkillsByCategory = {
         ]),
       ],
       "Messaging & Queue": [
-        sk(SiRabbitmq, "RabbitMQ", "1 Year Experience", [
+        sk(SiRabbitmq, "RabbitMQ", "1+ Year Experience", [
           "Working Knowledge",
           "Production Use",
         ]),
@@ -442,7 +442,8 @@ const skillColors = {
   Angular: "#DD0031",
   Vue: "#42B883",
   Vault: "#FFEC6E",
-  ArgoCD: "#F05A28"
+  ArgoCD: "#F05A28",
+  GraphQL: "#E10098",
 };
 
 const imageSkillNames = ["ViteJS", "Zustand", "MiniProgram", "RestAPI", "Sonarqube"];
