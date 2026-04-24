@@ -35,6 +35,7 @@ import {
   SiGraphql,
   SiVault,
   SiArgo,
+  SiRedis
 } from "react-icons/si";
 import {
   FaCss3Alt,
@@ -214,12 +215,16 @@ const technicalSkillsByCategory = {
           "Project Exposure",
         ]),
       ],
-      Database: [
+      "Database & Cache": [
         sk(SiMysql, "MySQL", "2+ Years Experience", [
           "Working Knowledge",
           "Production Use",
         ]),
         sk(SiMongodb, "MongoDB", "1+ Years Experience", [
+          "Working Knowledge",
+          "Production Use",
+        ]),
+          sk(SiRedis, "Redis", "1+ Years Experience", [
           "Working Knowledge",
           "Production Use",
         ]),
@@ -234,7 +239,7 @@ const technicalSkillsByCategory = {
           "Project Exposure",
         ]),
       ],
-      "Messaging & Queue": [
+      "Messaging": [
         sk(SiRabbitmq, "RabbitMQ", "1+ Year Experience", [
           "Working Knowledge",
           "Production Use",
@@ -446,6 +451,7 @@ const skillColors = {
   Vault: "#FFEC6E",
   ArgoCD: "#F05A28",
   GraphQL: "#E10098",
+  Redis: "#DC382D",
 };
 
 const imageSkillNames = ["ViteJS", "Zustand", "MiniProgram", "RestAPI", "Sonarqube"];
