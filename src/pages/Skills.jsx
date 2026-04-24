@@ -48,17 +48,17 @@ import {
 import ViteLogo from "../assets/Vitejs-logo.png";
 import ZustandLogo from "../assets/zustand.svg";
 import FinclipLogo from "../assets/finclip.png";
-import PMLogo from "../assets/PM.png";
-import ManPowerPlanLogo from "../assets/MPP.jpg";
-import TechStandardsLogo from "../assets/techStandards.png";
+import PMLogo from "../assets/projectmanagement.png";
+import ManPowerPlanLogo from "../assets/manpowerplanning.png";
 import UXLogo from "../assets/UX.png";
-import LeadershipLogo from "../assets/leadership.jpg";
-import ProductOwnershipLogo from "../assets/productOwner.jpg";
-import PrototypingLogo from "../assets/prototyping.png";
+import LeadershipLogo from "../assets/teamleadership.png";
+import ProductOwnershipLogo from "../assets/productownership.png";
+import PrototypingLogo from "../assets/fullstack.png";
 import RestAPILogo from "../assets/restApi.png";
-import WebDevIcon from "../assets/webdevicon.jpg";
-import AppDevIcon from "../assets/appdevicon.png";
+import WebDevIcon from "../assets/webdev.png";
+import AppDevIcon from "../assets/appdev.png";
 import SonarqubeLogo from "../assets/sonarqube.png";
+import TechStandardsLogo from "../assets/techstandards.png"
 
 const sk = (Component, name, description, badges = []) => ({
   Component,
@@ -389,8 +389,10 @@ const nonTechnicalSkills = {
     nt(LeadershipLogo, "Team Leadership", "3 Years Experience."),
     nt(ManPowerPlanLogo, "Man Power Planning", "3 Years Experience."),
     nt(TechStandardsLogo, "Technical Standards", "2 Years Experience."),
-    nt(UXLogo, "User Experience", "2 Years Experience."),
+  ],
+  product: [
     nt(ProductOwnershipLogo, "Product Ownership", "2 Years Experience."),
+    nt(UXLogo, "User Experience", "2 Years Experience."),
   ],
   individualContributor: [
     nt(WebDevIcon, "Web Development", "9+ Years Experience."),
@@ -783,7 +785,7 @@ const Skills = () => {
               ))}
             </div>
 
-            <PageTitle title="Non-Technical Skills" />
+            <PageTitle title="Management, Product & Execution" />
 
             <h4 className="text-lg font-semibold text-[#1F2430] mb-2 mt-4">
               Management Skills
@@ -801,7 +803,22 @@ const Skills = () => {
             </div>
 
             <h4 className="text-lg font-semibold text-[#1F2430] mb-2 mt-6">
-              Individual Contributor Skills
+              Product Related Skills
+            </h4>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {nonTechnicalSkills.product.map((skill, index) => (
+                <NonTechnicalCard
+                  key={index}
+                  skill={skill}
+                  prefix="ic"
+                  index={index}
+                />
+              ))}
+            </div>
+
+            <h4 className="text-lg font-semibold text-[#1F2430] mb-2 mt-6">
+              Execution Skills
             </h4>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
