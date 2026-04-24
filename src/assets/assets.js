@@ -18,6 +18,7 @@ import ErpScreenshot from "../assets/projectScreenshot/Erp.png"
 import SfaScreenshot from "../assets/projectScreenshot/Sfa.png"
 import SurveyorScreenshot from "../assets/projectScreenshot/surveyor-app.png"
 import RestaurantScreenshot from "../assets/projectScreenshot/restaurant-system.png"
+import BinusLogo from "../assets/Logo-BINUS-University.png";
 
 const footerIcons = [
   {
@@ -39,21 +40,22 @@ const navElements = ["About", "Education", "Skills", "Projects", "Contact"];
 
 const AboutPage = {
   authorProfile: "", 
-  authorDescription:
-  "I’m a Software Engineer with 12+ years of experience in IT, currently leading and managing the Frontend Development team at NABATI.\nAs a T-Shaped Engineer, I have a strong understanding of the full software development process, with deep expertise in frontend development. \nIn my current technical leadership role, I’m focusing on transitioning into a full managerial path in IT Engineering. I have a proven track record of leading teams to deliver measurable outcomes — from building successful applications to significantly improving team quality and efficiency. \n\nI’m committed to continuous learning as a way to drive personal, professional, and organizational growth.",
+ authorDescription:
+  "Experienced Software Engineer with 13+ years of experience across web, mobile, and desktop environments, along with 3+ years in leadership roles, focused on building and scaling custom SaaS and internal business systems.\n\nStrong focus on team alignment, clear execution, and maintaining engineering quality to support effective collaboration and sustainable business delivery.\nLeads with clarity and accountability, while continuously developing both self and team to support sustainable delivery and long-term organizational impact.",
   getInTouchUrl: "#Contact",
   authorName: "Andri Pramuji", 
   profileImgTagLine: "Technical Lead Frontend @ Kaldu Sari Nabati Indonesia", 
   authorContactMail: "", 
-  authorContactNumber: "843-695-0671", 
+  authorContactNumber: "-", 
 };
 
 const EducationPage = [
   {
-    graduationYear: '2007 - 2012', 
-    degreeType: "Bachelor of Computer Science (S.Kom)", 
-    institution: "Bina Nusantara University (BINUS)", 
-    institutionUrl: "https://binus.ac.id", 
+    degreeType: "Bachelor of Computer Science (S.Kom)",
+    graduationYear: "2007 - 2012",
+    institution: "Bina Nusantara University (BINUS)",
+    institutionUrl: "https://binus.ac.id",
+    institutionLogo: BinusLogo,
   },
 ];
 
