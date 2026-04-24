@@ -58,7 +58,7 @@ import RestAPILogo from "../assets/restApi.png";
 import WebDevIcon from "../assets/webdev.png";
 import AppDevIcon from "../assets/appdev.png";
 import SonarqubeLogo from "../assets/sonarqube.png";
-import TechStandardsLogo from "../assets/techstandards.png";
+import TechStandardsLogo from "../assets/techStandards.png";
 
 const sk = (Component, name, description, badges = []) => ({
   Component,
