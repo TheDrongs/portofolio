@@ -35,7 +35,8 @@ import {
   SiGraphql,
   SiVault,
   SiArgo,
-  SiRedis
+  SiRedis,
+  SiGrafana,
 } from "react-icons/si";
 import {
   FaCss3Alt,
@@ -85,18 +86,20 @@ const getDuration = (startDate, endDate) => {
     0,
     (end.getFullYear() - start.getFullYear()) * 12 +
       end.getMonth() -
-      start.getMonth()
+      start.getMonth(),
   );
 
   const years = Math.floor(totalMonths / 12);
   const months = totalMonths % 12;
 
-  return [
-    years ? `${years} yr${years > 1 ? "s" : ""}` : "",
-    months ? `${months} mo${months > 1 ? "s" : ""}` : "",
-  ]
-    .filter(Boolean)
-    .join(" ") || "0 mo";
+  return (
+    [
+      years ? `${years} yr${years > 1 ? "s" : ""}` : "",
+      months ? `${months} mo${months > 1 ? "s" : ""}` : "",
+    ]
+      .filter(Boolean)
+      .join(" ") || "0 mo"
+  );
 };
 
 const period = (startLabel, startDate, endLabel = "Present", endDate) =>
@@ -154,7 +157,7 @@ const technicalSkillsByCategory = {
           "Working Knowledge",
           "Production Use",
         ]),
-        sk(SiRadixui, "RadixUi", "2 Years Experience", [
+        sk(SiRadixui, "RadixUI", "2 Years Experience", [
           "Working Knowledge",
           "Production Use",
         ]),
@@ -224,7 +227,7 @@ const technicalSkillsByCategory = {
           "Working Knowledge",
           "Production Use",
         ]),
-          sk(SiRedis, "Redis", "1+ Years Experience", [
+        sk(SiRedis, "Redis", "1+ Years Experience", [
           "Working Knowledge",
           "Production Use",
         ]),
@@ -234,12 +237,12 @@ const technicalSkillsByCategory = {
           "Advanced",
           "Production Use",
         ]),
-         sk(SiGraphql, "GraphQL", "1+ Years Experience", [
+        sk(SiGraphql, "GraphQL", "1+ Years Experience", [
           "Working Knowledge",
           "Project Exposure",
         ]),
       ],
-      "Messaging": [
+      Messaging: [
         sk(SiRabbitmq, "RabbitMQ", "1+ Year Experience", [
           "Working Knowledge",
           "Production Use",
@@ -283,7 +286,10 @@ const technicalSkillsByCategory = {
   ],
   "Embedded Programming": [
     sk(SiC, "C", "6+ Years Experience", ["Advanced", "Production Use"]),
-    sk(SiCplusplus, "C++", "6+ Years Experience", ["Advanced", "Production Use"]),
+    sk(SiCplusplus, "C++", "6+ Years Experience", [
+      "Advanced",
+      "Production Use",
+    ]),
   ],
 };
 
@@ -313,17 +319,13 @@ const workExperiences = [
         period: period("Apr 2024", "2024-04-01", "Dec 2025", "2025-12-01"),
         duties: [
           "Led a 12-person frontend team supporting SaaS delivery, legacy support, MPP, KPI tracking, risk management, and performance review input.",
-          "Supported SaaS platform delivery across web-based internal business systems and custom digital tools.",
-          "Drove engineering quality improvements through technical debt reduction, code reviews, and reusable frontend standards.",
-        ],
-        notableProjects: [
-          "Led development of strategic SaaS platforms, including a reusable UI library adopted by 10+ projects, SFA, ERP, and HRIS systems.",
-          "Delivered custom digital tools such as Salesman Tracker for 8,000+ outlets, Surveyor App, Routing System, and Restaurant Mapping.",
-        ],
-        achievements: [
           "Implemented SonarQube and reduced technical debt by 90% within 6 months.",
           "Led the UI library improvement initiative, reducing build time by 80% in 3 months.",
           "Lowered code issues by 70% through 1:1 reviews and supported reusable UI library adoption across 10+ projects and internal business applications.",
+        ],
+        notableProjects: [
+          "Led development of strategic SaaS platforms, including a reusable UI library (adopted by 10+ projects), SFA, ERP, and HRIS systems.",
+          "Delivered custom digital tools such as Salesman Tracker (8,000+ outlets), Surveyor App, Routing System, and Restaurant Mapping.",
         ],
         techStacks: [
           [
@@ -340,12 +342,16 @@ const workExperiences = [
       },
       {
         title: "Sr. Frontend Developer",
+        location: "Bandung, West Java, Indonesia · On-site",
         period: period("Mar 2023", "2023-03-01", "Apr 2024", "2024-04-01"),
         duties: [
           "Create, develop, and manage the company's web-based ERP system based on user requirements.",
         ],
         techStacks: [
-          ["", "React.js, Next.js, Ant Design, React Context API, React Native"],
+          [
+            "",
+            "React.js, Next.js, Ant Design, React Context API, React Native",
+          ],
         ],
       },
     ],
@@ -408,8 +414,18 @@ const nonTechnicalSkills = {
 
 const toolsUtilities = [
   sk(SiGit, "Git", "4+ Years Experience", ["Advanced", "Production Use"]),
-  sk(SiVault, "Vault", "<1 Year Experience", ["Working Knowledge","Production Use"]),
-  sk(SiArgo, "ArgoCD", "<1 Year Experience", ["Working Knowledge", "Production Use"]),
+  sk(SiVault, "Vault", "<1 Year Experience", [
+    "Working Knowledge",
+    "Production Use",
+  ]),
+  sk(SiArgo, "ArgoCD", "<1 Year Experience", [
+    "Working Knowledge",
+    "Production Use",
+  ]),
+  sk(SiGrafana, "Grafana", "1 Year Experience", [
+    "Working Knowledge",
+    "Production Use",
+  ]),
 ];
 
 const skillColors = {
@@ -452,9 +468,16 @@ const skillColors = {
   ArgoCD: "#F05A28",
   GraphQL: "#E10098",
   Redis: "#DC382D",
+  Grafana: "#F46800",
 };
 
-const imageSkillNames = ["ViteJS", "Zustand", "MiniProgram", "RestAPI", "Sonarqube"];
+const imageSkillNames = [
+  "ViteJS",
+  "Zustand",
+  "MiniProgram",
+  "RestAPI",
+  "Sonarqube",
+];
 
 const badgeStyles = {
   Advanced: {
@@ -475,9 +498,7 @@ const badgeStyles = {
   },
 };
 
-const Hr = () => (
-  <hr style={{ border: "1px solid #ddd", margin: "20px 0" }} />
-);
+const Hr = () => <hr style={{ border: "1px solid #ddd", margin: "20px 0" }} />;
 
 const SectionList = ({ title, items }) =>
   items?.length ? (
@@ -650,18 +671,12 @@ const WorkExperience = () => (
 
               <Hr />
 
-              <SectionList
-                title="Duties & Responsibilities :"
-                items={role.duties}
-              />
+              <SectionList title="Role Overview :" items={role.duties} />
               <SectionList
                 title="Notable Projects:"
                 items={role.notableProjects}
               />
-              <SectionList
-                title="Achievements:"
-                items={role.achievements}
-              />
+              <SectionList title="Achievements:" items={role.achievements} />
               <TechStackList items={role.techStacks} />
             </div>
           ))}
@@ -677,7 +692,8 @@ const Skills = () => {
 
   const [activeMainTab, setActiveMainTab] = useState("Web Programming");
   const [activeSubTab, setActiveSubTab] = useState("Frontend Stack");
-  const [activeFrontendChildTab, setActiveFrontendChildTab] = useState("");
+  const [activeFrontendChildTab, setActiveFrontendChildTab] =
+    useState("Languages");
   const [activeBackendChildTab, setActiveBackendChildTab] = useState("");
 
   const handleMainTabClick = (tab) => {
@@ -691,7 +707,7 @@ const Skills = () => {
     setActiveSubTab(subTab);
     setActiveFrontendChildTab(subTab === "Frontend Stack" ? "Languages" : "");
     setActiveBackendChildTab(
-      subTab === "Backend Stack" ? "Languages & Runtime" : ""
+      subTab === "Backend Stack" ? "Languages & Runtime" : "",
     );
   };
 
@@ -708,7 +724,7 @@ const Skills = () => {
     items,
     activeItem,
     onClick,
-    className = "px-3 py-1 rounded-full border text-sm transition-all"
+    className = "px-3 py-1 rounded-full border text-sm transition-all",
   ) => (
     <div className="flex flex-wrap gap-3 mb-6">
       {items.map((item) => (
@@ -742,14 +758,14 @@ const Skills = () => {
               mainTabs,
               activeMainTab,
               handleMainTabClick,
-              "px-4 py-2 rounded-full border font-semibold transition-all"
+              "px-4 py-2 rounded-full border font-semibold transition-all",
             )}
 
             {activeMainTab === "Web Programming" &&
               renderTabs(
                 Object.keys(webSkills),
                 activeSubTab,
-                handleSubTabClick
+                handleSubTabClick,
               )}
 
             {activeMainTab === "Web Programming" &&
@@ -757,7 +773,7 @@ const Skills = () => {
               renderTabs(
                 Object.keys(webSkills["Frontend Stack"]),
                 activeFrontendChildTab,
-                setActiveFrontendChildTab
+                setActiveFrontendChildTab,
               )}
 
             {activeMainTab === "Web Programming" &&
@@ -765,7 +781,7 @@ const Skills = () => {
               renderTabs(
                 Object.keys(webSkills["Backend Stack"]),
                 activeBackendChildTab,
-                setActiveBackendChildTab
+                setActiveBackendChildTab,
               )}
 
             <AnimatePresence mode="wait">
