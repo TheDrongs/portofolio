@@ -310,7 +310,7 @@ const workExperiences = [
           ["Backend", "GO, MongoDB, Redis"],
           ["Testing & Quality", "Jest"],
           ["Observability", "Grafana, OpenTelemetry, Elastic APM"],
-          ["Tools & Platforms", "Vault", "ArgoCD"],
+          ["Tools & Platforms", "Vault, ArgoCD"],
         ],
       },
       {
