@@ -36,7 +36,7 @@ const footerIcons = [
 const textLogo = "Andri Pramuji - Technical Lead Software Engineer";
 const imgLogo = null;
 
-const navElements = ["About", "Education", "Skills", "Projects", "Contact"];
+const navElements = ["About","Work Experience", "Skills", "Education", "Projects", "Contact"];
 
 const AboutPage = {
   authorProfile: "",
