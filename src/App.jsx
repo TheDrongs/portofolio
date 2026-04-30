@@ -158,29 +158,31 @@ const App = () => {
             const isOpen = openSections[section.id];
 
             return (
-              <section
+             <section
                 key={section.id}
                 ref={(el) => {
                   sectionRefs.current[section.id] = el;
                 }}
                 id={section.id}
-                className="scroll-mt-28 border-b border-slate-300/60 last:border-b-0"
+                className="scroll-mt-28"
               >
                 <button
                   type="button"
                   onClick={() => handleToggleSection(section.id)}
-                  className="flex w-full items-center gap-4 py-5 text-left transition hover:text-[#1F2430]"
+                  className="flex w-full items-center justify-between gap-4 border-b border-slate-300/60 py-5 text-left transition hover:text-[#1F2430]"
                 >
-                  <h2 className="shrink-0 text-xl font-semibold text-[#1F2430]">
+                  <h2 className="text-xl font-semibold text-[#1F2430]">
                     {section.title}
                   </h2>
-
-                  <div className="h-px flex-1 bg-slate-300/80" />
 
                   <ChevronIcon isOpen={isOpen} />
                 </button>
 
-                {isOpen && <div className="pb-8 pt-2">{section.component}</div>}
+                {isOpen && (
+                  <div className="pb-8 pt-6">
+                    {section.component}
+                  </div>
+                )}
               </section>
             );
           })}
