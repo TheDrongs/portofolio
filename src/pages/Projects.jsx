@@ -282,8 +282,6 @@ const Projects = () => {
             )}
           </AnimatePresence>
 
-          <PageTitle title={"Projects"} />
-
           <div>
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
               {visibleProjects.map(

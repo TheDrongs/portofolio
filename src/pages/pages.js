@@ -5,6 +5,7 @@ import Projects from "./Projects";
 import Services from "./Services";
 import Contact from "./Contact";
 import Certificates from "./Certificates";
+import WorkExperience from "./WorkExperience";
 
 export {
     About,
@@ -14,4 +15,5 @@ export {
     Services,
     Contact,
     Certificates,
+    WorkExperience,
 };

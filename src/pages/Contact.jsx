@@ -11,7 +11,6 @@ const Contact = () => {
   const [isLoading, setIsLoading] = useState(true);
   return (
     <div id="Contact" className={`${containerStyle}`}>
-      <PageTitle title={"Contact"} />
       <div className="flex flex-col bedar-sc2:flex-row bg-mainColor rounded-xl overflow-hidden">
         <div className="hidden bedar-sc2:flex justify-center items-center w-1/2">
           <img

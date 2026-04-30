@@ -7,7 +7,6 @@ const Certificates = () => {
     <>
       {(CertificatesPage && CertificatesPage.length > 0) && (
         <div id="Certificates" className={`${containerStyle}`}>
-          <PageTitle title={"Training & Certificates"} />
           <div>
             <div className="flex gap-3 flex-nowrap overflow-x-auto overflow-y-hidden custom-scrollbar">
               {CertificatesPage.map(

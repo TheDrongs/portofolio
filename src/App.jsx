@@ -4,29 +4,127 @@ import {
   About,
   Education,
   Skills,
-  Services,
   Projects,
   Contact,
   Certificates,
+  WorkExperience,
 } from "./pages/pages.js";
 import { navElements } from "./assets/assets.js";
+
+const ChevronIcon = ({ isOpen }) => {
+  return (
+    <svg
+      className={`h-5 w-5 text-slate-700 transition-transform duration-300 ${
+        isOpen ? "rotate-180" : ""
+      }`}
+      viewBox="0 0 20 20"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M5 7.5L10 12.5L15 7.5"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+};
+
+const accordionSections = [
+  {
+    id: "workExperience",
+    title: "Work Experience",
+    component: <WorkExperience />,
+  },
+  {
+    id: "skills",
+    title: "Technical Skills",
+    component: <Skills />,
+  },
+  {
+    id: "certificates",
+    title: "Certificates",
+    component: <Certificates />,
+  },
+  {
+    id: "projects",
+    title: "Projects",
+    component: <Projects />,
+  },
+  {
+    id: "education",
+    title: "Education",
+    component: <Education />,
+  },
+  {
+    id: "contact",
+    title: "Contact",
+    component: <Contact />,
+  },
+];
 
 const App = () => {
   const [activeElem, setActiveElem] = useState(navElements[0]);
 
+  const [openSections, setOpenSections] = useState({
+    workExperience: false,
+    skills: true,
+    certificates: false,
+    projects: false,
+    education: false,
+    contact: false,
+  });
+
+  const handleToggleSection = (sectionId) => {
+    setOpenSections((prev) => ({
+      ...prev,
+      [sectionId]: !prev[sectionId],
+    }));
+  };
+
   return (
-    <div className="relative selection:bg-[#fedf89] selection:text-textColor">
-     <div className="fixed inset-0 -z-10 bg-gradient-to-b from-white to-[#e0f2ff]" />
+    <div className="relative min-h-screen selection:bg-[#fedf89] selection:text-textColor">
+      <div className="fixed inset-0 -z-10 bg-gradient-to-b from-white to-[#e0f2ff]" />
+
       <Navbar activeElem={activeElem} setActiveElem={setActiveElem} />
-      <div className="relative max-w-[1800px] mt-[7rem] bedar-sc2:mt-[6.8rem] w-full m-auto px-5 bedar-sc1:px-20 overflow-auto">
+
+      <div className="relative max-w-[1800px] mt-[7rem] bedar-sc2:mt-[6.8rem] w-full m-auto px-5 bedar-sc1:px-20 overflow-auto pb-12">
         <About />
-        <Education />
-        <Skills />
-        <Certificates />
-        <Projects />
-        {/* <Services /> */}
-        <Contact />
+
+        <div className="mt-8">
+          {accordionSections.map((section) => {
+            const isOpen = openSections[section.id];
+
+            return (
+              <section
+                key={section.id}
+                className="border-b border-slate-300/60 last:border-b-0"
+              >
+                <button
+                  type="button"
+                  onClick={() => handleToggleSection(section.id)}
+                  className="flex w-full items-center justify-between gap-4 py-5 text-left transition hover:text-[#1F2430]"
+                >
+                  <h2 className="text-xl font-semibold text-[#1F2430]">
+                    {section.title}
+                  </h2>
+
+                  <ChevronIcon isOpen={isOpen} />
+                </button>
+                    <div className="h-px flex-1 bg-slate-300/80" />
+                {isOpen && (
+                  <div className="pb-8">
+                    {section.component}
+                  </div>
+                )}
+              </section>
+            );
+          })}
+        </div>
       </div>
+
       <Footer activeElem={activeElem} setActiveElem={setActiveElem} />
     </div>
   );

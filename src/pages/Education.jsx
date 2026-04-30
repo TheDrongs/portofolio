@@ -9,7 +9,6 @@ const Education = () => {
     <>
       { (EducationPage && EducationPage.length > 0) &&
         <div id="Education" className={`${containerStyle}`}>
-          <PageTitle title={"Education"} />
           <div className="grid grid-cols-1 bedar-sc2:grid-cols-2 gap-4">
             {EducationPage.map(
               ({ degreeType, graduationYear, institution, institutionUrl }) => (
