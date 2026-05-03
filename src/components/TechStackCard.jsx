@@ -6,6 +6,7 @@ import reactLogo from "../assets/react.svg";
 import sonarqubeLogo from "../assets/sonarqube.png";
 import zustandLogo from "../assets/zustand.jpg";
 import vaultLogo from "../assets/vault.png";
+import vitejsLogo from "../assets/vitejs.jpg";
 
 import {
   SiJavascript,
@@ -103,6 +104,7 @@ const assetIconMap = {
   sonarqube: sonarqubeLogo,
   zustand: zustandLogo,
   vault: vaultLogo,
+  vitejs: vitejsLogo,
 };
 
 const getExperienceScore = (experience) => {
@@ -294,7 +296,7 @@ export default function TechStackCard() {
     },
     totalText: {
       color: "#64748b",
-      fontSize: 14,
+      fontSize: 16,
       fontWeight: 700,
       whiteSpace: "nowrap",
     },
@@ -332,7 +334,7 @@ export default function TechStackCard() {
       height: 22,
       padding: "0 7px",
       borderRadius: 999,
-      fontSize: 12,
+      fontSize: 13,
       fontWeight: 800,
       background: "rgba(148, 163, 184, 0.16)",
       boxSizing: "border-box",
@@ -389,7 +391,7 @@ export default function TechStackCard() {
       alignItems: "center",
       gap: 10,
       color: "#64748b",
-      fontSize: 12,
+      fontSize: 13,
       fontWeight: 800,
       whiteSpace: "nowrap",
     },
@@ -537,7 +539,7 @@ export default function TechStackCard() {
                     borderColor: badgeConfig.border,
                   }}
                 >
-                  <BadgeIcon size={13} />
+                  <BadgeIcon size={14} />
                   <span>{badge}</span>
                 </span>
               );

@@ -33,7 +33,7 @@ export default function ImpactSection() {
   return (
     <section style={styles.impactSection}>
       <div>
-        <span style={styles.sectionHeadingText}>Key Impact</span>
+        <span style={styles.sectionHeadingText}>Key Achievements</span>
       </div>
 
       <div style={styles.metricsGrid}>

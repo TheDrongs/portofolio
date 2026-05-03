@@ -82,10 +82,11 @@ export default function HeroSection() {
         <p style={styles.description}>{hero.description}</p>
 
         <div style={styles.meta}>
-          <span style={styles.pill}>{profile.location}</span>
-          <span style={styles.pill}>13+ Years Experience</span>
-          <span style={styles.pill}>3+ Years Leadership</span>
+          <span style={styles.pill}>13+ Years Software Engineering</span>
+          <span style={styles.pill}>3+ Years Team & Delivery Leadership</span>
+          <span style={styles.pill}>Web, Mobile & Desktop</span>
           <span style={styles.pill}>SaaS & Enterprise Platforms</span>
+          <span style={styles.pill}>ISO8583 & EDC Systems</span>
         </div>
       </div>
     </div>

@@ -12,8 +12,7 @@ export const profile = {
 
 export const hero = {
   eyebrow: "Professional Summary",
-  title:
-    "Technical Lead Software Engineer with 13+ years of software engineering experience and 3+ years in engineering leadership.",
+  title: "Experienced Engineering Leadership",
   description:
     "Focused on team alignment, clear execution, sustainable delivery, and maintaining engineering quality across custom SaaS, enterprise platforms, internal business systems, field operations, and payment transaction systems.",
 };
@@ -21,8 +20,8 @@ export const hero = {
 export const metrics = [
   {
     icon: "projects",
-    value: "10+",
-    title: "Enterprise Apps",
+    value: "20+",
+    title: "Total Apps Delivered",
     description:
       "Delivered and led applications across ERP, SFA, HRIS, routing, field operations, and meeting platforms.",
   },
@@ -64,12 +63,11 @@ export const metrics = [
 ];
 
 export const leadershipHighlights = [
-  "Led a 7-person frontend and backend squad, collaborating with 2 QA members from a separate function.",
-  "Led a 12-person frontend team supporting SaaS delivery, legacy support, MPP, KPI tracking, risk management, and performance review input.",
-  "Translated business goals into sprint-ready tasks, aligned delivery, unblocked execution, and maintained clear documentation.",
-  "Implemented SonarQube and reduced technical debt by 90% within 6 months.",
-  "Led UI library improvement initiative and reduced build time by 80% within 3 months.",
-  "Reduced frontend-related issues by 70% through technical guidance and engineering standardization.",
+  "Handled delivery planning, task coordination, timeline tracking, and delivery risk follow-up.",
+  "Led FE,BE, and QA team while helping clarify priorities and execution flow.",
+  "Supported team capacity planning, workload distribution, and role mapping based on project needs.",
+  "Maintained engineering standards through code review, documentation, quality checks, and team alignment.",
+  "Translated business requirements into clear scope and sprint-ready tasks for engineering execution.",
 ];
 
 export const leadershipSkillGroups = [
@@ -225,20 +223,20 @@ export const techStack = [
     },
     {
       name: "Vite.js",
-      iconKey: "vite",
+      iconKey: "vitejs",
       color: "#646CFF",
       experience: "3+ Years Experience",
       badges: BADGES.advancedProduction,
     },
     {
-      name: "Angular",
+      name: "Angular.js",
       iconKey: "angular",
       color: "#DD0031",
       experience: "1 Year Experience",
       badges: BADGES.handsOnProject,
     },
     {
-      name: "Vue",
+      name: "Vue.js",
       iconKey: "vue",
       color: "#4FC08D",
       experience: "1 Year Experience",
