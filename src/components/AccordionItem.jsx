@@ -48,6 +48,7 @@ import {
   SiArgo,
   SiC,
   SiCplusplus,
+  SiFirebase
 } from "react-icons/si";
 import { FaCss3Alt } from "react-icons/fa";
 import { TbApi, TbBrandReactNative, TbDeviceMobileCode } from "react-icons/tb";
@@ -95,6 +96,8 @@ const reactIconMap = {
 
   c: SiC,
   cplusplus: SiCplusplus,
+
+  firebase: SiFirebase,
 };
 
 const assetIconMap = {
@@ -150,6 +153,8 @@ const techIconColorMap = {
 
   c: "#a8b9cc",
   cplusplus: "#00599c",
+
+  firebase: "#ffca28",
 };
 
 const techIconLabelMap = {
@@ -193,6 +198,7 @@ const techIconLabelMap = {
   argocd: "ArgoCD",
   c: "C",
   cplusplus: "C++",
+  firebase: "Firebase",
 };
 
 export default function AccordionItem({ item, isOpen, isFirst, onClick }) {
@@ -516,6 +522,33 @@ export default function AccordionItem({ item, isOpen, isFirst, onClick }) {
               <strong style={styles.strongText}>{project.title}</strong>
               <span style={styles.metaText}>{project.period}</span>
               <p style={styles.paragraph}>{project.description}</p>
+
+              {project.url && (
+                <a
+                  href={project.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{
+                    display: "inline-flex",
+                    marginTop: 8,
+                    color: "#2563eb",
+                    fontSize: 14,
+                    fontWeight: 700,
+                    textDecoration: "none",
+                  }}
+                >
+                  Visit Project
+                </a>
+              )}
+
+              {project.techStackIconKeys?.length > 0 && (
+                <div style={styles.subSection}>
+                  <span style={styles.subSectionTitle}>Tech Stack(s)</span>
+                  <div style={styles.techIconWrap}>
+                    {project.techStackIconKeys.map(renderTechIcon)}
+                  </div>
+                </div>
+              )}
             </div>
           ))}
         </div>

@@ -536,6 +536,17 @@ export const techStack = [
       badges: BADGES.advancedProduction,
     },
   ]),
+
+    ...createSkillGroup(GROUPS.backend, "Cloud & BaaS", [
+    {
+      name: "Google Firebase",
+      iconKey: "firebase",
+      color: "#FFCA28",
+      textColor: "#111827",
+      experience: "1 Year Experience",
+      badges: BADGES.handsOnProduction,
+    },
+  ]),
 ];
 
 export const coreSkills = [
@@ -555,9 +566,9 @@ export const coreSkills = [
       "JavaScript, TypeScript, React.js, Next.js, React Native, Vite.js, Zustand, Redux, Tailwind CSS, Ant Design, Radix UI, Storybook.js.",
   },
   {
-    category: "Backend, API & Integration",
+    category: "Backend, BaaS, API & Integration",
     items:
-      "Go, Node.js, Express.js, REST APIs, RabbitMQ, Redis, MySQL, MongoDB, PHP.",
+      "Go, Node.js, Express.js, REST APIs, RabbitMQ, Redis, MySQL, MongoDB, PHP, Google Firebase.",
   },
   {
     category: "Quality, Observability & DevOps",
@@ -702,13 +713,63 @@ export const selectedProjects = [
     title: "Enterprise Web, SaaS & Internal Business Platforms",
     period: "Mar 2023 – Present",
     description:
-      "ERP & Related Modules, SFA, HRIS, Salesman Tracker supporting 8,000+ outlets, Surveyor App, Routing & Tracker System, Restaurant Mapping, and multi-user Meeting App.",
+      "Delivered and supported ERP modules, SFA, HRIS, Salesman Tracker for 8,000+ outlets, Surveyor App, Routing & Tracker System, Restaurant Mapping, and multi-user Meeting App.",
+    techStackIconKeys: [
+      "react",
+      "nextjs",
+      "typescript",
+      "vitejs",
+      "rollup",
+      "antdesign",
+      "tailwind",
+      "zustand",
+      "storybook",
+      "reactnative",
+      "miniprogram",
+      "go",
+      "nodejs",
+      "express",
+      "api",
+      "rabbitmq",
+      "redis",
+      "mongodb",
+      "jest",
+      "sonarqube",
+      "grafana",
+      "opentelemetry",
+      "elastic",
+      "vault",
+      "argocd",
+    ],
   },
   {
-    title: "NSICCS",
+    title: "NSICCS & ISO8583 EDC Applications",
     period: "Dec 2016 – Mar 2023",
     description:
-      "Delivered mandatory NSICCS updates for BPD Bali, BPD NTT, Bank Nasional Indonesia, Bank Syariah Mandiri (Now BSI), Bank Aceh Syariah, Bank Victoria, and BPD Jateng.",
+      "Delivered mandatory NSICCS and ISO8583 EDC application updates for BPD Bali, BPD NTT, Bank Nasional Indonesia, Bank Syariah Mandiri (Now BSI), Bank Aceh Syariah, Bank Victoria, and BPD Jateng.",
+    techStackIconKeys: ["c", "cplusplus", "php", "kotlin"],
+  },
+  {
+    title: "Company Website & IDX Content Updates",
+    period: "Oct 2018 – Feb 2019",
+    description:
+      "Built and maintained a company website that required regular content updates for IDX-related checking and public information needs.",
+    url: "https://www.nellydwiputri.co.id",
+    techStackIconKeys: ["html5", "css", "php", "mysql"],
+  },
+  {
+    title: "Offshore Crewing Recruitment App",
+    period: "May 2022 – Jul 2022",
+    description:
+      "Built an Android application for offshore crewing recruitment to support candidate data collection and recruitment workflow needs.",
+    techStackIconKeys: ["kotlin", "firebase"],
+  },
+  {
+    title: "Bakery E-Commerce Web Platform",
+    period: "Aug 2022 – Jan 2023",
+    description:
+      "Built and managed an e-commerce web platform for a bakery shop, covering product catalog, transaction flow, and backend data integration.",
+    techStackIconKeys: ["html5", "javascript", "react", "mongodb", "api"],
   },
 ];
 

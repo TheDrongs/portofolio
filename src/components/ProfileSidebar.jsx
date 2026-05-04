@@ -1,8 +1,38 @@
+import { useEffect, useState } from "react";
 import { profile } from "../data/portofolioData";
 import { useBreakpoint } from "./useBreakpoint";
 
 export default function ProfileSidebar() {
   const { isTablet, isMobile } = useBreakpoint();
+  const [downloadCooldown, setDownloadCooldown] = useState(0);
+
+  const basePath = import.meta.env.BASE_URL;
+  const profilePhotoUrl = `${basePath}pas-photo.png`;
+  const cvUrl = `${basePath}documents/CV_Andri-Pramuji-ATS.pdf`;
+
+  const isDownloadDisabled = downloadCooldown > 0;
+
+  useEffect(() => {
+    if (downloadCooldown <= 0) return;
+
+    const timer = setInterval(() => {
+      setDownloadCooldown((currentCooldown) => {
+        if (currentCooldown <= 1) return 0;
+        return currentCooldown - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [downloadCooldown]);
+
+  const handleDownloadClick = (event) => {
+    if (isDownloadDisabled) {
+      event.preventDefault();
+      return;
+    }
+
+    setDownloadCooldown(15);
+  };
 
   const styles = {
     sidebar: {
@@ -66,8 +96,8 @@ export default function ProfileSidebar() {
     sidebarSummary: {
       margin: "22px 0 0",
       color: "#5f6b7a",
-      fontSize: 14,
-      lineHeight: 1.5,
+      fontSize: 15,
+      lineHeight: 1.7,
     },
     connectSection: {
       display: "grid",
@@ -97,17 +127,28 @@ export default function ProfileSidebar() {
     downloadButton: {
       width: "90%",
       alignSelf: "center",
+      display: "inline-flex",
+      alignItems: "center",
+      justifyContent: "center",
       marginTop: 28,
       padding: "14px 18px",
       border: 0,
       borderRadius: 999,
       color: "#ffffff",
-      cursor: "pointer",
+      cursor: isDownloadDisabled ? "not-allowed" : "pointer",
       fontSize: 14,
       fontWeight: 800,
-      background: "linear-gradient(135deg, #111827, #1e3a8a)",
-      boxShadow: "0 12px 28px rgba(30, 58, 138, 0.18)",
+      textDecoration: "none",
+      background: isDownloadDisabled
+        ? "linear-gradient(135deg, #64748b, #475569)"
+        : "linear-gradient(135deg, #111827, #1e3a8a)",
+      boxShadow: isDownloadDisabled
+        ? "0 8px 20px rgba(71, 85, 105, 0.14)"
+        : "0 12px 28px rgba(30, 58, 138, 0.18)",
       fontFamily: "inherit",
+      boxSizing: "border-box",
+      opacity: isDownloadDisabled ? 0.82 : 1,
+      userSelect: "none",
     },
   };
 
@@ -117,7 +158,7 @@ export default function ProfileSidebar() {
         <div style={styles.profileBlock}>
           <div style={styles.profileImageWrap}>
             <img
-              src="/profile-photo.jpg"
+              src={profilePhotoUrl}
               alt={profile.name}
               style={styles.profileImage}
             />
@@ -161,7 +202,15 @@ export default function ProfileSidebar() {
           </a>
         </div>
 
-        <button style={styles.downloadButton}>Download CV ATS</button>
+        <a
+          href={cvUrl}
+          download="Andri-Pramuji-CV.pdf"
+          onClick={handleDownloadClick}
+          aria-disabled={isDownloadDisabled}
+          style={styles.downloadButton}
+        >
+          {isDownloadDisabled ? `Wait ${downloadCooldown}s` : "Download CV"}
+        </a>
       </div>
     </aside>
   );

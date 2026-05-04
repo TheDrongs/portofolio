@@ -43,6 +43,7 @@ import {
   SiArgo,
   SiC,
   SiCplusplus,
+  SiFirebase,
 } from "react-icons/si";
 import { FaCss3Alt } from "react-icons/fa";
 import { TbApi, TbBrandReactNative, TbDeviceMobileCode } from "react-icons/tb";
@@ -97,6 +98,8 @@ const reactIconMap = {
 
   c: SiC,
   cplusplus: SiCplusplus,
+
+  firebase: SiFirebase,
 };
 
 const assetIconMap = {
