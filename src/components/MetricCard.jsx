@@ -1,90 +1,81 @@
-import MetricIcon from "./MetricIcon";
-import { useBreakpoint } from "./useBreakpoint";
+import totalAppsIcon from "../assets/metrics/totalapps.png";
+import teamsLogoIcon from "../assets/metrics/teamslogo.png";
+import codeIssuesIcon from "../assets/metrics/codeissues.png";
+import fasterBuildTimeIcon from "../assets/metrics/fasterbuildtime.png";
+import feIssuesIcon from "../assets/metrics/feissues.png";
+import banksIcon from "../assets/metrics/banksicon.png";
 
-const metricThemes = [
-  {
-    color: "#2563eb",
-    bg: "linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%)",
-    border: "rgba(147, 197, 253, 0.55)",
-  },
-  {
-    color: "#0f9f9a",
-    bg: "linear-gradient(135deg, #ecfeff 0%, #ccfbf1 100%)",
-    border: "rgba(94, 234, 212, 0.45)",
-  },
-  {
-    color: "#2f7ed8",
-    bg: "linear-gradient(135deg, #f0f9ff 0%, #dbeafe 100%)",
-    border: "rgba(125, 211, 252, 0.45)",
-  },
-  {
-    color: "#7c3aed",
-    bg: "linear-gradient(135deg, #faf5ff 0%, #ede9fe 100%)",
-    border: "rgba(196, 181, 253, 0.5)",
-  },
-  {
-    color: "#2f9e44",
-    bg: "linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)",
-    border: "rgba(134, 239, 172, 0.5)",
-  },
-  {
-    color: "#d97706",
-    bg: "linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%)",
-    border: "rgba(251, 191, 36, 0.45)",
-  },
-];
+const metricIcons = {
+  projects: totalAppsIcon,
+  team: teamsLogoIcon,
+  "tech-debt": codeIssuesIcon,
+  "build-time": fasterBuildTimeIcon,
+  "code-issues": feIssuesIcon,
+  banking: banksIcon,
+};
 
-export default function MetricCard({ metric, index, total }) {
-  const { isMedium, isMobile } = useBreakpoint();
+const metricThemes = {
+  projects: "#2563eb",
+  team: "#0f9f9a",
+  "tech-debt": "#2563eb",
+  "build-time": "#7c3aed",
+  "code-issues": "#16a34a",
+  banking: "#d97706",
+};
 
-  const columns = isMobile ? 1 : isMedium ? 2 : 3;
-  const isLastColumn = (index + 1) % columns === 0;
-  const isLastRow = index >= total - columns;
-
-  const theme = metricThemes[index] || metricThemes[0];
+export default function MetricCard({ metric, isCentered = false }) {
+  const metricIcon = metricIcons[metric.icon] || totalAppsIcon;
+  const metricColor = metricThemes[metric.icon] || "#2563eb";
 
   const styles = {
     metricCard: {
       display: "flex",
       alignItems: "center",
+      justifyContent: isCentered ? "center" : "flex-start",
       gap: 18,
-      minHeight: 118,
-      padding: "20px 18px",
-      borderRight: isLastColumn ? 0 : "1px solid rgba(226, 232, 240, 0.92)",
-      borderBottom: isLastRow ? 0 : "1px solid rgba(226, 232, 240, 0.92)",
+      minHeight: 128,
+      padding: "22px 20px",
       boxSizing: "border-box",
     },
     metricIconWrap: {
-      width: 72,
-      height: 72,
+      width: 64,
+      height: 64,
       flexShrink: 0,
       display: "grid",
       placeItems: "center",
       borderRadius: 999,
-      background: theme.bg,
-      color: theme.color,
-      border: `1px solid ${theme.border}`,
+      overflow: "hidden",
+      background: "transparent",
       boxSizing: "border-box",
+    },
+    metricIcon: {
+      width: "100%",
+      height: "100%",
+      objectFit: "cover",
+      display: "block",
+      background: "transparent",
     },
     metricContent: {
       minWidth: 0,
+      maxWidth: isCentered ? 520 : "none",
     },
     metricValue: {
       marginBottom: 6,
-      color: theme.color,
-      fontSize: 28,
+      color: metricColor,
+      fontSize: 30,
       fontWeight: 800,
       lineHeight: 1,
     },
     metricTitle: {
-      marginBottom: 4,
+      marginBottom: 5,
       color: "#111827",
-      fontSize: 15,
+      fontSize: 18,
       fontWeight: 700,
+      lineHeight: 1.25,
     },
     metricDescription: {
       color: "#64748b",
-      fontSize: 12,
+      fontSize: 14,
       lineHeight: 1.45,
     },
   };
@@ -92,7 +83,7 @@ export default function MetricCard({ metric, index, total }) {
   return (
     <article style={styles.metricCard}>
       <div style={styles.metricIconWrap}>
-        <MetricIcon type={metric.icon} index={index} />
+        <img src={metricIcon} alt={metric.title} style={styles.metricIcon} />
       </div>
 
       <div style={styles.metricContent}>

@@ -1,6 +1,6 @@
 export const profile = {
   name: "Andri Pramuji",
-  role: "Technical Lead Software Engineer | Engineering Leadership",
+  role: "Engineering Leadership",
   location: "Bandung, West Java, Indonesia",
   phone: "0856-1963-999",
   email: "thedrongs@gmail.com",
@@ -23,42 +23,35 @@ export const metrics = [
     value: "20+",
     title: "Total Apps Delivered",
     description:
-      "Delivered and led applications across ERP, SFA, HRIS, routing, field operations, and meeting platforms.",
+      "Developed and delivered  applications across web, mobile, Android, EDC, and enterprise platforms.",
   },
   {
     icon: "team",
     value: "12",
-    title: "Team Members Led",
+    title: "Largest Team Led",
     description:
-      "Led engineering teams up to 12 members, improving coordination, risk control, and delivery quality.",
+      "Led teams of up to 12 members across FE, BE, and QA, manage coordination, ownership, and execution quality.",
   },
   {
     icon: "tech-debt",
-    value: "90%",
-    title: "Tech Debt Down",
+    value: "10%",
+    title: "Increase Delivery Efficiency",
     description:
-      "Reduced technical debt while improving delivery efficiency and lowering rework-related cost risks.",
+      "Reduced technical debt by 90% within 6 months, improving delivery efficiency and reducing rework-related cost risks.",
   },
   {
     icon: "build-time",
-    value: "80%–90%",
-    title: "Faster Build Time",
+    value: "10%",
+    title: "Increase Frontend Productivity",
     description:
-      "Reduced UI library build time and recovered approximately 8% of daily engineering capacity.",
+      "Reduced UI library build time by 80% within 3 months, reducing overall idle time of engineers.",
   },
   {
     icon: "code-issues",
     value: "70%",
-    title: "Fewer FE Issues",
+    title: "Frontend Reliability Improved",
     description:
-      "Reduced frontend-related issues through guidance, modernization, and engineering standardization.",
-  },
-  {
-    icon: "banking",
-    value: "7",
-    title: "Banks Supported",
-    description:
-      "Delivered mandatory NSICCS updates ensuring BI compliance and ISO8583 transaction continuity.",
+      "Reduced frontend-related issues by 70% through codebase modernization, dependency simplification, and engineering standardization.",
   },
 ];
 
@@ -490,14 +483,14 @@ export const techStack = [
       iconKey: "opentelemetry",
       color: "#000000",
       experience: "<1 Year Experience",
-      badges: BADGES.handsOnProject,
+      badges: BADGES.handsOnProduction,
     },
     {
       name: "Elastic APM",
       iconKey: "elastic",
       color: "#005571",
       experience: "<1 Year Experience",
-      badges: BADGES.handsOnProject,
+      badges: BADGES.handsOnProduction,
     },
     {
       name: "Grafana",
@@ -549,7 +542,7 @@ export const coreSkills = [
   {
     category: "Engineering Leadership",
     items:
-      "Team & Technical Leadership, Delivery Planning, Stakeholder Alignment, Risk & Performance Management.",
+      "Team & Technical Leadership, Delivery Planning, Stakeholder Alignment, Risk & Performance Management, Workforce Planning.",
   },
   {
     category: "Software Delivery",
@@ -591,12 +584,8 @@ export const accordionItems = [
     type: "skills",
   },
   {
-    title: "Selected Projects",
+    title: "Projects",
     type: "projects",
-  },
-  {
-    title: "Key Achievements",
-    type: "achievements",
   },
   {
     title: "Education & Languages",
@@ -608,42 +597,103 @@ export const timelineItems = [
   {
     role: "Squad Leader",
     period: "Dec 2025 – Present",
+    duration: "6 months",
+    employmentType: "Full-time",
     company: "PT. Kaldu Sari Nabati Indonesia (NABATI)",
     location: "Bandung, Indonesia",
     description:
-      "Led a 7-person frontend and backend team, also working with 2 QA members from a separate function, to translate business goals into sprint-ready tasks, align delivery, unblock execution, maintain code quality, and keep clear documentation.",
+      "- Led a 7-person frontend and backend team and collaborated with 2 QA members from a separate function to translate business goals into sprint-ready tasks, align delivery, unblock execution, maintain code quality, and keep clear documentation.",
+    techStackIconKeys: [
+      "react",
+      "nextjs",
+      "typescript",
+      "go",
+      "mongodb",
+      "jest",
+      "grafana",
+      "opentelemetry",
+      "elastic",
+      "redis",
+      "vault",
+      "argocd",
+    ],
   },
   {
     role: "Technical Lead Frontend",
     period: "Apr 2024 – Dec 2025",
+    duration: "1 yr 9 months",
+    employmentType: "Full-time",
     company: "PT. Kaldu Sari Nabati Indonesia (NABATI)",
     location: "Bandung, Indonesia",
     description:
-      "Led a 12-person frontend team supporting SaaS delivery, legacy support, MPP, KPI tracking, risk management, and performance review input. Implemented SonarQube, reduced technical debt by 90%, reduced UI library build time by 80%, and reduced frontend-related issues by 70%.",
+      "- Led a 12-person frontend team supporting SaaS delivery, legacy support, MPP, KPI tracking, risk management, and performance review input.\n - Implemented SonarQube and reduced technical debt by 90% within 6 months.\n- Led the UI library improvement initiative, reducing build time by 80% in 3 months.\n- Reduced frontend-related issues by 70% within 4 months through technical guidance and engineering standardization.",
+    notableProjectsTitle: "Notable Projects",
+    notableProjects: [
+      "Led development of strategic SaaS platforms, including a reusable UI library adopted by 10+ projects, SFA, ERP, and HRIS systems.",
+      "Delivered custom digital tools such as Salesman Tracker, Surveyor App, Routing System, and Restaurant Mapping.",
+    ],
+    techStackIconKeys: [
+      "react",
+      "nextjs",
+      "vitejs",
+      "rollup",
+      "antdesign",
+      "tailwind",
+      "zustand",
+      "storybook",
+      "reactnative",
+      "miniprogram",
+      "go",
+      "nodejs",
+      "express",
+      "api",
+      "rabbitmq",
+      "redis",
+      "jest",
+      "sonarqube",
+    ],
   },
   {
     role: "Senior Frontend Developer",
     period: "Mar 2023 – Apr 2024",
+    duration: "1 yr 2 months",
+    employmentType: "Full-time",
     company: "PT. Kaldu Sari Nabati Indonesia (NABATI)",
     location: "Bandung, Indonesia",
     description:
-      "Built and managed web-based ERP solutions using React.js and Next.js based on existing systems and user requirements.",
+      "- Created, developed, and managed the company's web-based ERP using existing systems or built new solutions based on user requirements.",
+    techStackIconKeys: ["react", "nextjs", "antdesign", "reactnative", "api"],
   },
   {
     role: "Frontend Developer",
     period: "Dec 2016 – Mar 2023",
+    duration: "6 yrs 4 months",
+    employmentType: "Full-time",
     company: "PT. Arah Dinamika Abadi",
-    location: "DKI Jakarta, Indonesia",
+    location: "Jakarta, Indonesia",
     description:
-      "Built secure NSICCS-compliant ISO8583 EDC applications, supported TMS and UAT for 7 Indonesian banks, and provided legacy system support.",
+      "- Built secure NSICCS-compliant ISO8583 EDC applications, supported TMS and UAT for 7 Indonesian banks, and provided legacy system support.",
+    notableProjectsTitle: "Notable Projects",
+    notableProjects: [
+      "BPD Bali, BPD NTT, BNI, Bank Syariah Mandiri (Now BSI), Bank Aceh Syariah, Bank Victoria, BPD Jateng",
+    ],
+    techStackIconKeys: ["c", "cplusplus", "php", "kotlin"],
   },
   {
     role: "ICT Staff & Administration",
     period: "Mar 2013 – Nov 2016",
+    duration: "3 yrs 9 months",
+    employmentType: "Full-time",
     company: "PT. Pelayaran Nelly Dwi Putri Tbk.",
-    location: "DKI Jakarta, Indonesia",
+    location: "Jakarta, Indonesia",
     description:
-      "Managed IT infrastructure and network support for 40+ PCs and delivered internal systems including an SMS Gateway and company website.",
+      "- Managed IT infrastructure and network support for 40+ PCs, and delivered internal web systems including an SMS Gateway and company website with automated backups.",
+    notableProjectsTitle: "Notable Projects",
+    notableProjects: [
+      "Developed a web-based SMS Gateway Management System and the company's official website.",
+      "Implemented routine company file backups using open-source applications.",
+    ],
+    techStackIconKeys: ["html5", "css", "php", "mysql"],
   },
 ];
 

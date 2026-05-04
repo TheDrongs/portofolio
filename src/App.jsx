@@ -51,7 +51,7 @@ export default function App() {
       margin: "0 auto",
       display: "grid",
       gridTemplateColumns: isTablet ? "1fr" : "250px minmax(0, 1fr)",
-      overflow: "hidden",
+      overflow: isTablet ? "hidden" : "visible",
       border: "1px solid rgba(148, 163, 184, 0.18)",
       borderRadius: 20,
       background: "rgba(255, 255, 255, 0.86)",
