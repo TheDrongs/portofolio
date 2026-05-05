@@ -43,6 +43,13 @@ import {
 } from "react-icons/si";
 import { FaCss3Alt } from "react-icons/fa";
 import { TbApi, TbBrandReactNative, TbDeviceMobileCode } from "react-icons/tb";
+import {
+  FiBarChart2,
+  FiCheckCircle,
+  FiBookOpen,
+  FiLayers,
+  FiStar,
+} from "react-icons/fi";
 
 const reactIconMap = {
   javascript: SiJavascript,
@@ -294,6 +301,16 @@ const styles = {
   },
 };
 
+const getExperienceScore = (experience) => {
+  const text = String(experience || "").toLowerCase();
+
+  if (text.includes("<1")) return 0.5;
+  if (text.includes("project exposure")) return 0.25;
+
+  const match = text.match(/(\d+(?:\.\d+)?)/);
+  return match ? Number(match[1]) : 0;
+};
+
 const getGroupedTechStacks = (techStackIconKeys = []) => {
   const groupedTechStacks = {
     frontend: [],
@@ -322,11 +339,79 @@ const getGroupedTechStacks = (techStackIconKeys = []) => {
   ].filter((group) => group.keys.length > 0);
 };
 
+export const getTechIconInfo = (iconKey) => {
+  return {
+    IconComponent: reactIconMap[iconKey],
+    assetIcon: assetIconMap[iconKey],
+    label: techIconLabelMap[iconKey] || iconKey,
+    color: techIconColorMap[iconKey] || "#2563eb",
+  };
+};
+
+export const sortByExperience = (items) => {
+  return items
+    .map((item, index) => ({ item, index }))
+    .sort((a, b) => {
+      const experienceDiff =
+        getExperienceScore(b.item.experience) -
+        getExperienceScore(a.item.experience);
+
+      if (experienceDiff !== 0) return experienceDiff;
+
+      return a.index - b.index;
+    })
+    .map(({ item }) => item);
+};
+
+export const getBadgeConfig = (badge) => {
+  const key = String(badge).toLowerCase().trim();
+
+  if (key === "advanced") {
+    return {
+      icon: FiBarChart2,
+      color: "#2563eb",
+      background: "#e8f0ff",
+      border: "#bfd3ff",
+    };
+  }
+
+  if (key === "production") {
+    return {
+      icon: FiCheckCircle,
+      color: "#1f9d55",
+      background: "#e8f7ee",
+      border: "#b8e2c6",
+    };
+  }
+
+  if (key === "hands-on") {
+    return {
+      icon: FiBookOpen,
+      color: "#dd6b20",
+      background: "#fff1e8",
+      border: "#f5c8a6",
+    };
+  }
+
+  if (key === "project use") {
+    return {
+      icon: FiLayers,
+      color: "#7c3aed",
+      background: "#f1eafe",
+      border: "#d7c2fb",
+    };
+  }
+
+  return {
+    icon: FiStar,
+    color: "#475569",
+    background: "#f1f5f9",
+    border: "#cbd5e1",
+  };
+};
+
 export function TechIcon({ iconKey, index = 0 }) {
-  const IconComponent = reactIconMap[iconKey];
-  const assetIcon = assetIconMap[iconKey];
-  const label = techIconLabelMap[iconKey] || iconKey;
-  const color = techIconColorMap[iconKey] || "#2563eb";
+  const { IconComponent, assetIcon, label, color } = getTechIconInfo(iconKey);
 
   return (
     <span key={`${iconKey}-${index}`} style={styles.techIconBox} title={label}>

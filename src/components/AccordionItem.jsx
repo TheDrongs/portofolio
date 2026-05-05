@@ -77,6 +77,8 @@ export default function AccordionItem({ item, isOpen, isFirst, onClick }) {
   const [activeMedia, setActiveMedia] = useState(null);
   const [activeMediaIndex, setActiveMediaIndex] = useState(0);
 
+  const isMobile = typeof window !== "undefined" && window.innerWidth <= 768;
+
   useEffect(() => {
     if (!activeMedia) return;
 
@@ -135,7 +137,7 @@ export default function AccordionItem({ item, isOpen, isFirst, onClick }) {
       display: "flex",
       alignItems: "center",
       justifyContent: "space-between",
-      padding: "16px 18px",
+      padding: isMobile ? "14px 16px" : "16px 18px",
       border: 0,
       color: "#1e1b4b",
       cursor: "pointer",
@@ -146,40 +148,41 @@ export default function AccordionItem({ item, isOpen, isFirst, onClick }) {
     },
     accordionTitle: {
       color: "#1e1b4b",
-      fontSize: 18,
+      fontSize: isMobile ? 16 : 18,
       fontWeight: 800,
       lineHeight: 1.25,
     },
     accordionIcon: {
       display: "grid",
       placeItems: "center",
-      width: 26,
-      height: 26,
+      width: isMobile ? 24 : 26,
+      height: isMobile ? 24 : 26,
       borderRadius: 999,
       color: "#6d28d9",
       background: "#ede9fe",
       border: "1px solid rgba(221, 214, 254, 0.95)",
-      fontSize: 16,
+      fontSize: isMobile ? 15 : 16,
       lineHeight: 1,
       flexShrink: 0,
       boxSizing: "border-box",
     },
     accordionContent: {
-      padding: "18px 20px 20px",
+      padding: isMobile ? "16px 16px 18px" : "18px 20px 20px",
       color: "#475569",
       background: "#ffffff",
-      fontSize: 14,
+      fontSize: isMobile ? 13 : 14,
       lineHeight: 1.5,
       boxSizing: "border-box",
     },
+
     timeline: {
       display: "grid",
       gap: 0,
     },
     timelineItem: {
       display: "grid",
-      gridTemplateColumns: "26px 1fr",
-      gap: 14,
+      gridTemplateColumns: isMobile ? "22px 1fr" : "26px 1fr",
+      gap: isMobile ? 10 : 14,
       alignItems: "stretch",
     },
     timelineMarker: {
@@ -189,8 +192,8 @@ export default function AccordionItem({ item, isOpen, isFirst, onClick }) {
       minHeight: "100%",
     },
     timelineDot: {
-      width: 12,
-      height: 12,
+      width: isMobile ? 10 : 12,
+      height: isMobile ? 10 : 12,
       marginTop: 6,
       borderRadius: 999,
       background: "#7c3aed",
@@ -206,11 +209,12 @@ export default function AccordionItem({ item, isOpen, isFirst, onClick }) {
       borderRadius: 999,
     },
     timelineContent: {
-      paddingBottom: 24,
+      paddingBottom: isMobile ? 22 : 24,
     },
+
     roleText: {
       color: "#111827",
-      fontSize: 18,
+      fontSize: isMobile ? 16 : 18,
       fontWeight: 700,
       lineHeight: 1.35,
     },
@@ -221,16 +225,17 @@ export default function AccordionItem({ item, isOpen, isFirst, onClick }) {
       display: "block",
       marginTop: 5,
       color: "#64748b",
-      fontSize: 16,
+      fontSize: isMobile ? 14 : 16,
       fontWeight: 700,
       lineHeight: 1.45,
     },
     paragraph: {
       margin: "8px 0 0",
-      fontSize: 15,
+      fontSize: isMobile ? 14 : 15,
       lineHeight: 1.6,
       whiteSpace: "pre-line",
     },
+
     subSection: {
       marginTop: 12,
     },
@@ -238,7 +243,7 @@ export default function AccordionItem({ item, isOpen, isFirst, onClick }) {
       display: "block",
       marginTop: 10,
       color: "#334155",
-      fontSize: 15,
+      fontSize: isMobile ? 14 : 15,
       fontWeight: 800,
       lineHeight: 1.45,
     },
@@ -250,26 +255,28 @@ export default function AccordionItem({ item, isOpen, isFirst, onClick }) {
     },
     bulletItem: {
       color: "#475569",
-      fontSize: 14,
+      fontSize: isMobile ? 13 : 14,
       lineHeight: 1.6,
     },
+
     mediaButton: {
       display: "inline-flex",
       alignItems: "center",
       justifyContent: "center",
       width: "fit-content",
       marginTop: 14,
-      padding: "9px 14px",
+      padding: isMobile ? "8px 12px" : "9px 14px",
       border: "1px solid rgba(99, 102, 241, 0.28)",
       borderRadius: 999,
       background: "#e4e4e4",
       color: "black",
       cursor: "pointer",
-      fontSize: 13,
+      fontSize: isMobile ? 12 : 13,
       fontWeight: 800,
       fontFamily: "inherit",
       boxShadow: "0 6px 16px rgba(49, 46, 129, 0.08)",
     },
+
     modalBackdrop: {
       position: "fixed",
       top: 0,
@@ -283,20 +290,22 @@ export default function AccordionItem({ item, isOpen, isFirst, onClick }) {
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      padding: 24,
+      padding: isMobile ? 12 : 24,
       background: "rgba(15, 23, 42, 0.55)",
       boxSizing: "border-box",
       overflow: "hidden",
       overscrollBehavior: "contain",
     },
     modalCard: {
-      width: "min(1180px, calc(100vw - 48px))",
-      maxHeight: "calc(100dvh - 48px)",
+      width: isMobile
+        ? "min(340px, calc(100vw - 28px))"
+        : "min(1180px, calc(100vw - 48px))",
+      maxHeight: isMobile ? "58dvh" : "calc(100dvh - 48px)",
       overflow: "hidden",
       display: "flex",
       flexDirection: "column",
-      padding: 18,
-      borderRadius: 18,
+      padding: isMobile ? 10 : 18,
+      borderRadius: isMobile ? 14 : 18,
       background: "#ffffff",
       border: "1px solid rgba(226, 232, 240, 0.92)",
       boxShadow: "0 24px 80px rgba(15, 23, 42, 0.28)",
@@ -306,20 +315,20 @@ export default function AccordionItem({ item, isOpen, isFirst, onClick }) {
       display: "flex",
       alignItems: "center",
       justifyContent: "space-between",
-      gap: 12,
-      marginBottom: 14,
+      gap: 10,
+      marginBottom: isMobile ? 8 : 14,
       flexShrink: 0,
     },
     modalTitle: {
       margin: 0,
       color: "#111827",
-      fontSize: 18,
+      fontSize: isMobile ? 14 : 18,
       fontWeight: 800,
       lineHeight: 1.3,
     },
     closeButton: {
-      width: 34,
-      height: 34,
+      width: isMobile ? 28 : 34,
+      height: isMobile ? 28 : 34,
       display: "grid",
       placeItems: "center",
       border: 0,
@@ -327,7 +336,7 @@ export default function AccordionItem({ item, isOpen, isFirst, onClick }) {
       color: "#334155",
       background: "#f1f5f9",
       cursor: "pointer",
-      fontSize: 18,
+      fontSize: isMobile ? 15 : 18,
       fontWeight: 900,
       fontFamily: "inherit",
       flexShrink: 0,
@@ -335,35 +344,35 @@ export default function AccordionItem({ item, isOpen, isFirst, onClick }) {
     mediaViewer: {
       position: "relative",
       width: "100%",
-      height: "min(74dvh, 720px)",
-      minHeight: 360,
+      maxHeight: isMobile ? "calc(58dvh - 58px)" : "min(74dvh, 720px)",
+      minHeight: isMobile ? "unset" : 360,
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      padding: "16px 64px 54px",
-      borderRadius: 16,
+      padding: isMobile ? "8px 10px 34px" : "16px 64px 54px",
+      borderRadius: isMobile ? 12 : 16,
       background: "#f8fafc",
       border: "1px solid rgba(226, 232, 240, 0.92)",
       boxSizing: "border-box",
       overflow: "hidden",
     },
     mediaImage: {
+      width: isMobile ? "100%" : "100%",
+      height: isMobile ? "auto" : "100%",
       maxWidth: "100%",
-      maxHeight: "100%",
-      width: "auto",
-      height: "auto",
+      maxHeight: isMobile ? "calc(58dvh - 112px)" : "100%",
       display: "block",
       objectFit: "contain",
       margin: "0 auto",
-      borderRadius: 12,
+      borderRadius: isMobile ? 8 : 12,
       boxSizing: "border-box",
     },
     mediaNavButton: {
       position: "absolute",
       top: "50%",
       transform: "translateY(-50%)",
-      width: 42,
-      height: 42,
+      width: isMobile ? 28 : 42,
+      height: isMobile ? 28 : 42,
       display: "grid",
       placeItems: "center",
       border: "1px solid rgba(99, 102, 241, 0.24)",
@@ -371,38 +380,39 @@ export default function AccordionItem({ item, isOpen, isFirst, onClick }) {
       color: "#312e81",
       background: "#ffffff",
       cursor: "pointer",
-      fontSize: 24,
+      fontSize: isMobile ? 18 : 24,
       fontWeight: 900,
       fontFamily: "inherit",
       boxShadow: "0 10px 24px rgba(15, 23, 42, 0.14)",
       zIndex: 2,
     },
     mediaPrevButton: {
-      left: 14,
+      left: isMobile ? 6 : 14,
     },
     mediaNextButton: {
-      right: 14,
+      right: isMobile ? 6 : 14,
     },
     mediaLabel: {
       position: "absolute",
-      left: 16,
-      right: 16,
-      bottom: 14,
+      left: 10,
+      right: 10,
+      bottom: isMobile ? 8 : 14,
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
       gap: 8,
       color: "#475569",
-      fontSize: 13,
+      fontSize: isMobile ? 10 : 13,
       fontWeight: 700,
       lineHeight: 1.4,
       textAlign: "center",
     },
     mediaCounter: {
       color: "#64748b",
-      fontSize: 12,
+      fontSize: isMobile ? 10 : 12,
       fontWeight: 800,
     },
+
     list: {
       display: "grid",
       gap: 10,
@@ -419,33 +429,36 @@ export default function AccordionItem({ item, isOpen, isFirst, onClick }) {
       color: "#7c3aed",
       fontWeight: 900,
     },
+
     projectList: {
       display: "grid",
       gap: 14,
     },
     projectCard: {
-      padding: 14,
+      padding: isMobile ? 12 : 14,
       borderRadius: 14,
       background: "#f8fafc",
       border: "1px solid rgba(226, 232, 240, 0.92)",
       boxSizing: "border-box",
     },
+
     skillList: {
       display: "grid",
       gap: 12,
-      fontSize: 16,
+      fontSize: isMobile ? 15 : 16,
     },
     skillCard: {
-      padding: 14,
+      padding: isMobile ? 12 : 14,
       borderRadius: 14,
       background: "#f8fafc",
       border: "1px solid rgba(226, 232, 240, 0.92)",
       boxSizing: "border-box",
     },
+
     educationCard: {
       display: "grid",
       gap: 12,
-      fontSize: 16,
+      fontSize: isMobile ? 15 : 16,
     },
     pillWrap: {
       display: "flex",
@@ -454,13 +467,14 @@ export default function AccordionItem({ item, isOpen, isFirst, onClick }) {
       marginTop: 8,
     },
     pill: {
-      padding: "8px 11px",
+      padding: isMobile ? "7px 10px" : "8px 11px",
       borderRadius: 999,
       color: "#312e81",
       background: "#ede9fe",
-      fontSize: 14,
+      fontSize: isMobile ? 13 : 14,
       fontWeight: 700,
     },
+
     certificationList: {
       display: "grid",
       gap: 18,
@@ -483,7 +497,7 @@ export default function AccordionItem({ item, isOpen, isFirst, onClick }) {
     },
     certificationTitle: {
       color: "#111827",
-      fontSize: 15,
+      fontSize: isMobile ? 14 : 15,
       fontWeight: 800,
       lineHeight: 1.4,
     },
@@ -493,7 +507,7 @@ export default function AccordionItem({ item, isOpen, isFirst, onClick }) {
       background: "transparent",
       color: "#4f46e5",
       cursor: "pointer",
-      fontSize: 13,
+      fontSize: isMobile ? 12 : 13,
       fontWeight: 700,
       lineHeight: 1.4,
       fontFamily: "inherit",
@@ -503,7 +517,7 @@ export default function AccordionItem({ item, isOpen, isFirst, onClick }) {
       display: "block",
       marginTop: 6,
       color: "#475569",
-      fontSize: 14,
+      fontSize: isMobile ? 13 : 14,
       fontWeight: 700,
       lineHeight: 1.45,
     },
@@ -511,14 +525,14 @@ export default function AccordionItem({ item, isOpen, isFirst, onClick }) {
       display: "block",
       marginTop: 4,
       color: "#64748b",
-      fontSize: 13,
+      fontSize: isMobile ? 12 : 13,
       fontWeight: 700,
       lineHeight: 1.45,
     },
     certificationCredential: {
       margin: "6px 0 0",
       color: "#475569",
-      fontSize: 13,
+      fontSize: isMobile ? 12 : 13,
       lineHeight: 1.5,
     },
     certificationSkillWrap: {
@@ -528,11 +542,11 @@ export default function AccordionItem({ item, isOpen, isFirst, onClick }) {
       marginTop: 8,
     },
     certificationSkillPill: {
-      padding: "6px 9px",
+      padding: isMobile ? "5px 8px" : "6px 9px",
       borderRadius: 999,
       color: "#312e81",
       background: "#ede9fe",
-      fontSize: 12,
+      fontSize: isMobile ? 11 : 12,
       fontWeight: 700,
     },
   };
@@ -578,6 +592,7 @@ export default function AccordionItem({ item, isOpen, isFirst, onClick }) {
                       <span style={styles.subSectionTitle}>
                         {timeline.notableProjectsTitle || "Notable Projects"}
                       </span>
+
                       <ul style={styles.bulletList}>
                         {timeline.notableProjects.map((project) => (
                           <li key={project} style={styles.bulletItem}>
@@ -591,7 +606,9 @@ export default function AccordionItem({ item, isOpen, isFirst, onClick }) {
                   {timeline.techStackIconKeys?.length > 0 && (
                     <div style={styles.subSection}>
                       <span style={styles.subSectionTitle}>Tech Stack(s)</span>
-                      <GroupedTechStackIcons iconKeys={timeline.techStackIconKeys} />
+                      <GroupedTechStackIcons
+                        iconKeys={timeline.techStackIconKeys}
+                      />
                     </div>
                   )}
                 </div>
@@ -637,7 +654,7 @@ export default function AccordionItem({ item, isOpen, isFirst, onClick }) {
                       display: "inline-flex",
                       marginTop: 8,
                       color: "#2563eb",
-                      fontSize: 14,
+                      fontSize: isMobile ? 13 : 14,
                       fontWeight: 700,
                       textDecoration: "none",
                     }}
@@ -649,7 +666,9 @@ export default function AccordionItem({ item, isOpen, isFirst, onClick }) {
                 {project.techStackIconKeys?.length > 0 && (
                   <div style={styles.subSection}>
                     <span style={styles.subSectionTitle}>Tech Stack(s)</span>
-                    <GroupedTechStackIcons iconKeys={project.techStackIconKeys} />
+                    <GroupedTechStackIcons
+                      iconKeys={project.techStackIconKeys}
+                    />
                   </div>
                 )}
 

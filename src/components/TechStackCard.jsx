@@ -2,185 +2,11 @@ import { useEffect, useMemo, useState } from "react";
 import { techStack, techStackGroups } from "../data/portofolioData";
 import { useBreakpoint } from "./useBreakpoint";
 
-import reactLogo from "../assets/react.svg";
-import sonarqubeLogo from "../assets/sonarqube.png";
-import zustandLogo from "../assets/zustand.jpg";
-import vaultLogo from "../assets/vault.png";
-import vitejsLogo from "../assets/vitejs.jpg";
-
 import {
-  SiJavascript,
-  SiTypescript,
-  SiNextdotjs,
-  SiVite,
-  SiAngular,
-  SiVuedotjs,
-  SiHtml5,
-  SiAntdesign,
-  SiTailwindcss,
-  SiRadixui,
-  SiRedux,
-  SiRollupdotjs,
-  SiStorybook,
-  SiOpenstreetmap,
-  SiGooglemaps,
-  SiGo,
-  SiPhp,
-  SiNodedotjs,
-  SiExpress,
-  SiMysql,
-  SiMongodb,
-  SiRedis,
-  SiGraphql,
-  SiRabbitmq,
-  SiKotlin,
-  SiDocker,
-  SiKubernetes,
-  SiJest,
-  SiOpentelemetry,
-  SiElastic,
-  SiGrafana,
-  SiArgo,
-  SiC,
-  SiCplusplus,
-  SiFirebase,
-} from "react-icons/si";
-import { FaCss3Alt } from "react-icons/fa";
-import { TbApi, TbBrandReactNative, TbDeviceMobileCode } from "react-icons/tb";
-import {
-  FiBarChart2,
-  FiCheckCircle,
-  FiBookOpen,
-  FiLayers,
-  FiStar,
-} from "react-icons/fi";
-
-const reactIconMap = {
-  javascript: SiJavascript,
-  typescript: SiTypescript,
-  nextjs: SiNextdotjs,
-  vite: SiVite,
-  angular: SiAngular,
-  vue: SiVuedotjs,
-  html5: SiHtml5,
-  css: FaCss3Alt,
-  antdesign: SiAntdesign,
-  tailwind: SiTailwindcss,
-  radixui: SiRadixui,
-  redux: SiRedux,
-  rollup: SiRollupdotjs,
-  storybook: SiStorybook,
-  openstreetmap: SiOpenstreetmap,
-  googlemaps: SiGooglemaps,
-
-  go: SiGo,
-  php: SiPhp,
-  nodejs: SiNodedotjs,
-  express: SiExpress,
-  mysql: SiMysql,
-  mongodb: SiMongodb,
-  redis: SiRedis,
-  graphql: SiGraphql,
-  rabbitmq: SiRabbitmq,
-  api: TbApi,
-
-  reactnative: TbBrandReactNative,
-  kotlin: SiKotlin,
-  miniprogram: TbDeviceMobileCode,
-
-  docker: SiDocker,
-  kubernetes: SiKubernetes,
-  jest: SiJest,
-  opentelemetry: SiOpentelemetry,
-  elastic: SiElastic,
-  grafana: SiGrafana,
-  argocd: SiArgo,
-
-  c: SiC,
-  cplusplus: SiCplusplus,
-
-  firebase: SiFirebase,
-};
-
-const assetIconMap = {
-  react: reactLogo,
-  sonarqube: sonarqubeLogo,
-  zustand: zustandLogo,
-  vault: vaultLogo,
-  vitejs: vitejsLogo,
-};
-
-const getExperienceScore = (experience) => {
-  const text = String(experience || "").toLowerCase();
-
-  if (text.includes("<1")) return 0.5;
-  if (text.includes("project exposure")) return 0.25;
-
-  const match = text.match(/(\d+(?:\.\d+)?)/);
-  return match ? Number(match[1]) : 0;
-};
-
-const sortByExperience = (items) => {
-  return items
-    .map((item, index) => ({ item, index }))
-    .sort((a, b) => {
-      const experienceDiff =
-        getExperienceScore(b.item.experience) -
-        getExperienceScore(a.item.experience);
-
-      if (experienceDiff !== 0) return experienceDiff;
-
-      return a.index - b.index;
-    })
-    .map(({ item }) => item);
-};
-
-const getBadgeConfig = (badge) => {
-  const key = String(badge).toLowerCase().trim();
-
-  if (key === "advanced") {
-    return {
-      icon: FiBarChart2,
-      color: "#2563eb",
-      background: "#e8f0ff",
-      border: "#bfd3ff",
-    };
-  }
-
-  if (key === "production") {
-    return {
-      icon: FiCheckCircle,
-      color: "#1f9d55",
-      background: "#e8f7ee",
-      border: "#b8e2c6",
-    };
-  }
-
-  if (key === "hands-on") {
-    return {
-      icon: FiBookOpen,
-      color: "#dd6b20",
-      background: "#fff1e8",
-      border: "#f5c8a6",
-    };
-  }
-
-  if (key === "project use") {
-    return {
-      icon: FiLayers,
-      color: "#7c3aed",
-      background: "#f1eafe",
-      border: "#d7c2fb",
-    };
-  }
-
-  return {
-    icon: FiStar,
-    color: "#475569",
-    background: "#f1f5f9",
-    border: "#cbd5e1",
-  };
-};
+  getBadgeConfig,
+  getTechIconInfo,
+  sortByExperience,
+} from "./icons/TechStackIcons";
 
 export default function TechStackCard() {
   const { isMobile } = useBreakpoint();
@@ -277,7 +103,7 @@ export default function TechStackCard() {
 
   const styles = {
     panelCard: {
-      padding: 22,
+      padding: isMobile ? 18 : 22,
       border: "1px solid rgba(226, 232, 240, 0.92)",
       borderRadius: 18,
       background: "rgba(255, 255, 255, 0.88)",
@@ -294,12 +120,12 @@ export default function TechStackCard() {
     title: {
       margin: 0,
       color: "#0f172a",
-      fontSize: 19,
+      fontSize: isMobile ? 18 : 19,
       fontWeight: 700,
     },
     totalText: {
       color: "#64748b",
-      fontSize: 16,
+      fontSize: isMobile ? 14 : 16,
       fontWeight: 700,
       whiteSpace: "nowrap",
     },
@@ -313,13 +139,13 @@ export default function TechStackCard() {
       display: "inline-flex",
       alignItems: "center",
       gap: 7,
-      padding: "9px 13px",
+      padding: isMobile ? "8px 12px" : "9px 13px",
       borderRadius: 999,
       border: "1px solid rgba(226, 232, 240, 0.95)",
       background: "#ffffff",
       color: "#475569",
       cursor: "pointer",
-      fontSize: 13,
+      fontSize: isMobile ? 12 : 13,
       fontWeight: 800,
       fontFamily: "inherit",
     },
@@ -333,11 +159,11 @@ export default function TechStackCard() {
       display: "inline-flex",
       alignItems: "center",
       justifyContent: "center",
-      minWidth: 22,
-      height: 22,
+      minWidth: isMobile ? 20 : 22,
+      height: isMobile ? 20 : 22,
       padding: "0 7px",
       borderRadius: 999,
-      fontSize: 13,
+      fontSize: isMobile ? 12 : 13,
       fontWeight: 800,
       background: "rgba(148, 163, 184, 0.16)",
       boxSizing: "border-box",
@@ -380,12 +206,13 @@ export default function TechStackCard() {
     sectionTitle: {
       margin: 0,
       color: "#1f2937",
-      fontSize: 16,
+      fontSize: isMobile ? 15 : 16,
       fontWeight: 800,
+      lineHeight: 1.35,
     },
     toggleText: {
       color: "#312e81",
-      fontSize: 12,
+      fontSize: isMobile ? 11 : 12,
       fontWeight: 900,
       whiteSpace: "nowrap",
     },
@@ -394,7 +221,7 @@ export default function TechStackCard() {
       alignItems: "center",
       gap: 10,
       color: "#64748b",
-      fontSize: 13,
+      fontSize: isMobile ? 12 : 13,
       fontWeight: 800,
       whiteSpace: "nowrap",
     },
@@ -405,30 +232,30 @@ export default function TechStackCard() {
     },
     techGrid: {
       display: "grid",
-      gridTemplateColumns: isMobile
-        ? "repeat(2, minmax(0, 1fr))"
-        : "repeat(2, minmax(0, 1fr))",
-      gap: 14,
+      gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+      gap: isMobile ? 12 : 14,
     },
     techItem: {
       display: "grid",
-      gap: 10,
-      minHeight: 112,
-      padding: "15px 17px 13px",
+      gap: isMobile ? 9 : 10,
+      minHeight: isMobile ? 118 : 112,
+      padding: isMobile ? "13px 12px 12px" : "15px 17px 13px",
       borderRadius: 14,
       background: "#f8fafc",
       border: "1px solid rgba(226, 232, 240, 0.95)",
       boxSizing: "border-box",
+      overflow: "visible",
     },
     techHeader: {
       display: "grid",
-      gridTemplateColumns: "52px 1fr",
+      gridTemplateColumns: isMobile ? "44px 1fr" : "52px 1fr",
       alignItems: "start",
-      gap: 13,
+      gap: isMobile ? 10 : 13,
+      minWidth: 0,
     },
     iconBox: {
-      width: 52,
-      height: 52,
+      width: isMobile ? 44 : 52,
+      height: isMobile ? 44 : 52,
       display: "grid",
       placeItems: "center",
       borderRadius: 12,
@@ -440,8 +267,8 @@ export default function TechStackCard() {
       boxSizing: "border-box",
     },
     assetIcon: {
-      width: 34,
-      height: 34,
+      width: isMobile ? 28 : 34,
+      height: isMobile ? 28 : 34,
       objectFit: "contain",
       display: "block",
     },
@@ -451,37 +278,45 @@ export default function TechStackCard() {
     },
     techName: {
       color: "#1f2937",
-      fontSize: 15,
+      fontSize: isMobile ? 14 : 15,
       lineHeight: 1.25,
       fontWeight: 800,
       marginBottom: 3,
+      wordBreak: "break-word",
     },
     metaText: {
       color: "#64748b",
-      fontSize: 13,
+      fontSize: isMobile ? 12 : 13,
       lineHeight: 1.35,
     },
     badgeWrap: {
       display: "flex",
-      flexWrap: "nowrap",
+      flexWrap: "wrap",
       alignItems: "center",
-      gap: 6,
+      gap: isMobile ? 5 : 6,
       marginTop: 2,
-      paddingLeft: 65,
-      overflow: "hidden",
+      paddingLeft: isMobile ? 0 : 65,
+      overflow: "visible",
+      maxWidth: "100%",
+      minWidth: 0,
     },
     badge: {
       display: "inline-flex",
       alignItems: "center",
-      gap: 5,
-      padding: "6px 9px",
+      justifyContent: "center",
+      gap: isMobile ? 4 : 5,
+      minWidth: 0,
+      maxWidth: "100%",
+      padding: isMobile ? "5px 7px" : "6px 9px",
       borderRadius: 8,
-      fontSize: 11,
+      fontSize: isMobile ? 10 : 11,
       fontWeight: 800,
-      lineHeight: 1,
+      lineHeight: 1.1,
       border: "1px solid transparent",
       boxSizing: "border-box",
-      whiteSpace: "nowrap",
+      whiteSpace: "normal",
+      overflow: "visible",
+      textOverflow: "clip",
     },
     emptyState: {
       padding: 18,
@@ -489,15 +324,14 @@ export default function TechStackCard() {
       background: "#f8fafc",
       border: "1px dashed rgba(148, 163, 184, 0.75)",
       color: "#64748b",
-      fontSize: 15,
+      fontSize: isMobile ? 14 : 15,
       textAlign: "center",
       gridColumn: "1 / -1",
     },
   };
 
   const renderTechItem = (item) => {
-    const IconComponent = reactIconMap[item.iconKey];
-    const assetIcon = assetIconMap[item.iconKey];
+    const { IconComponent, assetIcon, color } = getTechIconInfo(item.iconKey);
 
     return (
       <div
@@ -508,13 +342,13 @@ export default function TechStackCard() {
           <div
             style={{
               ...styles.iconBox,
-              color: item.color || "#2563eb",
+              color: item.color || color,
             }}
           >
             {assetIcon ? (
               <img src={assetIcon} alt={item.name} style={styles.assetIcon} />
             ) : IconComponent ? (
-              <IconComponent size={30} />
+              <IconComponent size={isMobile ? 26 : 30} />
             ) : null}
           </div>
 
@@ -534,7 +368,7 @@ export default function TechStackCard() {
 
               return (
                 <span
-                  key={badge}
+                  key={`${item.name}-${badge}`}
                   style={{
                     ...styles.badge,
                     color: badgeConfig.color,
@@ -542,7 +376,7 @@ export default function TechStackCard() {
                     borderColor: badgeConfig.border,
                   }}
                 >
-                  <BadgeIcon size={14} />
+                  <BadgeIcon size={isMobile ? 11 : 14} />
                   <span>{badge}</span>
                 </span>
               );
