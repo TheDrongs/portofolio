@@ -766,19 +766,19 @@ export const selectedProjects = [
     techStackIconKeys: ["html5", "css", "php", "mysql"],
   },
   {
-    title: "Offshore Crewing Recruitment App",
-    period: "May 2022 – Jul 2022",
-    screenshotFolder: "musaproject",
-    description:
-      "Built an Android application for offshore crewing recruitment to support candidate data collection and recruitment workflow needs.",
-    techStackIconKeys: ["kotlin", "firebase"],
-  },
-  {
     title: "Bakery E-Commerce Web Platform",
     period: "Aug 2022 – Jan 2023",
     description:
       "Built and managed an e-commerce web platform for a bakery shop, covering product catalog, transaction flow, and backend data integration.",
     techStackIconKeys: ["html5", "javascript", "react", "mongodb", "api"],
+  },
+  {
+    title: "Offshore Crewing Recruitment App",
+    period: "Jul 2023 – Dec 2023",
+    screenshotFolder: "musaproject",
+    description:
+      "Built an Android application for offshore crewing recruitment to support candidate data collection and recruitment workflow needs.",
+    techStackIconKeys: ["kotlin", "firebase"],
   },
 ];
 
