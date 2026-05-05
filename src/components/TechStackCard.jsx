@@ -6,7 +6,7 @@ import {
   getBadgeConfig,
   getTechIconInfo,
   sortByExperience,
-} from "./icons/TechStackIcons";
+} from "./icons/techStackIcons";
 
 export default function TechStackCard() {
   const { isMobile } = useBreakpoint();
