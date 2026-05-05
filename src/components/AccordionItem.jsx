@@ -11,7 +11,7 @@ import {
   timelineItems,
 } from "../data/portofolioData";
 
-import { GroupedTechStackIcons } from "./icons/TechStackIcons";
+import { GroupedTechStackIcons } from "./icons/techStackIcons";
 
 const projectScreenshotModules = import.meta.glob(
   "../assets/projects/**/*.{png,jpg,jpeg,webp}",
