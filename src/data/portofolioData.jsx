@@ -116,6 +116,11 @@ export const leadershipSkillGroups = [
         name: "App Development",
         experience: "6+ Years Experience",
         iconKey: "appdev",
+      }, 
+      {
+        name: "Mobile Development",
+        experience: "2+ Years Experience",
+        iconKey: "mobiledev",
       },
       {
         name: "Fullstack Development",

@@ -13,6 +13,7 @@ import uxIcon from "../assets/UX.png";
 import webDevIcon from "../assets/webdev.png";
 import appDevIcon from "../assets/appdev.png";
 import fullstackIcon from "../assets/fullstack.png";
+import mobileDevIcon from "../assets/mobiledev.png";
 
 const leadershipIconMap = {
   projectmanagement: projectManagementIcon,
@@ -23,6 +24,7 @@ const leadershipIconMap = {
   UX: uxIcon,
   webdev: webDevIcon,
   appdev: appDevIcon,
+  mobiledev: mobileDevIcon,
   fullstack: fullstackIcon,
 };
 
