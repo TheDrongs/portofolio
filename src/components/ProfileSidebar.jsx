@@ -209,7 +209,7 @@ export default function ProfileSidebar() {
           aria-disabled={isDownloadDisabled}
           style={styles.downloadButton}
         >
-          {isDownloadDisabled ? `Wait ${downloadCooldown}s` : "Download CV"}
+          {isDownloadDisabled ? `Wait ${downloadCooldown}s` : "Download CV ATS"}
         </a>
       </div>
     </aside>

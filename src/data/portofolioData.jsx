@@ -599,7 +599,7 @@ export const accordionItems = [
     type: "projects",
   },
   {
-    title: "Education & Languages",
+    title: "Education, Languages & Certifications",
     type: "education-language",
   },
 ];
@@ -712,6 +712,7 @@ export const selectedProjects = [
   {
     title: "Enterprise Web, SaaS & Internal Business Platforms",
     period: "Mar 2023 – Present",
+    screenshotFolder: "ksni",
     description:
       "Delivered and supported ERP modules, SFA, HRIS, Salesman Tracker for 8,000+ outlets, Surveyor App, Routing & Tracker System, Restaurant Mapping, and multi-user Meeting App.",
     techStackIconKeys: [
@@ -745,6 +746,7 @@ export const selectedProjects = [
   {
     title: "NSICCS & ISO8583 EDC Applications",
     period: "Dec 2016 – Mar 2023",
+    screenshotFolder: "edc",
     description:
       "Delivered mandatory NSICCS and ISO8583 EDC application updates for BPD Bali, BPD NTT, Bank Nasional Indonesia, Bank Syariah Mandiri (Now BSI), Bank Aceh Syariah, Bank Victoria, and BPD Jateng.",
     techStackIconKeys: ["c", "cplusplus", "php", "kotlin"],
@@ -752,6 +754,7 @@ export const selectedProjects = [
   {
     title: "Company Website & IDX Content Updates",
     period: "Oct 2018 – Feb 2019",
+    screenshotFolder: "nelly",
     description:
       "Built and maintained a company website that required regular content updates for IDX-related checking and public information needs.",
     url: "https://www.nellydwiputri.co.id",
@@ -760,6 +763,7 @@ export const selectedProjects = [
   {
     title: "Offshore Crewing Recruitment App",
     period: "May 2022 – Jul 2022",
+    screenshotFolder: "musaproject",
     description:
       "Built an Android application for offshore crewing recruitment to support candidate data collection and recruitment workflow needs.",
     techStackIconKeys: ["kotlin", "firebase"],
@@ -791,4 +795,31 @@ export const education = {
 export const languages = [
   "Bahasa Indonesia (Native)",
   "English (Business Working Proficiency)",
+];
+
+export const certifications = [
+  {
+    title: "React & React Native",
+    issuer: "Hacktiv8 Indonesia",
+    issued: "Issued Nov 2022",
+    issuedAt: "2022-11-01",
+    credentialId: "Batch 63",
+    certificateFile: "hacktiv8.jpg",
+  },
+  {
+    title: "Docker & Kubernetes",
+    issuer: "Udemy",
+    issued: "Issued May 2025",
+    issuedAt: "2025-05-01",
+    credentialId: "UC-d150c485-8c8e-4a04-8999-feff3b989ca6",
+    certificateFile: "dockerKubernetes.jpg",
+  },
+  {
+    title: "GO-Lang Beginner to Advanced",
+    issuer: "Udemy",
+    issued: "Issued Jun 2025",
+    issuedAt: "2025-06-01",
+    credentialId: "UC-4fba38e0-1953-4a0d-8931-105f75d8bdcc",
+    certificateFile: "golang.jpg",
+  },
 ];

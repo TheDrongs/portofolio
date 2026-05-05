@@ -1,4 +1,8 @@
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
+
 import {
+  certifications,
   coreSkills,
   education,
   keyAchievements,
@@ -7,201 +11,120 @@ import {
   timelineItems,
 } from "../data/portofolioData";
 
-import reactLogo from "../assets/react.svg";
-import sonarqubeLogo from "../assets/sonarqube.png";
-import zustandLogo from "../assets/zustand.jpg";
-import vaultLogo from "../assets/vault.png";
-import vitejsLogo from "../assets/vitejs.jpg";
+import { GroupedTechStackIcons } from "./icons/TechStackIcons";
 
-import {
-  SiJavascript,
-  SiTypescript,
-  SiNextdotjs,
-  SiVite,
-  SiAngular,
-  SiVuedotjs,
-  SiHtml5,
-  SiAntdesign,
-  SiTailwindcss,
-  SiRadixui,
-  SiRedux,
-  SiRollupdotjs,
-  SiStorybook,
-  SiOpenstreetmap,
-  SiGooglemaps,
-  SiGo,
-  SiPhp,
-  SiNodedotjs,
-  SiExpress,
-  SiMysql,
-  SiMongodb,
-  SiRedis,
-  SiGraphql,
-  SiRabbitmq,
-  SiKotlin,
-  SiDocker,
-  SiKubernetes,
-  SiJest,
-  SiOpentelemetry,
-  SiElastic,
-  SiGrafana,
-  SiArgo,
-  SiC,
-  SiCplusplus,
-  SiFirebase
-} from "react-icons/si";
-import { FaCss3Alt } from "react-icons/fa";
-import { TbApi, TbBrandReactNative, TbDeviceMobileCode } from "react-icons/tb";
+const projectScreenshotModules = import.meta.glob(
+  "../assets/projects/**/*.{png,jpg,jpeg,webp}",
+  {
+    eager: true,
+    import: "default",
+  },
+);
 
-const reactIconMap = {
-  javascript: SiJavascript,
-  typescript: SiTypescript,
-  nextjs: SiNextdotjs,
-  vite: SiVite,
-  angular: SiAngular,
-  vue: SiVuedotjs,
-  html5: SiHtml5,
-  css: FaCss3Alt,
-  antdesign: SiAntdesign,
-  tailwind: SiTailwindcss,
-  radixui: SiRadixui,
-  redux: SiRedux,
-  rollup: SiRollupdotjs,
-  storybook: SiStorybook,
-  openstreetmap: SiOpenstreetmap,
-  googlemaps: SiGooglemaps,
+const certificateModules = import.meta.glob(
+  "../assets/certificates/**/*.{png,jpg,jpeg,webp}",
+  {
+    eager: true,
+    import: "default",
+  },
+);
 
-  go: SiGo,
-  php: SiPhp,
-  nodejs: SiNodedotjs,
-  express: SiExpress,
-  mysql: SiMysql,
-  mongodb: SiMongodb,
-  redis: SiRedis,
-  graphql: SiGraphql,
-  rabbitmq: SiRabbitmq,
-  api: TbApi,
+const formatMediaName = (path) => {
+  const fileName = path.split("/").pop() || "Screenshot";
 
-  reactnative: TbBrandReactNative,
-  kotlin: SiKotlin,
-  miniprogram: TbDeviceMobileCode,
-
-  docker: SiDocker,
-  kubernetes: SiKubernetes,
-  jest: SiJest,
-  opentelemetry: SiOpentelemetry,
-  elastic: SiElastic,
-  grafana: SiGrafana,
-  argocd: SiArgo,
-
-  c: SiC,
-  cplusplus: SiCplusplus,
-
-  firebase: SiFirebase,
+  return fileName
+    .replace(/\.(png|jpg|jpeg|webp)$/i, "")
+    .replace(/[-_]/g, " ")
+    .replace(/([a-z])([A-Z])/g, "$1 $2")
+    .trim();
 };
 
-const assetIconMap = {
-  react: reactLogo,
-  sonarqube: sonarqubeLogo,
-  zustand: zustandLogo,
-  vault: vaultLogo,
-  vitejs: vitejsLogo,
+const getProjectScreenshots = (folderName) => {
+  if (!folderName) return [];
+
+  return Object.entries(projectScreenshotModules)
+    .filter(([path]) => path.includes(`/projects/${folderName}/`))
+    .map(([path, src]) => ({
+      src,
+      label: formatMediaName(path),
+    }));
 };
 
-const techIconColorMap = {
-  javascript: "#f7df1e",
-  typescript: "#3178c6",
-  nextjs: "#000000",
-  vite: "#646cff",
-  vitejs: "#646cff",
-  angular: "#dd0031",
-  vue: "#42b883",
-  html5: "#e34f26",
-  css: "#1572b6",
-  antdesign: "#1677ff",
-  tailwind: "#06b6d4",
-  radixui: "#111827",
-  redux: "#764abc",
-  rollup: "#ec4a3f",
-  storybook: "#ff4785",
+const getCertificateMedia = (certificate) => {
+  if (!certificate?.certificateFile) return null;
 
-  react: "#61dafb",
-  reactnative: "#61dafb",
-  miniprogram: "#64748b",
+  const matchedCertificate = Object.entries(certificateModules).find(([path]) =>
+    path.endsWith(`/certificates/${certificate.certificateFile}`),
+  );
 
-  go: "#00add8",
-  php: "#777bb4",
-  nodejs: "#339933",
-  express: "#111827",
-  mysql: "#4479a1",
-  mongodb: "#47a248",
-  redis: "#dc382d",
-  graphql: "#e10098",
-  rabbitmq: "#ff6600",
-  api: "#2563eb",
-  kotlin: "#7f52ff",
+  if (!matchedCertificate) return null;
 
-  docker: "#2496ed",
-  kubernetes: "#326ce5",
-  jest: "#c21325",
-  sonarqube: "#4e9bcd",
-  opentelemetry: "#000000",
-  elastic: "#005571",
-  grafana: "#f46800",
-  vault: "#111827",
-  argocd: "#ef7b4d",
+  const [path, src] = matchedCertificate;
 
-  c: "#a8b9cc",
-  cplusplus: "#00599c",
-
-  firebase: "#ffca28",
+  return {
+    src,
+    label: certificate.title || formatMediaName(path),
+  };
 };
 
-const techIconLabelMap = {
-  javascript: "JavaScript",
-  typescript: "TypeScript",
-  nextjs: "Next.js",
-  vite: "Vite",
-  vitejs: "Vite.js",
-  angular: "Angular",
-  vue: "Vue.js",
-  html5: "HTML5",
-  css: "CSS",
-  antdesign: "Ant Design",
-  tailwind: "Tailwind CSS",
-  radixui: "Radix UI",
-  redux: "Redux",
-  rollup: "Rollup.js",
-  storybook: "Storybook",
-  react: "React",
-  reactnative: "React Native",
-  miniprogram: "Mini Program",
-  go: "Go",
-  php: "PHP",
-  nodejs: "Node.js",
-  express: "Express.js",
-  mysql: "MySQL",
-  mongodb: "MongoDB",
-  redis: "Redis",
-  graphql: "GraphQL",
-  rabbitmq: "RabbitMQ",
-  api: "RESTful API",
-  kotlin: "Kotlin",
-  docker: "Docker",
-  kubernetes: "Kubernetes",
-  jest: "Jest",
-  sonarqube: "SonarQube",
-  opentelemetry: "OpenTelemetry",
-  elastic: "Elastic APM",
-  grafana: "Grafana",
-  vault: "Vault",
-  argocd: "ArgoCD",
-  c: "C",
-  cplusplus: "C++",
-  firebase: "Firebase",
+const getSortedCertifications = () => {
+  return [...certifications].sort((firstItem, secondItem) =>
+    firstItem.issuedAt.localeCompare(secondItem.issuedAt),
+  );
 };
 
 export default function AccordionItem({ item, isOpen, isFirst, onClick }) {
+  const [activeMedia, setActiveMedia] = useState(null);
+  const [activeMediaIndex, setActiveMediaIndex] = useState(0);
+
+  useEffect(() => {
+    if (!activeMedia) return;
+
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+    };
+  }, [activeMedia]);
+
+  const openMediaViewer = (title, mediaItems) => {
+    setActiveMedia({
+      title,
+      items: mediaItems,
+    });
+    setActiveMediaIndex(0);
+  };
+
+  const closeMediaViewer = () => {
+    setActiveMedia(null);
+    setActiveMediaIndex(0);
+  };
+
+  const handlePreviousMedia = (event) => {
+    event.stopPropagation();
+
+    setActiveMediaIndex((currentIndex) => {
+      const totalItems = activeMedia?.items?.length || 0;
+
+      if (totalItems <= 1) return currentIndex;
+
+      return currentIndex === 0 ? totalItems - 1 : currentIndex - 1;
+    });
+  };
+
+  const handleNextMedia = (event) => {
+    event.stopPropagation();
+
+    setActiveMediaIndex((currentIndex) => {
+      const totalItems = activeMedia?.items?.length || 0;
+
+      if (totalItems <= 1) return currentIndex;
+
+      return currentIndex === totalItems - 1 ? 0 : currentIndex + 1;
+    });
+  };
+
   const styles = {
     accordionItem: {
       borderTop: isFirst ? 0 : "1px solid rgba(226, 232, 240, 0.9)",
@@ -285,7 +208,6 @@ export default function AccordionItem({ item, isOpen, isFirst, onClick }) {
     timelineContent: {
       paddingBottom: 24,
     },
-
     roleText: {
       color: "#111827",
       fontSize: 18,
@@ -331,32 +253,156 @@ export default function AccordionItem({ item, isOpen, isFirst, onClick }) {
       fontSize: 14,
       lineHeight: 1.6,
     },
-
-    techIconWrap: {
-      display: "flex",
-      flexWrap: "wrap",
-      gap: 8,
-      marginTop: 8,
+    mediaButton: {
+      display: "inline-flex",
+      alignItems: "center",
+      justifyContent: "center",
+      width: "fit-content",
+      marginTop: 14,
+      padding: "9px 14px",
+      border: "1px solid rgba(99, 102, 241, 0.28)",
+      borderRadius: 999,
+      background: "#e4e4e4",
+      color: "black",
+      cursor: "pointer",
+      fontSize: 13,
+      fontWeight: 800,
+      fontFamily: "inherit",
+      boxShadow: "0 6px 16px rgba(49, 46, 129, 0.08)",
     },
-    techIconBox: {
+    modalBackdrop: {
+      position: "fixed",
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      zIndex: 9999,
+      width: "100vw",
+      height: "100dvh",
+      minHeight: "100vh",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      padding: 24,
+      background: "rgba(15, 23, 42, 0.55)",
+      boxSizing: "border-box",
+      overflow: "hidden",
+      overscrollBehavior: "contain",
+    },
+    modalCard: {
+      width: "min(1180px, calc(100vw - 48px))",
+      maxHeight: "calc(100dvh - 48px)",
+      overflow: "hidden",
+      display: "flex",
+      flexDirection: "column",
+      padding: 18,
+      borderRadius: 18,
+      background: "#ffffff",
+      border: "1px solid rgba(226, 232, 240, 0.92)",
+      boxShadow: "0 24px 80px rgba(15, 23, 42, 0.28)",
+      boxSizing: "border-box",
+    },
+    modalHeader: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      gap: 12,
+      marginBottom: 14,
+      flexShrink: 0,
+    },
+    modalTitle: {
+      margin: 0,
+      color: "#111827",
+      fontSize: 18,
+      fontWeight: 800,
+      lineHeight: 1.3,
+    },
+    closeButton: {
       width: 34,
       height: 34,
       display: "grid",
       placeItems: "center",
-      borderRadius: 10,
-      background: "#ffffff",
-      border: "1px solid rgba(226, 232, 240, 0.95)",
-      boxShadow: "0 6px 14px rgba(15, 23, 42, 0.05)",
+      border: 0,
+      borderRadius: 999,
+      color: "#334155",
+      background: "#f1f5f9",
+      cursor: "pointer",
+      fontSize: 18,
+      fontWeight: 900,
+      fontFamily: "inherit",
+      flexShrink: 0,
+    },
+    mediaViewer: {
+      position: "relative",
+      width: "100%",
+      height: "min(74dvh, 720px)",
+      minHeight: 360,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      padding: "16px 64px 54px",
+      borderRadius: 16,
+      background: "#f8fafc",
+      border: "1px solid rgba(226, 232, 240, 0.92)",
+      boxSizing: "border-box",
       overflow: "hidden",
+    },
+    mediaImage: {
+      maxWidth: "100%",
+      maxHeight: "100%",
+      width: "auto",
+      height: "auto",
+      display: "block",
+      objectFit: "contain",
+      margin: "0 auto",
+      borderRadius: 12,
       boxSizing: "border-box",
     },
-    assetIcon: {
-      width: 22,
-      height: 22,
-      objectFit: "contain",
-      display: "block",
+    mediaNavButton: {
+      position: "absolute",
+      top: "50%",
+      transform: "translateY(-50%)",
+      width: 42,
+      height: 42,
+      display: "grid",
+      placeItems: "center",
+      border: "1px solid rgba(99, 102, 241, 0.24)",
+      borderRadius: 999,
+      color: "#312e81",
+      background: "#ffffff",
+      cursor: "pointer",
+      fontSize: 24,
+      fontWeight: 900,
+      fontFamily: "inherit",
+      boxShadow: "0 10px 24px rgba(15, 23, 42, 0.14)",
+      zIndex: 2,
     },
-
+    mediaPrevButton: {
+      left: 14,
+    },
+    mediaNextButton: {
+      right: 14,
+    },
+    mediaLabel: {
+      position: "absolute",
+      left: 16,
+      right: 16,
+      bottom: 14,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      gap: 8,
+      color: "#475569",
+      fontSize: 13,
+      fontWeight: 700,
+      lineHeight: 1.4,
+      textAlign: "center",
+    },
+    mediaCounter: {
+      color: "#64748b",
+      fontSize: 12,
+      fontWeight: 800,
+    },
     list: {
       display: "grid",
       gap: 10,
@@ -415,23 +461,80 @@ export default function AccordionItem({ item, isOpen, isFirst, onClick }) {
       fontSize: 14,
       fontWeight: 700,
     },
-  };
-
-  const renderTechIcon = (iconKey) => {
-    const IconComponent = reactIconMap[iconKey];
-    const assetIcon = assetIconMap[iconKey];
-    const label = techIconLabelMap[iconKey] || iconKey;
-    const color = techIconColorMap[iconKey] || "#2563eb";
-
-    return (
-      <span key={iconKey} style={styles.techIconBox} title={label}>
-        {assetIcon ? (
-          <img src={assetIcon} alt={label} style={styles.assetIcon} />
-        ) : IconComponent ? (
-          <IconComponent size={21} color={color} />
-        ) : null}
-      </span>
-    );
+    certificationList: {
+      display: "grid",
+      gap: 18,
+      marginTop: 14,
+    },
+    certificationItem: {
+      paddingBottom: 16,
+      borderBottom: "1px solid rgba(226, 232, 240, 0.92)",
+    },
+    certificationItemLast: {
+      paddingBottom: 0,
+      marginBottom: 0,
+      borderBottom: "none",
+    },
+    certificationHeader: {
+      display: "flex",
+      alignItems: "center",
+      gap: 8,
+      flexWrap: "wrap",
+    },
+    certificationTitle: {
+      color: "#111827",
+      fontSize: 15,
+      fontWeight: 800,
+      lineHeight: 1.4,
+    },
+    inlineCertificateLink: {
+      padding: 0,
+      border: 0,
+      background: "transparent",
+      color: "#4f46e5",
+      cursor: "pointer",
+      fontSize: 13,
+      fontWeight: 700,
+      lineHeight: 1.4,
+      fontFamily: "inherit",
+      textDecoration: "none",
+    },
+    certificationIssuer: {
+      display: "block",
+      marginTop: 6,
+      color: "#475569",
+      fontSize: 14,
+      fontWeight: 700,
+      lineHeight: 1.45,
+    },
+    certificationMeta: {
+      display: "block",
+      marginTop: 4,
+      color: "#64748b",
+      fontSize: 13,
+      fontWeight: 700,
+      lineHeight: 1.45,
+    },
+    certificationCredential: {
+      margin: "6px 0 0",
+      color: "#475569",
+      fontSize: 13,
+      lineHeight: 1.5,
+    },
+    certificationSkillWrap: {
+      display: "flex",
+      flexWrap: "wrap",
+      gap: 7,
+      marginTop: 8,
+    },
+    certificationSkillPill: {
+      padding: "6px 9px",
+      borderRadius: 999,
+      color: "#312e81",
+      background: "#ede9fe",
+      fontSize: 12,
+      fontWeight: 700,
+    },
   };
 
   const renderContent = () => {
@@ -488,9 +591,7 @@ export default function AccordionItem({ item, isOpen, isFirst, onClick }) {
                   {timeline.techStackIconKeys?.length > 0 && (
                     <div style={styles.subSection}>
                       <span style={styles.subSectionTitle}>Tech Stack(s)</span>
-                      <div style={styles.techIconWrap}>
-                        {timeline.techStackIconKeys.map(renderTechIcon)}
-                      </div>
+                      <GroupedTechStackIcons iconKeys={timeline.techStackIconKeys} />
                     </div>
                   )}
                 </div>
@@ -517,40 +618,53 @@ export default function AccordionItem({ item, isOpen, isFirst, onClick }) {
     if (item.type === "projects") {
       return (
         <div style={styles.projectList}>
-          {selectedProjects.map((project) => (
-            <div key={project.title} style={styles.projectCard}>
-              <strong style={styles.strongText}>{project.title}</strong>
-              <span style={styles.metaText}>{project.period}</span>
-              <p style={styles.paragraph}>{project.description}</p>
+          {selectedProjects.map((project) => {
+            const screenshots = getProjectScreenshots(project.screenshotFolder);
+            const hasScreenshots = screenshots.length > 0;
 
-              {project.url && (
-                <a
-                  href={project.url}
-                  target="_blank"
-                  rel="noreferrer"
-                  style={{
-                    display: "inline-flex",
-                    marginTop: 8,
-                    color: "#2563eb",
-                    fontSize: 14,
-                    fontWeight: 700,
-                    textDecoration: "none",
-                  }}
-                >
-                  Visit Project
-                </a>
-              )}
+            return (
+              <div key={project.title} style={styles.projectCard}>
+                <strong style={styles.strongText}>{project.title}</strong>
+                <span style={styles.metaText}>{project.period}</span>
+                <p style={styles.paragraph}>{project.description}</p>
 
-              {project.techStackIconKeys?.length > 0 && (
-                <div style={styles.subSection}>
-                  <span style={styles.subSectionTitle}>Tech Stack(s)</span>
-                  <div style={styles.techIconWrap}>
-                    {project.techStackIconKeys.map(renderTechIcon)}
+                {project.url && (
+                  <a
+                    href={project.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    style={{
+                      display: "inline-flex",
+                      marginTop: 8,
+                      color: "#2563eb",
+                      fontSize: 14,
+                      fontWeight: 700,
+                      textDecoration: "none",
+                    }}
+                  >
+                    Visit Project
+                  </a>
+                )}
+
+                {project.techStackIconKeys?.length > 0 && (
+                  <div style={styles.subSection}>
+                    <span style={styles.subSectionTitle}>Tech Stack(s)</span>
+                    <GroupedTechStackIcons iconKeys={project.techStackIconKeys} />
                   </div>
-                </div>
-              )}
-            </div>
-          ))}
+                )}
+
+                {hasScreenshots && (
+                  <button
+                    type="button"
+                    style={styles.mediaButton}
+                    onClick={() => openMediaViewer(project.title, screenshots)}
+                  >
+                    View Screenshot
+                  </button>
+                )}
+              </div>
+            );
+          })}
         </div>
       );
     }
@@ -569,6 +683,8 @@ export default function AccordionItem({ item, isOpen, isFirst, onClick }) {
     }
 
     if (item.type === "education-language") {
+      const sortedCertifications = getSortedCertifications();
+
       return (
         <div style={styles.educationCard}>
           <div style={styles.projectCard}>
@@ -579,6 +695,7 @@ export default function AccordionItem({ item, isOpen, isFirst, onClick }) {
 
           <div style={styles.projectCard}>
             <strong style={styles.strongText}>Languages</strong>
+
             <div style={styles.pillWrap}>
               {languages.map((language) => (
                 <span key={language} style={styles.pill}>
@@ -587,12 +704,153 @@ export default function AccordionItem({ item, isOpen, isFirst, onClick }) {
               ))}
             </div>
           </div>
+
+          {sortedCertifications.length > 0 && (
+            <div style={styles.projectCard}>
+              <strong style={styles.strongText}>Certifications</strong>
+
+              <div style={styles.certificationList}>
+                {sortedCertifications.map((certificate, index) => {
+                  const certificateMedia = getCertificateMedia(certificate);
+                  const isLastItem = index === sortedCertifications.length - 1;
+
+                  return (
+                    <div
+                      key={`${certificate.title}-${certificate.issuedAt}`}
+                      style={{
+                        ...styles.certificationItem,
+                        ...(isLastItem ? styles.certificationItemLast : {}),
+                      }}
+                    >
+                      <div style={styles.certificationHeader}>
+                        <strong style={styles.certificationTitle}>
+                          {certificate.title}
+                        </strong>
+
+                        {certificateMedia && (
+                          <button
+                            type="button"
+                            style={styles.inlineCertificateLink}
+                            onClick={() =>
+                              openMediaViewer(certificate.title, [
+                                certificateMedia,
+                              ])
+                            }
+                          >
+                            [Show Certificate]
+                          </button>
+                        )}
+                      </div>
+
+                      <span style={styles.certificationIssuer}>
+                        {certificate.issuer}
+                      </span>
+
+                      <span style={styles.certificationMeta}>
+                        {certificate.issued}
+                      </span>
+
+                      {certificate.credentialId && (
+                        <p style={styles.certificationCredential}>
+                          Credential ID: {certificate.credentialId}
+                        </p>
+                      )}
+
+                      {certificate.skills?.length > 0 && (
+                        <div style={styles.certificationSkillWrap}>
+                          {certificate.skills.map((skill) => (
+                            <span
+                              key={`${certificate.title}-${skill}`}
+                              style={styles.certificationSkillPill}
+                            >
+                              {skill}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
         </div>
       );
     }
 
     return null;
   };
+
+  const currentMedia = activeMedia?.items?.[activeMediaIndex] || null;
+  const hasMultipleMedia = (activeMedia?.items?.length || 0) > 1;
+
+  const mediaModal =
+    activeMedia && currentMedia ? (
+      <div style={styles.modalBackdrop} onClick={closeMediaViewer}>
+        <div
+          style={styles.modalCard}
+          onClick={(event) => event.stopPropagation()}
+        >
+          <div style={styles.modalHeader}>
+            <h3 style={styles.modalTitle}>{activeMedia.title}</h3>
+
+            <button
+              type="button"
+              style={styles.closeButton}
+              onClick={closeMediaViewer}
+            >
+              ×
+            </button>
+          </div>
+
+          <div style={styles.mediaViewer}>
+            {hasMultipleMedia && (
+              <button
+                type="button"
+                style={{
+                  ...styles.mediaNavButton,
+                  ...styles.mediaPrevButton,
+                }}
+                onClick={handlePreviousMedia}
+                aria-label="Previous item"
+              >
+                ‹
+              </button>
+            )}
+
+            <img
+              src={currentMedia.src}
+              alt={currentMedia.label}
+              style={styles.mediaImage}
+            />
+
+            {hasMultipleMedia && (
+              <button
+                type="button"
+                style={{
+                  ...styles.mediaNavButton,
+                  ...styles.mediaNextButton,
+                }}
+                onClick={handleNextMedia}
+                aria-label="Next item"
+              >
+                ›
+              </button>
+            )}
+
+            <span style={styles.mediaLabel}>
+              <span>{currentMedia.label}</span>
+
+              {hasMultipleMedia && (
+                <span style={styles.mediaCounter}>
+                  {activeMediaIndex + 1} / {activeMedia.items.length}
+                </span>
+              )}
+            </span>
+          </div>
+        </div>
+      </div>
+    ) : null;
 
   return (
     <div style={styles.accordionItem}>
@@ -602,6 +860,10 @@ export default function AccordionItem({ item, isOpen, isFirst, onClick }) {
       </button>
 
       {isOpen && <div style={styles.accordionContent}>{renderContent()}</div>}
+
+      {typeof document !== "undefined" && mediaModal
+        ? createPortal(mediaModal, document.body)
+        : null}
     </div>
   );
 }
