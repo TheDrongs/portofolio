@@ -78,6 +78,7 @@ export default function AccordionItem({ item, isOpen, isFirst, onClick }) {
   const [activeMediaIndex, setActiveMediaIndex] = useState(0);
 
   const isMobile = typeof window !== "undefined" && window.innerWidth <= 768;
+  const isPortraitMobileMedia = activeMedia?.displayMode === "mobile";
 
   useEffect(() => {
     if (!activeMedia) return;
@@ -90,10 +91,11 @@ export default function AccordionItem({ item, isOpen, isFirst, onClick }) {
     };
   }, [activeMedia]);
 
-  const openMediaViewer = (title, mediaItems) => {
+  const openMediaViewer = (title, mediaItems, displayMode = "default") => {
     setActiveMedia({
       title,
       items: mediaItems,
+      displayMode,
     });
     setActiveMediaIndex(0);
   };
@@ -299,7 +301,9 @@ export default function AccordionItem({ item, isOpen, isFirst, onClick }) {
     modalCard: {
       width: isMobile
         ? "min(340px, calc(100vw - 28px))"
-        : "min(1180px, calc(100vw - 48px))",
+        : isPortraitMobileMedia
+          ? "min(520px, calc(100vw - 48px))"
+          : "min(1180px, calc(100vw - 48px))",
       maxHeight: isMobile ? "58dvh" : "calc(100dvh - 48px)",
       overflow: "hidden",
       display: "flex",
@@ -345,11 +349,15 @@ export default function AccordionItem({ item, isOpen, isFirst, onClick }) {
       position: "relative",
       width: "100%",
       maxHeight: isMobile ? "calc(58dvh - 58px)" : "min(74dvh, 720px)",
-      minHeight: isMobile ? "unset" : 360,
+      minHeight: isMobile ? "unset" : isPortraitMobileMedia ? 520 : 360,
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      padding: isMobile ? "8px 10px 34px" : "16px 64px 54px",
+      padding: isMobile
+        ? "8px 10px 34px"
+        : isPortraitMobileMedia
+          ? "16px 42px 54px"
+          : "16px 64px 54px",
       borderRadius: isMobile ? 12 : 16,
       background: "#f8fafc",
       border: "1px solid rgba(226, 232, 240, 0.92)",
@@ -357,10 +365,18 @@ export default function AccordionItem({ item, isOpen, isFirst, onClick }) {
       overflow: "hidden",
     },
     mediaImage: {
-      width: isMobile ? "100%" : "100%",
-      height: isMobile ? "auto" : "100%",
-      maxWidth: "100%",
-      maxHeight: isMobile ? "calc(58dvh - 112px)" : "100%",
+      width: isPortraitMobileMedia ? "auto" : "100%",
+      height: "auto",
+      maxWidth: isPortraitMobileMedia
+        ? isMobile
+          ? "100%"
+          : "360px"
+        : "100%",
+      maxHeight: isMobile
+        ? "calc(58dvh - 112px)"
+        : isPortraitMobileMedia
+          ? "min(68dvh, 640px)"
+          : "100%",
       display: "block",
       objectFit: "contain",
       margin: "0 auto",
@@ -639,6 +655,14 @@ export default function AccordionItem({ item, isOpen, isFirst, onClick }) {
             const screenshots = getProjectScreenshots(project.screenshotFolder);
             const hasScreenshots = screenshots.length > 0;
 
+            const screenshotDisplayMode =
+              project.screenshotDisplay ||
+              project.displayMode ||
+              (project.screenshotFolder === "musaproject" ||
+              project.title === "Offshore Crewing Recruitment App"
+                ? "mobile"
+                : "default");
+
             return (
               <div key={project.title} style={styles.projectCard}>
                 <strong style={styles.strongText}>{project.title}</strong>
@@ -676,7 +700,13 @@ export default function AccordionItem({ item, isOpen, isFirst, onClick }) {
                   <button
                     type="button"
                     style={styles.mediaButton}
-                    onClick={() => openMediaViewer(project.title, screenshots)}
+                    onClick={() =>
+                      openMediaViewer(
+                        project.title,
+                        screenshots,
+                        screenshotDisplayMode,
+                      )
+                    }
                   >
                     View Screenshot
                   </button>

@@ -776,6 +776,7 @@ export const selectedProjects = [
     title: "Offshore Crewing Recruitment App",
     period: "Jul 2023 – Dec 2023",
     screenshotFolder: "musaproject",
+    screenshotDisplay: "mobile",
     description:
       "Built an Android application for offshore crewing recruitment to support candidate data collection and recruitment workflow needs.",
     techStackIconKeys: ["kotlin", "firebase"],
