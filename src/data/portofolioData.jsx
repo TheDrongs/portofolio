@@ -4,8 +4,7 @@ export const profile = {
   location: "Bandung, West Java, Indonesia",
   phone: "0856-1963-999",
   email: "thedrongs@gmail.com",
-  linkedin: "https://linkedin.com/in/andri-pramuji-47aa42220",
-  github: "https://github.com/TheDrongs",
+  linkedin: "https://www.linkedin.com/in/andri-p-47aa42220/",
   summary:
     "Experienced Software Engineer with 13+ years of experience across web, mobile, and desktop environments, along with 3+ years in leadership roles, focused on building and scaling custom SaaS and internal business systems.",
 };

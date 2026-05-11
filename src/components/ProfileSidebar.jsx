@@ -1,14 +1,34 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { FiMail, FiPhone } from "react-icons/fi";
+import { FaGithub, FaLinkedinIn } from "react-icons/fa";
 import { profile } from "../data/portofolioData";
 import { useBreakpoint } from "./useBreakpoint";
 
 export default function ProfileSidebar() {
   const { isTablet, isMobile } = useBreakpoint();
+
   const [downloadCooldown, setDownloadCooldown] = useState(0);
+  const [isCvMenuOpen, setIsCvMenuOpen] = useState(false);
+
+  const cvMenuRef = useRef(null);
 
   const basePath = import.meta.env.BASE_URL;
   const profilePhotoUrl = `${basePath}pas-photo.png`;
-  const cvUrl = `${basePath}documents/CV_Andri-Pramuji-ATS.pdf`;
+
+  const cvOptions = [
+    {
+      label: "CV ATS",
+      description: "ATS Version",
+      url: `${basePath}documents/CV_Andri-Pramuji-ATS.pdf`,
+      downloadName: "Andri-Pramuji-CV-ATS.pdf",
+    },
+    {
+      label: "CV Visual",
+      description: "CV Visual Version",
+      url: `${basePath}documents/CV_Andri-Pramuji-Visual.pdf`,
+      downloadName: "Andri-Pramuji-CV-Visual.pdf",
+    },
+  ];
 
   const isDownloadDisabled = downloadCooldown > 0;
 
@@ -25,13 +45,41 @@ export default function ProfileSidebar() {
     return () => clearInterval(timer);
   }, [downloadCooldown]);
 
-  const handleDownloadClick = (event) => {
-    if (isDownloadDisabled) {
-      event.preventDefault();
-      return;
-    }
+  useEffect(() => {
+    if (!isCvMenuOpen) return;
 
+    const handleClickOutside = (event) => {
+      if (!cvMenuRef.current) return;
+
+      if (!cvMenuRef.current.contains(event.target)) {
+        setIsCvMenuOpen(false);
+      }
+    };
+
+    const handleEscape = (event) => {
+      if (event.key === "Escape") {
+        setIsCvMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleEscape);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, [isCvMenuOpen]);
+
+  const handleDownloadButtonClick = () => {
+    if (isDownloadDisabled) return;
+
+    setIsCvMenuOpen((currentValue) => !currentValue);
+  };
+
+  const handleDownloadOptionClick = () => {
     setDownloadCooldown(15);
+    setIsCvMenuOpen(false);
   };
 
   const styles = {
@@ -101,7 +149,7 @@ export default function ProfileSidebar() {
     },
     connectSection: {
       display: "grid",
-      gap: 16,
+      gap: 14,
       marginTop: 30,
     },
     connectLink: {
@@ -115,22 +163,32 @@ export default function ProfileSidebar() {
       wordBreak: "break-word",
     },
     connectIcon: {
-      width: 19,
+      width: 28,
+      height: 28,
       display: "inline-flex",
       alignItems: "center",
       justifyContent: "center",
       color: "#111827",
-      fontSize: 13,
-      fontWeight: 800,
+      background: "#ffffff",
+      border: "1px solid rgba(226, 232, 240, 0.95)",
+      borderRadius: 999,
+      boxShadow: "0 6px 14px rgba(15, 23, 42, 0.06)",
       flexShrink: 0,
+      fontSize: 14,
+      boxSizing: "border-box",
     },
-    downloadButton: {
+    downloadArea: {
       width: "90%",
       alignSelf: "center",
+      position: "relative",
+      marginTop: 28,
+    },
+    downloadButton: {
+      width: "100%",
       display: "inline-flex",
       alignItems: "center",
       justifyContent: "center",
-      marginTop: 28,
+      gap: 8,
       padding: "14px 18px",
       border: 0,
       borderRadius: 999,
@@ -149,6 +207,71 @@ export default function ProfileSidebar() {
       boxSizing: "border-box",
       opacity: isDownloadDisabled ? 0.82 : 1,
       userSelect: "none",
+    },
+    cvPopup: {
+      position: "absolute",
+      left: 0,
+      right: 0,
+      bottom: "calc(100% + 10px)",
+      zIndex: 20,
+      display: isCvMenuOpen ? "grid" : "none",
+      gap: 6,
+      padding: 8,
+      borderRadius: 14,
+      background: "rgba(255, 255, 255, 0.98)",
+      border: "1px solid rgba(226, 232, 240, 0.95)",
+      boxShadow: "0 18px 40px rgba(15, 23, 42, 0.16)",
+      boxSizing: "border-box",
+    },
+    cvPopupTitle: {
+      margin: "2px 4px 4px",
+      color: "#64748b",
+      fontSize: 15,
+      fontWeight: 800,
+      letterSpacing: "0.06em",
+      textTransform: "uppercase",
+    },
+    cvOption: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      gap: 10,
+      padding: "10px 11px",
+      borderRadius: 11,
+      color: "#111827",
+      textDecoration: "none",
+      background: "#f8fafc",
+      border: "1px solid rgba(226, 232, 240, 0.8)",
+      boxSizing: "border-box",
+    },
+    cvOptionText: {
+      display: "grid",
+      gap: 2,
+    },
+    cvOptionLabel: {
+      color: "#111827",
+      fontSize: 14,
+      fontWeight: 800,
+      lineHeight: 1.25,
+    },
+    cvOptionDescription: {
+      color: "#64748b",
+      fontSize: 12,
+      fontWeight: 500,
+      lineHeight: 1.35,
+    },
+    cvOptionIcon: {
+      width: 24,
+      height: 24,
+      display: "inline-flex",
+      alignItems: "center",
+      justifyContent: "center",
+      flexShrink: 0,
+      borderRadius: 999,
+      color: "#ffffff",
+      background: "#111827",
+      fontSize: 12,
+      fontWeight: 900,
     },
   };
 
@@ -172,12 +295,16 @@ export default function ProfileSidebar() {
 
         <div style={styles.connectSection}>
           <a href={`mailto:${profile.email}`} style={styles.connectLink}>
-            <span style={styles.connectIcon}>✉</span>
+            <span style={styles.connectIcon}>
+              <FiMail />
+            </span>
             <span>{profile.email}</span>
           </a>
 
           <a href={`tel:${profile.phone}`} style={styles.connectLink}>
-            <span style={styles.connectIcon}>☎</span>
+            <span style={styles.connectIcon}>
+              <FiPhone />
+            </span>
             <span>{profile.phone}</span>
           </a>
 
@@ -187,30 +314,50 @@ export default function ProfileSidebar() {
             rel="noreferrer"
             style={styles.connectLink}
           >
-            <span style={styles.connectIcon}>in</span>
+            <span style={styles.connectIcon}>
+              <FaLinkedinIn />
+            </span>
             <span>LinkedIn</span>
-          </a>
-
-          <a
-            href={profile.github}
-            target="_blank"
-            rel="noreferrer"
-            style={styles.connectLink}
-          >
-            <span style={styles.connectIcon}>◔</span>
-            <span>GitHub</span>
           </a>
         </div>
 
-        <a
-          href={cvUrl}
-          download="Andri-Pramuji-CV.pdf"
-          onClick={handleDownloadClick}
-          aria-disabled={isDownloadDisabled}
-          style={styles.downloadButton}
-        >
-          {isDownloadDisabled ? `Wait ${downloadCooldown}s` : "Download CV ATS"}
-        </a>
+        <div ref={cvMenuRef} style={styles.downloadArea}>
+          <div style={styles.cvPopup}>
+            <p style={styles.cvPopupTitle}>Choose CV Format</p>
+
+            {cvOptions.map((cvOption) => (
+              <a
+                key={cvOption.label}
+                href={cvOption.url}
+                download={cvOption.downloadName}
+                onClick={handleDownloadOptionClick}
+                style={styles.cvOption}
+              >
+                <span style={styles.cvOptionText}>
+                  <span style={styles.cvOptionLabel}>{cvOption.label}</span>
+                  <span style={styles.cvOptionDescription}>
+                    {cvOption.description}
+                  </span>
+                </span>
+
+                <span style={styles.cvOptionIcon}>↓</span>
+              </a>
+            ))}
+          </div>
+
+          <button
+            type="button"
+            onClick={handleDownloadButtonClick}
+            disabled={isDownloadDisabled}
+            aria-expanded={isCvMenuOpen}
+            aria-haspopup="menu"
+            style={styles.downloadButton}
+          >
+            <span>
+              {isDownloadDisabled ? `Wait ${downloadCooldown}s` : "Download CV"}
+            </span>
+          </button>
+        </div>
       </div>
     </aside>
   );
