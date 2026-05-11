@@ -6,12 +6,10 @@ import { useBreakpoint } from "./useBreakpoint";
 
 export default function ProfileSidebar() {
   const { isTablet, isMobile } = useBreakpoint();
-
   const [downloadCooldown, setDownloadCooldown] = useState(0);
   const [isCvMenuOpen, setIsCvMenuOpen] = useState(false);
-
+  
   const cvMenuRef = useRef(null);
-
   const basePath = import.meta.env.BASE_URL;
   const profilePhotoUrl = `${basePath}pas-photo.png`;
 
