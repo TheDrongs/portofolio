@@ -33,6 +33,26 @@ export default function App() {
     }
   }, []);
 
+  useEffect(() => {
+    const defaultTitle = "Andri Pramuji | Technical Lead Software Engineer";
+    const runningTitle = `${defaultTitle}   •   `;
+    let index = 0;
+
+    document.title = defaultTitle;
+
+    const interval = setInterval(() => {
+      document.title =
+        runningTitle.slice(index) + runningTitle.slice(0, index);
+
+      index = (index + 1) % runningTitle.length;
+    }, 150);
+
+    return () => {
+      clearInterval(interval);
+      document.title = defaultTitle;
+    };
+  }, []);
+
   const styles = {
     page: {
       width: "100%",
