@@ -1,4 +1,4 @@
-import { hero, profile } from "../data/portofolioData";
+import { hero } from "../data/portofolioData";
 import { useBreakpoint } from "./useBreakpoint";
 
 export default function HeroSection() {

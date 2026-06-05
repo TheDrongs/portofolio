@@ -1,12 +1,12 @@
 export const profile = {
-  name: "Andri Pramuji",
+  name: "Hi, Im Andri Pramuji",
   role: "Engineering Leadership",
   location: "Bandung, West Java, Indonesia",
   phone: "0856-1963-999",
   email: "thedrongs@gmail.com",
   linkedin: "https://www.linkedin.com/in/andri-p-47aa42220/",
   summary:
-    "Experienced Software Engineer with 13+ years of experience across web, mobile, and desktop environments, along with 3+ years in leadership roles, focused on building and scaling custom SaaS and internal business systems.",
+    "Software Engineer with 13+ years of experience across web, mobile, and desktop platforms, including 3+ years in engineering leadership. Successfully delivered 20+ applications to production across SaaS, ERP, Mobile, Android, EDC, and desktop systems, both as an individual contributor and in leadership roles.\n\nFocused on team alignment, delivery execution, risk management, stakeholder coordination, and sustainable engineering quality. Proven impact in improving delivery efficiency, team productivity, and application reliability through technical debt reduction, platform modernization, dependency simplification, and engineering standardization.",
 };
 
 export const hero = {
@@ -591,7 +591,7 @@ export const coreSkills = [
 
 export const accordionItems = [
   {
-    title: "Career Timeline",
+    title: "Career",
     type: "timeline",
   },
   {
