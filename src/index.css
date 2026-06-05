@@ -497,13 +497,6 @@ button {
   object-position: center top;
 }
 
-.journey-layout {
-  display: grid;
-  grid-template-columns: 1fr 1.05fr;
-  gap: 34px;
-  align-items: stretch;
-}
-
 .career-scroll {
   width: min(1060px, 100%);
   max-height: 430px;
@@ -898,38 +891,6 @@ button {
 }
 
 
-.journey-track {
-  display: grid;
-  gap: 26px;
-  padding-left: 24px;
-  border-left: 4px solid #7ea2ef;
-}
-
-.journey-item {
-  display: grid;
-  grid-template-columns: 68px 1fr;
-  gap: 18px;
-  align-items: center;
-}
-
-.journey-item > span {
-  width: 68px;
-  height: 68px;
-  display: grid;
-  place-items: center;
-  margin-left: -60px;
-  border-radius: 50%;
-  background: linear-gradient(145deg, #1d64e8, #7c3aed);
-  color: #ffffff;
-  font-size: 30px;
-  box-shadow: 0 14px 24px rgba(37, 99, 235, 0.22);
-}
-
-.journey-item:nth-child(3) > span {
-  background: linear-gradient(145deg, #079669, #28b37d);
-}
-
-.journey-item h3,
 .platform-card span,
 .leadership-card span {
   margin: 0;
@@ -937,49 +898,11 @@ button {
   font-weight: 900;
 }
 
-.journey-item p {
-  margin: 7px 0 0;
-  color: #1f2c45;
-  font-size: 18px;
-  line-height: 1.36;
-}
-
-.timeline-card,
-.impact-panel,
-.tech-explorer,
-.details-grid article {
+.tech-explorer {
   border: 1px solid rgba(201, 213, 232, 0.86);
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.82);
   box-shadow: 0 14px 34px rgba(15, 23, 42, 0.07);
-}
-
-.timeline-card {
-  display: grid;
-  align-content: center;
-  padding: 22px;
-}
-
-.timeline-row {
-  display: grid;
-  gap: 4px;
-  padding: 16px 0;
-  border-bottom: 1px solid #e5ecf6;
-}
-
-.timeline-row:last-child {
-  border-bottom: 0;
-}
-
-.timeline-row strong {
-  color: #0d1d4f;
-  font-size: 18px;
-}
-
-.timeline-row span,
-.timeline-row small {
-  color: #56657d;
-  font-size: 15px;
 }
 
 .delivery-grid {
@@ -1149,89 +1072,6 @@ button {
 
 .platform-card:nth-child(4) svg {
   color: #53b632;
-}
-
-.impact-panel {
-  width: min(780px, 100%);
-  margin-right: auto;
-  margin-left: auto;
-  overflow: hidden;
-}
-
-.impact-row {
-  min-height: 100px;
-  display: grid;
-  grid-template-columns: 58px 1fr auto;
-  gap: 18px;
-  align-items: center;
-  padding: 0 26px;
-  border-bottom: 1px solid #e7edf6;
-}
-
-.impact-row:last-child {
-  border-bottom: 0;
-}
-
-.impact-icon {
-  width: 48px;
-  height: 48px;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-  color: #ffffff;
-  font-size: 24px;
-}
-
-.impact-icon.green {
-  background: #22c55e;
-}
-
-.impact-icon.blue {
-  background: #3b82f6;
-}
-
-.impact-icon.violet {
-  background: #8b5cf6;
-}
-
-.impact-row strong {
-  color: #172857;
-  font-size: 21px;
-}
-
-.impact-row b {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 46px;
-  line-height: 1;
-}
-
-.green {
-  color: #17a34a;
-}
-
-.blue {
-  color: #2563eb;
-}
-
-.violet {
-  color: #7c3aed;
-}
-
-.statement-box {
-  width: min(780px, 100%);
-  margin-right: auto;
-  margin-left: auto;
-  margin-top: 18px;
-  padding: 18px 24px;
-  border: 1px solid #c9dcfb;
-  border-radius: 8px;
-  background: #eaf2ff;
-  color: #173a82;
-  font-size: 19px;
-  font-weight: 700;
-  text-align: center;
 }
 
 .leadership-grid {
@@ -1599,55 +1439,6 @@ button {
   margin-top: 10px;
 }
 
-.details-grid {
-  width: min(1040px, 100%);
-  margin-right: auto;
-  margin-left: auto;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
-}
-
-.details-grid article {
-  min-height: 180px;
-  padding: 20px;
-}
-
-.details-grid h3 {
-  margin: 0 0 12px;
-  color: #133d91;
-  font-size: 20px;
-}
-
-.details-grid p {
-  margin: 0 0 10px;
-  color: #34435f;
-  font-size: 15px;
-  line-height: 1.38;
-}
-
-.details-grid p:last-child {
-  margin-bottom: 0;
-}
-
-.achievement-card {
-  display: grid;
-  align-content: start;
-  gap: 9px;
-}
-
-.achievement-card span {
-  color: #34435f;
-  font-size: 14px;
-  line-height: 1.32;
-}
-
-.achievement-card span::before {
-  content: "• ";
-  color: #2563eb;
-  font-weight: 900;
-}
-
 .credentials-panel {
   width: min(1060px, 100%);
   margin-right: auto;
@@ -1784,116 +1575,6 @@ button {
   font-size: 13px;
 }
 
-.achievement-metric-grid {
-  width: min(1060px, 100%);
-  margin-right: auto;
-  margin-left: auto;
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  border: 1px solid rgba(201, 213, 232, 0.92);
-  border-radius: 8px;
-  overflow: hidden;
-  background: rgba(255, 255, 255, 0.86);
-  box-shadow: 0 14px 34px rgba(15, 23, 42, 0.07);
-}
-
-.achievement-metric-card {
-  min-height: 154px;
-  grid-column: span 2;
-  display: grid;
-  grid-template-columns: 58px 1fr;
-  gap: 16px;
-  align-items: center;
-  padding: 20px 22px;
-  border-right: 1px solid #e1e8f2;
-  border-bottom: 1px solid #e1e8f2;
-}
-
-.achievement-metric-card:nth-child(3),
-.achievement-metric-card:nth-child(5) {
-  border-right: 0;
-}
-
-.achievement-metric-card:nth-child(4),
-.achievement-metric-card:nth-child(5) {
-  grid-column: span 3;
-  border-bottom: 0;
-}
-
-.achievement-metric-card > span {
-  width: 50px;
-  height: 50px;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-  background: #eef5ff;
-  color: #2563eb;
-  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.07);
-}
-
-.achievement-metric-card:nth-child(2) > span {
-  background: #eafaf6;
-  color: #0f9f89;
-}
-
-.achievement-metric-card:nth-child(4) > span {
-  background: #f4edff;
-  color: #7c3aed;
-}
-
-.achievement-metric-card:nth-child(5) > span {
-  background: #ecfdf3;
-  color: #16a34a;
-}
-
-.achievement-metric-card strong {
-  display: block;
-  color: #2563eb;
-  font-size: 30px;
-  line-height: 1;
-  margin-bottom: 7px;
-}
-
-.achievement-metric-card:nth-child(2) strong,
-.achievement-metric-card:nth-child(5) strong {
-  color: #0f9f69;
-}
-
-.achievement-metric-card:nth-child(4) strong {
-  color: #7c3aed;
-}
-
-.achievement-metric-card h3 {
-  margin: 0 0 7px;
-  color: #172034;
-  font-size: 16px;
-}
-
-.achievement-metric-card p {
-  margin: 0;
-  color: #52627b;
-  font-size: 13px;
-  line-height: 1.45;
-}
-
-.achievement-summary {
-  width: min(1060px, 100%);
-  margin: 16px auto 0;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-}
-
-.achievement-summary span {
-  padding: 13px 14px;
-  border-radius: 8px;
-  background: #eef6ff;
-  color: #203b76;
-  font-size: 13px;
-  font-weight: 800;
-  line-height: 1.35;
-}
-
 .side-controls {
   position: absolute;
   inset: 0;
@@ -1989,9 +1670,7 @@ button {
   }
 
   .slide-intro,
-  .journey-layout,
-  .project-grid,
-  .details-grid {
+  .project-grid {
     grid-template-columns: 1fr;
   }
 
@@ -2035,8 +1714,7 @@ button {
   .delivery-achievement-layout,
   .growth-roadmap,
   .tech-section-grid,
-  .skill-group-grid,
-  .achievement-summary {
+  .skill-group-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 
@@ -2067,22 +1745,6 @@ button {
 
   .growth-road-bg {
     opacity: 0.35;
-  }
-
-  .achievement-metric-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .achievement-metric-card,
-  .achievement-metric-card:nth-child(4),
-  .achievement-metric-card:nth-child(5) {
-    grid-column: auto;
-    border-right: 0;
-    border-bottom: 1px solid #e1e8f2;
-  }
-
-  .achievement-metric-card:last-child {
-    border-bottom: 0;
   }
 
   .credentials-panel {
@@ -2146,22 +1808,6 @@ button {
     font-size: 72px;
   }
 
-  .journey-item {
-    grid-template-columns: 48px 1fr;
-  }
-
-  .journey-item > span {
-    width: 48px;
-    height: 48px;
-    margin-left: -50px;
-    font-size: 22px;
-  }
-
-  .journey-item p,
-  .impact-row strong {
-    font-size: 15px;
-  }
-
   .career-scroll {
     max-height: 500px;
   }
@@ -2190,16 +1836,6 @@ button {
     justify-self: start;
   }
 
-  .impact-row {
-    grid-template-columns: 44px 1fr;
-    padding: 16px;
-  }
-
-  .impact-row b {
-    grid-column: 2;
-    font-size: 34px;
-  }
-
   .leadership-grid,
   .leadership-strip,
   .platform-grid,
@@ -2207,8 +1843,7 @@ button {
   .delivery-achievement-panel,
   .growth-roadmap,
   .tech-section-grid,
-  .skill-group-grid,
-  .achievement-summary {
+  .skill-group-grid {
     grid-template-columns: 1fr;
   }
 
