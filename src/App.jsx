@@ -1,4 +1,5 @@
 import { createElement, useCallback, useEffect, useMemo, useState } from "react";
+import { createPortal } from "react-dom";
 import {
   FiArrowLeft,
   FiArrowRight,
@@ -6,13 +7,16 @@ import {
   FiCheckCircle,
   FiCode,
   FiDownload,
+  FiFileText,
   FiGlobe,
   FiLinkedin,
   FiMail,
+  FiMaximize2,
   FiMonitor,
   FiSmartphone,
   FiTarget,
   FiUsers,
+  FiX,
 } from "react-icons/fi";
 import { FaAndroid } from "react-icons/fa";
 import { TbCloud, TbDeviceDesktopAnalytics, TbDeviceMobileCog } from "react-icons/tb";
@@ -84,6 +88,15 @@ const getProjectImage = (folder) => {
   return match?.[1] || null;
 };
 
+const getProjectScreenshots = (folder) => {
+  if (!folder) return [];
+
+  return Object.entries(projectImages)
+    .filter(([path]) => path.includes(`/projects/${folder}/`))
+    .sort(([firstPath], [secondPath]) => firstPath.localeCompare(secondPath))
+    .map(([, image]) => image);
+};
+
 const getCertificateImage = (fileName) => {
   if (!fileName) return null;
 
@@ -92,6 +105,15 @@ const getCertificateImage = (fileName) => {
   );
 
   return match?.[1] || null;
+};
+
+const getProjectFinishedTime = (period = "") => {
+  if (period.includes("Present")) return Number.MAX_SAFE_INTEGER;
+
+  const finishedDateText = period.split("–").pop()?.trim() || period;
+  const finishedDate = new Date(`1 ${finishedDateText}`);
+
+  return Number.isNaN(finishedDate.getTime()) ? 0 : finishedDate.getTime();
 };
 
 const platformCards = [
@@ -380,6 +402,8 @@ function TechStackExplorer() {
 }
 
 function IntroSlide() {
+  const [isCvMenuOpen, setIsCvMenuOpen] = useState(false);
+
   return (
     <section className="slide slide-intro">
       <span className="intro-circuit intro-circuit-top" aria-hidden="true" />
@@ -400,10 +424,41 @@ function IntroSlide() {
         <div className="intro-actions">
           <SocialLink href={profile.linkedin} icon={FiLinkedin} label="LinkedIn" />
           <SocialLink href={`mailto:${profile.email}`} icon={FiMail} label="Email" />
-          <a className="download-button" href={publicAsset("documents/CV_Andri-Pramuji-Visual.pdf")} download>
-            <FiDownload />
-            CV
-          </a>
+          <div className="cv-download">
+            <button
+              type="button"
+              className="download-button"
+              onClick={() => setIsCvMenuOpen((currentValue) => !currentValue)}
+              aria-expanded={isCvMenuOpen}
+              aria-haspopup="menu"
+            >
+              <FiDownload />
+              CV
+            </button>
+
+            {isCvMenuOpen ? (
+              <div className="cv-download-menu" role="menu">
+                <a
+                  href={publicAsset("documents/CV_Andri-Pramuji-Visual.pdf")}
+                  download
+                  role="menuitem"
+                  onClick={() => setIsCvMenuOpen(false)}
+                >
+                  <FiFileText />
+                  CV Visual
+                </a>
+                <a
+                  href={publicAsset("documents/CV_Andri-Pramuji-ATS.pdf")}
+                  download
+                  role="menuitem"
+                  onClick={() => setIsCvMenuOpen(false)}
+                >
+                  <FiFileText />
+                  CV ATS
+                </a>
+              </div>
+            ) : null}
+          </div>
         </div>
       </div>
 
@@ -662,16 +717,71 @@ function SkillGroupsSlide() {
 }
 
 function ProjectsSlide() {
+  const [previewProject, setPreviewProject] = useState(null);
+  const [previewIndex, setPreviewIndex] = useState(0);
+  const visibleProjects = useMemo(
+    () =>
+      selectedProjects
+        .slice()
+        .sort((firstProject, secondProject) =>
+          getProjectFinishedTime(secondProject.period) -
+          getProjectFinishedTime(firstProject.period),
+        )
+        .slice(0, 4),
+    [],
+  );
+  const previewScreenshots = previewProject
+    ? getProjectScreenshots(previewProject.screenshotFolder)
+    : [];
+  const activeScreenshot = previewScreenshots[previewIndex];
+  const hasMultipleScreenshots = previewScreenshots.length > 1;
+
+  const openProjectPreview = (project) => {
+    setPreviewProject(project);
+    setPreviewIndex(0);
+  };
+
+  const showPreviousScreenshot = () => {
+    if (!previewScreenshots.length) return;
+
+    setPreviewIndex((currentIndex) =>
+      currentIndex === 0 ? previewScreenshots.length - 1 : currentIndex - 1,
+    );
+  };
+
+  const showNextScreenshot = () => {
+    if (!previewScreenshots.length) return;
+
+    setPreviewIndex((currentIndex) =>
+      currentIndex === previewScreenshots.length - 1 ? 0 : currentIndex + 1,
+    );
+  };
+
+  useEffect(() => {
+    if (!previewProject) return undefined;
+
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") setPreviewProject(null);
+      if (event.key === "ArrowLeft") showPreviousScreenshot();
+      if (event.key === "ArrowRight") showNextScreenshot();
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [previewProject, previewScreenshots.length]);
+
   return (
-    <section className="slide">
+    <section className="slide projects-slide">
       <SlideHeader eyebrow="Selected Projects" title="Portfolio Highlights" />
 
       <div className="project-grid">
-        {selectedProjects.slice(0, 4).map((project) => {
+        {visibleProjects.map((project) => {
           const image = getProjectImage(project.screenshotFolder);
+          const hasPreview = Boolean(project.screenshotFolder && image);
 
           return (
-            <article className="project-card" key={project.title}>
+            <article className={`project-card${hasPreview ? " has-preview" : ""}`} key={project.title}>
               {image ? <img src={image} alt="" /> : <div className="project-fallback"><FiGlobe /></div>}
               <div>
                 <span>{cleanText(project.period)}</span>
@@ -682,11 +792,85 @@ function ProjectsSlide() {
                     <TechIcon key={`${project.title}-${key}-${index}`} iconKey={key} />
                   ))}
                 </div>
+                {hasPreview ? (
+                  <button
+                    type="button"
+                    className="project-preview-button"
+                    onClick={() => openProjectPreview(project)}
+                  >
+                    <FiMaximize2 />
+                    Preview
+                  </button>
+                ) : null}
               </div>
             </article>
           );
         })}
       </div>
+
+      {previewProject ? createPortal(
+        <div
+          className="project-modal"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="project-preview-title"
+          onMouseDown={() => setPreviewProject(null)}
+        >
+          <div className="project-modal-panel" onMouseDown={(event) => event.stopPropagation()}>
+            <header>
+              <div>
+                <span>{cleanText(previewProject.period)}</span>
+                <h3 id="project-preview-title">{previewProject.title}</h3>
+              </div>
+              <button
+                type="button"
+                className="project-modal-close"
+                onClick={() => setPreviewProject(null)}
+                aria-label="Close screenshot preview"
+              >
+                <FiX />
+              </button>
+            </header>
+
+            <div className={`project-modal-viewer ${previewProject.screenshotDisplay || "desktop"}`}>
+              {hasMultipleScreenshots ? (
+                <button
+                  type="button"
+                  className="project-modal-nav project-modal-prev"
+                  onClick={showPreviousScreenshot}
+                  aria-label="Previous screenshot"
+                >
+                  <FiArrowLeft />
+                </button>
+              ) : null}
+
+              {activeScreenshot ? (
+                <img
+                  src={activeScreenshot}
+                  alt={`${previewProject.title} screenshot ${previewIndex + 1}`}
+                />
+              ) : null}
+
+              {hasMultipleScreenshots ? (
+                <button
+                  type="button"
+                  className="project-modal-nav project-modal-next"
+                  onClick={showNextScreenshot}
+                  aria-label="Next screenshot"
+                >
+                  <FiArrowRight />
+                </button>
+              ) : null}
+            </div>
+
+            {hasMultipleScreenshots ? (
+              <footer className="project-modal-counter">
+                {previewIndex + 1} / {previewScreenshots.length}
+              </footer>
+            ) : null}
+          </div>
+        </div>
+      , document.body) : null}
     </section>
   );
 }
@@ -749,7 +933,6 @@ const slides = [
   { title: "Growth", component: GrowthSlide },
   { title: "Career", component: JourneySlide },
   { title: "Delivery", component: DeliverySlide },
-  { title: "Leadership", component: LeadershipSlide },
   { title: "Tech Stack", component: TechStackSlide },
   { title: "Skill Groups", component: SkillGroupsSlide },
   { title: "Projects", component: ProjectsSlide },
@@ -759,6 +942,7 @@ const slides = [
 export default function App() {
   const [activeSlide, setActiveSlide] = useState(0);
   const [transitionDirection, setTransitionDirection] = useState("next");
+  const [isSinglePageMobile, setIsSinglePageMobile] = useState(false);
 
   const ActiveSlide = useMemo(() => slides[activeSlide].component, [activeSlide]);
   const previousSlide = activeSlide > 0 ? slides[activeSlide - 1] : null;
@@ -772,7 +956,19 @@ export default function App() {
   }, [activeSlide]);
 
   useEffect(() => {
+    const mobileQuery = window.matchMedia("(max-width: 980px)");
+    const updateLayoutMode = () => setIsSinglePageMobile(mobileQuery.matches);
+
+    updateLayoutMode();
+    mobileQuery.addEventListener("change", updateLayoutMode);
+
+    return () => mobileQuery.removeEventListener("change", updateLayoutMode);
+  }, []);
+
+  useEffect(() => {
     document.title = `${profile.name} | Portfolio Slideshow`;
+
+    if (isSinglePageMobile) return undefined;
 
     const handleKeyDown = (event) => {
       if (event.key === "ArrowRight" && nextSlide) goToSlide(activeSlide + 1);
@@ -782,7 +978,21 @@ export default function App() {
     window.addEventListener("keydown", handleKeyDown);
 
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [activeSlide, goToSlide, nextSlide, previousSlide]);
+  }, [activeSlide, goToSlide, isSinglePageMobile, nextSlide, previousSlide]);
+
+  if (isSinglePageMobile) {
+    return (
+      <main className="portfolio-page mobile-single-page">
+        <section className="mobile-deck" aria-label="Portfolio single page">
+          {slides.map(({ title, component: SlideComponent }) => (
+            <div className="mobile-slide-frame" key={title}>
+              <SlideComponent />
+            </div>
+          ))}
+        </section>
+      </main>
+    );
+  }
 
   return (
     <main className="portfolio-page">

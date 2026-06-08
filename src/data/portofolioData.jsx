@@ -1,5 +1,5 @@
 export const profile = {
-  name: "Hi, Im Andri Pramuji",
+  name: "Andri Pramuji",
   role: "Engineering Leadership",
   location: "Bandung, West Java, Indonesia",
   phone: "0856-1963-999",
@@ -115,7 +115,7 @@ export const leadershipSkillGroups = [
         name: "App Development",
         experience: "6+ Years Experience",
         iconKey: "appdev",
-      }, 
+      },
       {
         name: "Mobile Development",
         experience: "2+ Years Experience",
@@ -541,7 +541,7 @@ export const techStack = [
     },
   ]),
 
-    ...createSkillGroup(GROUPS.backend, "Cloud & BaaS", [
+  ...createSkillGroup(GROUPS.backend, "Cloud & BaaS", [
     {
       name: "Google Firebase",
       iconKey: "firebase",
@@ -765,14 +765,7 @@ export const selectedProjects = [
     techStackIconKeys: ["html5", "css", "php", "mysql"],
   },
   {
-    title: "Bakery E-Commerce Web Platform",
-    period: "Aug 2022 – Jan 2023",
-    description:
-      "Built and managed an e-commerce web platform for a bakery shop, covering product catalog, transaction flow, and backend data integration.",
-    techStackIconKeys: ["html5", "javascript", "react", "mongodb", "api"],
-  },
-  {
-    title: "Offshore Crewing Recruitment App",
+    title: "Musa Project Offshore Crewing App",
     period: "Jul 2023 – Dec 2023",
     screenshotFolder: "musaproject",
     screenshotDisplay: "mobile",

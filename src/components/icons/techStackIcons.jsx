@@ -1,12 +1,11 @@
-import reactLogo from "../../assets/react.svg";
 import sonarqubeLogo from "../../assets/sonarqube.png";
 import zustandLogo from "../../assets/zustand.jpg";
 import vaultLogo from "../../assets/vault.png";
-import vitejsLogo from "../../assets/vitejs.jpg";
 
 import {
   SiJavascript,
   SiTypescript,
+  SiReact,
   SiNextdotjs,
   SiVite,
   SiAngular,
@@ -54,8 +53,10 @@ import {
 const reactIconMap = {
   javascript: SiJavascript,
   typescript: SiTypescript,
+  react: SiReact,
   nextjs: SiNextdotjs,
   vite: SiVite,
+  vitejs: SiVite,
   angular: SiAngular,
   vue: SiVuedotjs,
   html5: SiHtml5,
@@ -98,11 +99,9 @@ const reactIconMap = {
 };
 
 const assetIconMap = {
-  react: reactLogo,
   sonarqube: sonarqubeLogo,
   zustand: zustandLogo,
   vault: vaultLogo,
-  vitejs: vitejsLogo,
 };
 
 const techIconColorMap = {
