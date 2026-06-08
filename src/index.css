@@ -1665,6 +1665,10 @@ button {
   max-height: 540px;
 }
 
+.project-modal-viewer.certificate-preview img {
+  max-height: 560px;
+}
+
 .project-modal-nav {
   position: absolute;
   top: 50%;
@@ -1820,10 +1824,20 @@ button {
   font-size: 15px;
 }
 
-.certification-title a {
+.certification-title button {
+  padding: 0;
+  border: 0;
+  background: transparent;
   color: #3730ff;
+  cursor: pointer;
   font-size: 13px;
   font-weight: 900;
+}
+
+.certification-title button:hover,
+.certification-title button:focus-visible {
+  text-decoration: underline;
+  outline: none;
 }
 
 .certification-list b {

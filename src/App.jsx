@@ -876,6 +876,20 @@ function ProjectsSlide() {
 }
 
 function DetailsSlide() {
+  const [previewCertificate, setPreviewCertificate] = useState(null);
+
+  useEffect(() => {
+    if (!previewCertificate) return undefined;
+
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") setPreviewCertificate(null);
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [previewCertificate]);
+
   return (
     <section className="slide">
       <SlideHeader
@@ -910,9 +924,17 @@ function DetailsSlide() {
                   <div className="certification-title">
                     <strong>{certification.title}</strong>
                     {certificateImage ? (
-                      <a href={certificateImage} target="_blank" rel="noreferrer">
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setPreviewCertificate({
+                            ...certification,
+                            image: certificateImage,
+                          })
+                        }
+                      >
                         [Show Certificate]
-                      </a>
+                      </button>
                     ) : null}
                   </div>
                   <b>{certification.issuer}</b>
@@ -924,6 +946,40 @@ function DetailsSlide() {
           </div>
         </article>
       </div>
+
+      {previewCertificate ? createPortal(
+        <div
+          className="project-modal"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="certificate-preview-title"
+          onMouseDown={() => setPreviewCertificate(null)}
+        >
+          <div className="project-modal-panel" onMouseDown={(event) => event.stopPropagation()}>
+            <header>
+              <div>
+                <span>{previewCertificate.issuer}</span>
+                <h3 id="certificate-preview-title">{previewCertificate.title}</h3>
+              </div>
+              <button
+                type="button"
+                className="project-modal-close"
+                onClick={() => setPreviewCertificate(null)}
+                aria-label="Close certificate preview"
+              >
+                <FiX />
+              </button>
+            </header>
+
+            <div className="project-modal-viewer certificate-preview">
+              <img
+                src={previewCertificate.image}
+                alt={`${previewCertificate.title} certificate`}
+              />
+            </div>
+          </div>
+        </div>
+      , document.body) : null}
     </section>
   );
 }
