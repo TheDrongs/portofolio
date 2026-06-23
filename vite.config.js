@@ -4,5 +4,15 @@ import react from "@vitejs/plugin-react";
 
 export default defineConfig({
   plugins: [react()],
-  base: '/portofolio/', 
+  base: "/portofolio/",
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          animation: ["gsap", "gsap/ScrollTrigger"],
+          three: ["three"],
+        },
+      },
+    },
+  },
 });

@@ -1,4 +1,11 @@
-import { createElement, useCallback, useEffect, useMemo, useState } from "react";
+import {
+  createElement,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+import { createPortal } from "react-dom";
 import {
   FiArrowLeft,
   FiArrowRight,
@@ -6,16 +13,22 @@ import {
   FiCheckCircle,
   FiCode,
   FiDownload,
-  FiGlobe,
+  FiFileText,
   FiLinkedin,
   FiMail,
   FiMonitor,
+  FiSend,
   FiSmartphone,
   FiTarget,
   FiUsers,
+  FiX,
 } from "react-icons/fi";
 import { FaAndroid } from "react-icons/fa";
-import { TbCloud, TbDeviceDesktopAnalytics, TbDeviceMobileCog } from "react-icons/tb";
+import {
+  TbCloud,
+  TbDeviceDesktopAnalytics,
+  TbDeviceMobileCog,
+} from "react-icons/tb";
 import {
   certifications,
   education,
@@ -35,7 +48,10 @@ import {
   sortByExperience,
   TechIcon,
 } from "./components/icons/techStackIcons";
+import ClickSpark from "./components/ClickSpark";
+import CircularGallery from "./components/CircularGallery";
 import MetricIcon from "./components/MetricIcon";
+import ProjectModal from "./components/ProjectModal";
 
 import projectManagementIcon from "./assets/projectmanagement.png";
 import teamLeadershipIcon from "./assets/teamleadership.png";
@@ -52,15 +68,21 @@ import arahnetsLogo from "./assets/logo/arahnets.png";
 import nabatiLogo from "./assets/logo/nabatilogo.png";
 import nellyLogo from "./assets/logo/nelly.jpg";
 
-const projectImages = import.meta.glob("./assets/projects/**/*.{png,jpg,jpeg}", {
-  eager: true,
-  import: "default",
-});
+const projectImages = import.meta.glob(
+  "./assets/projects/**/*.{png,jpg,jpeg}",
+  {
+    eager: true,
+    import: "default",
+  },
+);
 
-const certificateImages = import.meta.glob("./assets/certificates/**/*.{png,jpg,jpeg}", {
-  eager: true,
-  import: "default",
-});
+const certificateImages = import.meta.glob(
+  "./assets/certificates/**/*.{png,jpg,jpeg}",
+  {
+    eager: true,
+    import: "default",
+  },
+);
 
 const cleanText = (text = "") =>
   String(text)
@@ -74,14 +96,13 @@ const cleanText = (text = "") =>
 
 const publicAsset = (path) => `${import.meta.env.BASE_URL}${path}`;
 
-const getProjectImage = (folder) => {
-  if (!folder) return null;
+const getProjectImages = (folder) => {
+  if (!folder) return [];
 
-  const match = Object.entries(projectImages).find(([path]) =>
-    path.includes(`/projects/${folder}/`),
-  );
-
-  return match?.[1] || null;
+  return Object.entries(projectImages)
+    .filter(([path]) => path.includes(`/projects/${folder}/`))
+    .sort(([leftPath], [rightPath]) => leftPath.localeCompare(rightPath))
+    .map(([, image]) => image);
 };
 
 const getCertificateImage = (fileName) => {
@@ -214,7 +235,13 @@ function SlideHeader({ eyebrow, title, description }) {
 
 function SocialLink({ href, icon: Icon, label }) {
   return (
-    <a className="social-button" href={href} aria-label={label} target="_blank" rel="noreferrer">
+    <a
+      className="social-button"
+      href={href}
+      aria-label={label}
+      target="_blank"
+      rel="noreferrer"
+    >
       {createElement(Icon)}
     </a>
   );
@@ -230,7 +257,8 @@ function TechStackExplorer() {
   );
 
   const filteredTechStack = useMemo(
-    () => sortByExperience(techStack.filter((item) => item.group === activeGroup)),
+    () =>
+      sortByExperience(techStack.filter((item) => item.group === activeGroup)),
     [activeGroup],
   );
 
@@ -239,7 +267,9 @@ function TechStackExplorer() {
 
     filteredTechStack.forEach((item) => {
       const sectionTitle = item.subcategory || "Others";
-      const existingGroup = groups.find((group) => group.title === sectionTitle);
+      const existingGroup = groups.find(
+        (group) => group.title === sectionTitle,
+      );
 
       if (existingGroup) {
         existingGroup.items.push(item);
@@ -328,10 +358,15 @@ function TechStackExplorer() {
               {isOpen ? (
                 <div className="tech-section-grid">
                   {group.items.map((item) => {
-                    const { IconComponent, assetIcon, color } = getTechIconInfo(item.iconKey);
+                    const { IconComponent, assetIcon, color } = getTechIconInfo(
+                      item.iconKey,
+                    );
 
                     return (
-                      <article className="tech-item-card" key={`${item.group}-${item.subcategory}-${item.name}`}>
+                      <article
+                        className="tech-item-card"
+                        key={`${item.group}-${item.subcategory}-${item.name}`}
+                      >
                         <div className="tech-item-main">
                           <span className="tech-item-icon">
                             {assetIcon ? (
@@ -385,7 +420,10 @@ function IntroSlide() {
       <span className="intro-circuit intro-circuit-top" aria-hidden="true" />
       <span className="intro-circuit intro-circuit-bottom" aria-hidden="true" />
       <span className="intro-dot-grid intro-dot-grid-top" aria-hidden="true" />
-      <span className="intro-dot-grid intro-dot-grid-bottom" aria-hidden="true" />
+      <span
+        className="intro-dot-grid intro-dot-grid-bottom"
+        aria-hidden="true"
+      />
 
       <div className="intro-copy">
         <p className="eyebrow">Engineering Portfolio</p>
@@ -398,9 +436,21 @@ function IntroSlide() {
         </div>
 
         <div className="intro-actions">
-          <SocialLink href={profile.linkedin} icon={FiLinkedin} label="LinkedIn" />
-          <SocialLink href={`mailto:${profile.email}`} icon={FiMail} label="Email" />
-          <a className="download-button" href={publicAsset("documents/CV_Andri-Pramuji-Visual.pdf")} download>
+          <SocialLink
+            href={profile.linkedin}
+            icon={FiLinkedin}
+            label="LinkedIn"
+          />
+          <SocialLink
+            href={`mailto:${profile.email}`}
+            icon={FiMail}
+            label="Email"
+          />
+          <a
+            className="download-button"
+            href={publicAsset("documents/CV_Andri-Pramuji-Visual.pdf")}
+            download
+          >
             <FiDownload />
             CV
           </a>
@@ -431,10 +481,17 @@ function JourneySlide() {
           const companyLogo = getCompanyLogo(item.company);
 
           return (
-            <article className="career-card" key={`${item.role}-${item.period}`}>
+            <article
+              className="career-card"
+              key={`${item.role}-${item.period}`}
+            >
               <div className="career-marker">
                 <span>
-                  {companyLogo ? <img src={companyLogo} alt="" /> : <FiBriefcase />}
+                  {companyLogo ? (
+                    <img src={companyLogo} alt="" />
+                  ) : (
+                    <FiBriefcase />
+                  )}
                 </span>
               </div>
 
@@ -453,11 +510,15 @@ function JourneySlide() {
                   <span>{item.location}</span>
                 </div>
 
-                <p className="career-description">{cleanText(item.description)}</p>
+                <p className="career-description">
+                  {cleanText(item.description)}
+                </p>
 
                 {item.notableProjects?.length ? (
                   <div className="career-projects">
-                    <strong>{item.notableProjectsTitle || "Notable Projects"}</strong>
+                    <strong>
+                      {item.notableProjectsTitle || "Notable Projects"}
+                    </strong>
                     {item.notableProjects.map((project) => (
                       <span key={project}>{cleanText(project)}</span>
                     ))}
@@ -487,7 +548,12 @@ function JourneySlide() {
 function GrowthSlide() {
   return (
     <section className="slide growth-slide">
-      <img className="growth-road-bg" src={growthRoadBackground} alt="" aria-hidden="true" />
+      <img
+        className="growth-road-bg"
+        src={growthRoadBackground}
+        alt=""
+        aria-hidden="true"
+      />
 
       <SlideHeader
         eyebrow="Career Highlight"
@@ -501,7 +567,11 @@ function GrowthSlide() {
             const Icon = stage.icon;
 
             return (
-              <article className="growth-stage-card" key={stage.title} tabIndex={0}>
+              <article
+                className="growth-stage-card"
+                key={stage.title}
+                tabIndex={0}
+              >
                 <span className="growth-stage-icon">
                   <Icon />
                 </span>
@@ -532,7 +602,10 @@ function DeliverySlide() {
 
   return (
     <section className="slide">
-      <SlideHeader eyebrow="Delivery Portfolio" title="Built Across Business Platforms" />
+      <SlideHeader
+        eyebrow="Delivery Portfolio"
+        title="Built Across Business Platforms"
+      />
 
       <div className="delivery-achievement-layout">
         <div className="delivery-grid">
@@ -558,7 +631,8 @@ function DeliverySlide() {
           </div>
 
           <p className="supporting-copy">
-            Delivered both as individual contributor and in engineering leadership roles.
+            Delivered both as individual contributor and in engineering
+            leadership roles.
           </p>
         </div>
 
@@ -568,7 +642,10 @@ function DeliverySlide() {
             .map((metric, index) => (
               <article className="delivery-achievement-card" key={metric.title}>
                 <span>
-                  <MetricIcon type={metric.icon || metric.title} index={index + 1} />
+                  <MetricIcon
+                    type={metric.icon || metric.title}
+                    index={index + 1}
+                  />
                 </span>
                 <div>
                   <strong>{metric.value}</strong>
@@ -586,7 +663,10 @@ function DeliverySlide() {
 function LeadershipSlide() {
   return (
     <section className="slide">
-      <SlideHeader eyebrow="Leadership & Strengths" title="Built for Delivery Ownership" />
+      <SlideHeader
+        eyebrow="Leadership & Strengths"
+        title="Built for Delivery Ownership"
+      />
 
       <div className="leadership-grid">
         {leadershipCards.map((item) => {
@@ -643,9 +723,7 @@ function SkillGroupsSlide() {
 
                 return (
                   <article className="skill-group-card" key={item.name}>
-                    <span>
-                      {icon ? <img src={icon} alt="" /> : null}
-                    </span>
+                    <span>{icon ? <img src={icon} alt="" /> : null}</span>
                     <div>
                       <h4>{item.name}</h4>
                       <p>{cleanText(item.experience)}</p>
@@ -662,32 +740,64 @@ function SkillGroupsSlide() {
 }
 
 function ProjectsSlide() {
+  const [activeProject, setActiveProject] = useState(null);
+  const projects = useMemo(
+    () =>
+      selectedProjects
+        .filter((project) => project.screenshotFolder)
+        .map((project, index) => ({
+          ...project,
+          id: index,
+          period: cleanText(project.period),
+          description: cleanText(project.description),
+          images: getProjectImages(project.screenshotFolder),
+        })),
+    [],
+  );
+  const galleryItems = useMemo(
+    () =>
+      projects.map((project) => ({
+        id: project.id,
+        image: project.images[0],
+        text: project.title,
+      })),
+    [projects],
+  );
+  const openProject = useCallback(
+    (projectId) => {
+      const project = projects.find((item) => item.id === projectId);
+      if (project) setActiveProject(project);
+    },
+    [projects],
+  );
+
   return (
-    <section className="slide">
-      <SlideHeader eyebrow="Selected Projects" title="Portfolio Highlights" />
+    <>
+      <section className="slide projects-slide">
+        <SlideHeader
+          eyebrow="Selected Projects"
+          title="Portfolio Highlights"
+          description="Drag to explore. Click a project to open its details and screenshots."
+        />
 
-      <div className="project-grid">
-        {selectedProjects.slice(0, 4).map((project) => {
-          const image = getProjectImage(project.screenshotFolder);
+        <div className="project-gallery-shell">
+          <CircularGallery
+            items={galleryItems}
+            onSelect={openProject}
+            bend={0.5}
+            borderRadius={0.045}
+            scrollSpeed={2.2}
+          />
+        </div>
+      </section>
 
-          return (
-            <article className="project-card" key={project.title}>
-              {image ? <img src={image} alt="" /> : <div className="project-fallback"><FiGlobe /></div>}
-              <div>
-                <span>{cleanText(project.period)}</span>
-                <h3>{project.title}</h3>
-                <p>{cleanText(project.description)}</p>
-                <div className="project-tech">
-                  {project.techStackIconKeys.slice(0, 7).map((key, index) => (
-                    <TechIcon key={`${project.title}-${key}-${index}`} iconKey={key} />
-                  ))}
-                </div>
-              </div>
-            </article>
-          );
-        })}
-      </div>
-    </section>
+      {activeProject ? (
+        <ProjectModal
+          project={activeProject}
+          onClose={() => setActiveProject(null)}
+        />
+      ) : null}
+    </>
   );
 }
 
@@ -719,14 +829,20 @@ function DetailsSlide() {
           <h3>Certifications</h3>
           <div className="certification-list">
             {certifications.map((certification) => {
-              const certificateImage = getCertificateImage(certification.certificateFile);
+              const certificateImage = getCertificateImage(
+                certification.certificateFile,
+              );
 
               return (
                 <section key={certification.title}>
                   <div className="certification-title">
                     <strong>{certification.title}</strong>
                     {certificateImage ? (
-                      <a href={certificateImage} target="_blank" rel="noreferrer">
+                      <a
+                        href={certificateImage}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
                         [Show Certificate]
                       </a>
                     ) : null}
@@ -744,6 +860,193 @@ function DetailsSlide() {
   );
 }
 
+const opportunityTags = [
+  "Engineering Leadership",
+  "Technical Lead",
+  "Technical PM",
+  "Software Engineering",
+  "Remote / Hybrid Opportunities",
+];
+
+function ContactDialog({ type, onClose }) {
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const subject = formData.get("subject") || "Portfolio collaboration";
+    const body = [
+      `Name: ${formData.get("name")}`,
+      `Email: ${formData.get("email")}`,
+      "",
+      formData.get("message"),
+    ].join("\n");
+
+    window.location.href = `mailto:${profile.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  };
+
+  useEffect(() => {
+    document.body.classList.add("contact-modal-open");
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.body.classList.remove("contact-modal-open");
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [onClose]);
+
+  return createPortal(
+    <div
+      className="contact-dialog-backdrop"
+      role="presentation"
+      onMouseDown={(event) => {
+        if (event.target === event.currentTarget) onClose();
+      }}
+    >
+      <section
+        className="contact-dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="contact-dialog-title"
+      >
+        <button
+          type="button"
+          className="contact-dialog-close"
+          onClick={onClose}
+          aria-label="Close dialog"
+        >
+          <FiX />
+        </button>
+
+        {type === "email" ? (
+          <>
+            <div className="contact-dialog-heading">
+              <span><FiMail /></span>
+              <div>
+                <p>Get in touch</p>
+                <h2 id="contact-dialog-title">Send Me a Message</h2>
+              </div>
+            </div>
+            <form className="contact-dialog-form" onSubmit={handleSubmit}>
+              <div>
+                <label htmlFor="contact-name">Name</label>
+                <input id="contact-name" name="name" type="text" required />
+              </div>
+              <div>
+                <label htmlFor="contact-email">Email</label>
+                <input id="contact-email" name="email" type="email" required />
+              </div>
+              <div className="full-width">
+                <label htmlFor="contact-subject">Subject</label>
+                <input id="contact-subject" name="subject" type="text" required />
+              </div>
+              <div className="full-width">
+                <label htmlFor="contact-message">Message</label>
+                <textarea id="contact-message" name="message" required />
+              </div>
+              <button className="full-width" type="submit">
+                <FiSend /> Send Message
+              </button>
+            </form>
+          </>
+        ) : (
+          <>
+            <div className="contact-dialog-heading">
+              <span><FiDownload /></span>
+              <div>
+                <p>Download CV</p>
+                <h2 id="contact-dialog-title">Choose a CV Format</h2>
+              </div>
+            </div>
+            <div className="cv-choice-list">
+              <a
+                href={publicAsset("documents/CV_Andri-Pramuji-ATS.pdf")}
+                download
+                onClick={onClose}
+              >
+                <span><FiFileText /></span>
+                <div>
+                  <strong>ATS-Friendly CV</strong>
+                  <small>Optimized for applicant tracking systems</small>
+                </div>
+                <FiDownload />
+              </a>
+              <a
+                href={publicAsset("documents/CV_Andri-Pramuji-Visual.pdf")}
+                download
+                onClick={onClose}
+              >
+                <span><FiFileText /></span>
+                <div>
+                  <strong>Visual CV</strong>
+                  <small>Designed presentation with a visual layout</small>
+                </div>
+                <FiDownload />
+              </a>
+            </div>
+          </>
+        )}
+      </section>
+    </div>,
+    document.body,
+  );
+}
+
+function ContactSlide() {
+  const [activeDialog, setActiveDialog] = useState(null);
+
+  return (
+    <section className="slide contact-slide">
+      <div className="contact-hero">
+        <p className="contact-hero-eyebrow">Contact Me</p>
+        <h2>Let&apos;s Build Something<br />Impactful Together</h2>
+       <p className="contact-hero-description">
+        I help teams turn business goals into reliable digital products by combining
+        hands-on engineering experience, technical leadership, and strong delivery
+        ownership.
+      </p>
+
+        <div className="contact-hero-tags">
+          {opportunityTags.map((tag) => <span key={tag}>{tag}</span>)}
+        </div>
+
+        <div className="contact-action-orbs">
+          <button
+            type="button"
+            className="email"
+            onClick={() => setActiveDialog("email")}
+          >
+            <FiMail /><span>Email Me</span>
+          </button>
+          <a
+            className="linkedin"
+            href={profile.linkedin}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <FiLinkedin /><span>Connect on<br />LinkedIn</span>
+          </a>
+          <button
+            type="button"
+            className="download"
+            onClick={() => setActiveDialog("cv")}
+          >
+            <FiDownload /><span>Download<br />CV</span>
+          </button>
+        </div>
+      </div>
+
+      {activeDialog ? (
+        <ContactDialog
+          type={activeDialog}
+          onClose={() => setActiveDialog(null)}
+        />
+      ) : null}
+    </section>
+  );
+}
+
 const slides = [
   { title: "Intro", component: IntroSlide },
   { title: "Growth", component: GrowthSlide },
@@ -754,108 +1057,161 @@ const slides = [
   { title: "Skill Groups", component: SkillGroupsSlide },
   { title: "Projects", component: ProjectsSlide },
   { title: "Details", component: DetailsSlide },
+  { title: "Contact", component: ContactSlide },
 ];
 
 export default function App() {
   const [activeSlide, setActiveSlide] = useState(0);
   const [transitionDirection, setTransitionDirection] = useState("next");
+  const [isMobileLayout, setIsMobileLayout] = useState(() =>
+    window.matchMedia("(max-width: 640px)").matches,
+  );
 
-  const ActiveSlide = useMemo(() => slides[activeSlide].component, [activeSlide]);
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 640px)");
+    const updateLayout = (event) => setIsMobileLayout(event.matches);
+    mediaQuery.addEventListener("change", updateLayout);
+
+    return () => mediaQuery.removeEventListener("change", updateLayout);
+  }, []);
+
+  const ActiveSlide = useMemo(
+    () => slides[activeSlide].component,
+    [activeSlide],
+  );
   const previousSlide = activeSlide > 0 ? slides[activeSlide - 1] : null;
-  const nextSlide = activeSlide < slides.length - 1 ? slides[activeSlide + 1] : null;
+  const nextSlide =
+    activeSlide < slides.length - 1 ? slides[activeSlide + 1] : null;
 
-  const goToSlide = useCallback((index) => {
-    if (index < 0 || index >= slides.length) return;
+  const goToSlide = useCallback(
+    (index) => {
+      if (index < 0 || index >= slides.length) return;
 
-    setTransitionDirection(index > activeSlide ? "next" : "prev");
-    setActiveSlide(index);
-  }, [activeSlide]);
+      setTransitionDirection(index > activeSlide ? "next" : "prev");
+      setActiveSlide(index);
+    },
+    [activeSlide],
+  );
 
   useEffect(() => {
     document.title = `${profile.name} | Portfolio Slideshow`;
 
+    if (isMobileLayout) return undefined;
+
     const handleKeyDown = (event) => {
+      if (
+        document.body.classList.contains("project-modal-open") ||
+        document.body.classList.contains("contact-modal-open")
+      ) return;
       if (event.key === "ArrowRight" && nextSlide) goToSlide(activeSlide + 1);
-      if (event.key === "ArrowLeft" && previousSlide) goToSlide(activeSlide - 1);
+      if (event.key === "ArrowLeft" && previousSlide)
+        goToSlide(activeSlide - 1);
     };
 
     window.addEventListener("keydown", handleKeyDown);
 
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [activeSlide, goToSlide, nextSlide, previousSlide]);
+  }, [activeSlide, goToSlide, isMobileLayout, nextSlide, previousSlide]);
+
+  if (isMobileLayout) {
+    return (
+      <ClickSpark sparkColor="#a8ecff">
+        <main className="portfolio-page mobile-portfolio-page">
+          <div className="mobile-portfolio-flow" aria-label="Portfolio">
+            {slides.map(({ title, component: SlideComponent }) => (
+              <div
+                className="mobile-portfolio-section"
+                id={`mobile-${title.toLowerCase().replaceAll(" ", "-")}`}
+                key={title}
+              >
+                {createElement(SlideComponent)}
+              </div>
+            ))}
+          </div>
+        </main>
+      </ClickSpark>
+    );
+  }
 
   return (
-    <main className="portfolio-page">
-      <section className="deck-shell" aria-label="Portfolio slideshow">
-        <div className={`slide-frame${activeSlide > 0 ? " has-brand-header" : ""}`}>
-          {activeSlide > 0 ? (
-            <button
-              type="button"
-              className="slide-brand-header"
-              onClick={() => goToSlide(0)}
-              aria-label="Back to intro slide"
-            >
-              <span className="brand-dot" />
-              <span className="brand-copy">
-                <strong>Hi, Im {profile.name}</strong>
-                <small>Engineering Leadership | Software Engineer</small>
-                <span className="brand-tags">
-                  <b>
-                    <FiCode />
-                    Builder
-                  </b>
-                  <b>
-                    <FiUsers />
-                    Leader
-                  </b>
-                  <b>
-                    <FiTarget />
-                    Delivery Owner
-                  </b>
-                  <b>
-                    <FiCheckCircle />
-                    Quality Driven
-                  </b>
-                </span>
-              </span>
-              <span className="brand-shape" />
-            </button>
-          ) : null}
-
+    <ClickSpark sparkColor="#a8ecff">
+      <main className="portfolio-page">
+        <section className="deck-shell" aria-label="Portfolio slideshow">
           <div
-            key={activeSlide}
-            className={`slide-transition ${transitionDirection}`}
+            className={`slide-frame${activeSlide > 0 ? " has-brand-header" : ""}`}
           >
-            <ActiveSlide />
+            {activeSlide > 0 ? (
+              <button
+                type="button"
+                className="slide-brand-header"
+                onClick={() => goToSlide(0)}
+                aria-label="Back to intro slide"
+              >
+                <span className="brand-dot" />
+                <span className="brand-copy">
+                  <strong>{profile.name}</strong>
+                  <small>Engineering Leadership | Software Engineer</small>
+                  <span className="brand-tags">
+                    <b>
+                      <FiCode />
+                      Builder
+                    </b>
+                    <b>
+                      <FiUsers />
+                      Leader
+                    </b>
+                    <b>
+                      <FiTarget />
+                      Delivery Owner
+                    </b>
+                    <b>
+                      <FiCheckCircle />
+                      Quality Driven
+                    </b>
+                  </span>
+                </span>
+                <span className="brand-shape" />
+              </button>
+            ) : null}
+
+            <div
+              key={activeSlide}
+              className={`slide-transition ${transitionDirection}`}
+            >
+              <ActiveSlide />
+            </div>
+
+            <nav
+              className={`side-controls${slides[activeSlide].title === "Contact" ? " contact-side-controls" : ""}`}
+              aria-label="Slide controls"
+            >
+              {previousSlide ? (
+                <button
+                  type="button"
+                  className="side-control side-control-prev"
+                  onClick={() => goToSlide(activeSlide - 1)}
+                  aria-label={`Previous slide: ${previousSlide.title}`}
+                >
+                  <FiArrowLeft />
+                  <span>Prev slide: {previousSlide.title}</span>
+                </button>
+              ) : null}
+
+              {nextSlide ? (
+                <button
+                  type="button"
+                  className="side-control side-control-next"
+                  onClick={() => goToSlide(activeSlide + 1)}
+                  aria-label={`Next slide: ${nextSlide.title}`}
+                >
+                  <span>Next slide: {nextSlide.title}</span>
+                  <FiArrowRight />
+                </button>
+              ) : null}
+            </nav>
           </div>
-
-          <nav className="side-controls" aria-label="Slide controls">
-            {previousSlide ? (
-              <button
-                type="button"
-                className="side-control side-control-prev"
-                onClick={() => goToSlide(activeSlide - 1)}
-                aria-label={`Previous slide: ${previousSlide.title}`}
-              >
-                <FiArrowLeft />
-                <span>Prev slide: {previousSlide.title}</span>
-              </button>
-            ) : null}
-
-            {nextSlide ? (
-              <button
-                type="button"
-                className="side-control side-control-next"
-                onClick={() => goToSlide(activeSlide + 1)}
-                aria-label={`Next slide: ${nextSlide.title}`}
-              >
-                <span>Next slide: {nextSlide.title}</span>
-                <FiArrowRight />
-              </button>
-            ) : null}
-          </nav>
-        </div>
-      </section>
-    </main>
+        </section>
+      </main>
+    </ClickSpark>
   );
 }
