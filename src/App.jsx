@@ -927,7 +927,7 @@ const opportunityTags = [
   "Technical Lead",
   "Technical PM",
   "Software Engineering",
-  "Remote / Hybrid Opportunities",
+  "Onsite / Remote / Hybrid Opportunities",
 ];
 
 function ContactDialog({ type, onClose }) {
