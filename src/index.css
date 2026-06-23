@@ -2886,7 +2886,7 @@ body.contact-modal-open {
   }
 
   .project-modal-backdrop {
-    align-items: start;
+    align-items: center;
     padding: 8px;
   }
 
@@ -2966,7 +2966,7 @@ body.contact-modal-open {
   }
 
   .contact-dialog-backdrop {
-    align-items: start;
+    align-items: center;
     padding: 8px;
   }
 
