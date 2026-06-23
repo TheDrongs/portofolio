@@ -773,7 +773,7 @@ export const selectedProjects = [
     techStackIconKeys: ["html5", "javascript", "react", "mongodb", "api"],
   },
   {
-    title: "Offshore Crewing Recruitement",
+    title: "Musa Project",
     period: "Jul 2023 – Dec 2023",
     screenshotFolder: "musaproject",
     screenshotDisplay: "mobile",

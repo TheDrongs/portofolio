@@ -802,6 +802,23 @@ function ProjectsSlide() {
 }
 
 function DetailsSlide() {
+  const [previewCertificate, setPreviewCertificate] = useState(null);
+
+  useEffect(() => {
+    if (!previewCertificate) return undefined;
+    document.body.classList.add("certificate-modal-open");
+
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") setPreviewCertificate(null);
+    };
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.body.classList.remove("certificate-modal-open");
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [previewCertificate]);
+
   return (
     <section className="slide">
       <SlideHeader
@@ -838,13 +855,17 @@ function DetailsSlide() {
                   <div className="certification-title">
                     <strong>{certification.title}</strong>
                     {certificateImage ? (
-                      <a
-                        href={certificateImage}
-                        target="_blank"
-                        rel="noreferrer"
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setPreviewCertificate({
+                            ...certification,
+                            image: certificateImage,
+                          })
+                        }
                       >
                         [Show Certificate]
-                      </a>
+                      </button>
                     ) : null}
                   </div>
                   <b>{certification.issuer}</b>
@@ -856,6 +877,47 @@ function DetailsSlide() {
           </div>
         </article>
       </div>
+
+      {previewCertificate ? createPortal(
+        <div
+          className="project-modal-backdrop"
+          role="presentation"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) {
+              setPreviewCertificate(null);
+            }
+          }}
+        >
+          <section
+            className="certificate-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="certificate-preview-title"
+          >
+            <button
+              type="button"
+              className="project-modal-close"
+              onClick={() => setPreviewCertificate(null)}
+              aria-label="Close certificate preview"
+            >
+              <FiX />
+            </button>
+            <header>
+              <span>{previewCertificate.issuer}</span>
+              <h2 id="certificate-preview-title">
+                {previewCertificate.title}
+              </h2>
+            </header>
+            <div className="certificate-modal-image">
+              <img
+                src={previewCertificate.image}
+                alt={`${previewCertificate.title} certificate`}
+              />
+            </div>
+          </section>
+        </div>,
+        document.body,
+      ) : null}
     </section>
   );
 }
@@ -1101,7 +1163,8 @@ export default function App() {
     const handleKeyDown = (event) => {
       if (
         document.body.classList.contains("project-modal-open") ||
-        document.body.classList.contains("contact-modal-open")
+        document.body.classList.contains("contact-modal-open") ||
+        document.body.classList.contains("certificate-modal-open")
       ) return;
       if (event.key === "ArrowRight" && nextSlide) goToSlide(activeSlide + 1);
       if (event.key === "ArrowLeft" && previousSlide)
