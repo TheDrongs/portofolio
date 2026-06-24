@@ -718,8 +718,17 @@ export const selectedProjects = [
     title: "Enterprise Web, SaaS & Internal Business Platforms",
     period: "Mar 2023 – Present",
     screenshotFolder: "ksni",
+    screenshotFiles: [
+      "Erp.png",
+      "Sfa.png",
+      "HRIS.png",
+      "meeting-room.png",
+      "UI-Library.png",
+      "restaurant-system.png",
+      "surveyor-app.png",
+    ],
     description:
-      "Delivered and supported ERP modules, SFA, HRIS, Salesman Tracker for 8,000+ outlets, Surveyor App, Routing & Tracker System, Restaurant Mapping, and multi-user Meeting App.",
+      "Delivered and supported ERP modules, SFA, HRIS, Salesman Tracker for 8,000+ outlets, Surveyor App, Routing & Tracker System, Restaurant Mapping, multi user Meeting App & More.",
     techStackIconKeys: [
       "react",
       "nextjs",

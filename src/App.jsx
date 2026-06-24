@@ -96,13 +96,22 @@ const cleanText = (text = "") =>
 
 const publicAsset = (path) => `${import.meta.env.BASE_URL}${path}`;
 
-const getProjectImages = (folder) => {
+const getProjectImages = (folder, screenshotFiles = []) => {
   if (!folder) return [];
 
-  return Object.entries(projectImages)
+  const folderImages = Object.entries(projectImages)
     .filter(([path]) => path.includes(`/projects/${folder}/`))
-    .sort(([leftPath], [rightPath]) => leftPath.localeCompare(rightPath))
-    .map(([, image]) => image);
+    .sort(([leftPath], [rightPath]) => leftPath.localeCompare(rightPath));
+
+  if (screenshotFiles.length) {
+    return screenshotFiles
+      .map((fileName) =>
+        folderImages.find(([path]) => path.endsWith(`/${fileName}`))?.[1],
+      )
+      .filter(Boolean);
+  }
+
+  return folderImages.map(([, image]) => image);
 };
 
 const getCertificateImage = (fileName) => {
@@ -750,7 +759,10 @@ function ProjectsSlide() {
           id: index,
           period: cleanText(project.period),
           description: cleanText(project.description),
-          images: getProjectImages(project.screenshotFolder),
+          images: getProjectImages(
+            project.screenshotFolder,
+            project.screenshotFiles,
+          ),
         })),
     [],
   );
