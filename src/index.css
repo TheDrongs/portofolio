@@ -295,9 +295,9 @@ button {
 
 .slide-intro {
   display: grid;
-  grid-template-columns: minmax(0, 1.14fr) minmax(360px, 0.72fr);
+  grid-template-columns: minmax(0, 1.14fr) minmax(260px, 0.72fr);
   align-items: center;
-  gap: 8px;
+  gap: 48px;
 }
 
 .intro-circuit {
@@ -390,7 +390,7 @@ button {
 .intro-copy {
   position: relative;
   z-index: 1;
-  transform: translateX(100px);
+  min-width: 0;
 }
 
 .intro-copy h1 {
@@ -461,21 +461,21 @@ button {
   z-index: 1;
   height: 452px;
   display: grid;
-  place-items: center end;
+  place-items: center;
 }
 
 .portrait-ring {
   position: absolute;
-  right: 170px;
+  left: 50%;
   top: 50%;
-  width: 410px;
-  height: 410px;
+  width: min(410px, 110%);
+  aspect-ratio: 1;
   border-radius: 50%;
   border: 1px solid rgba(37, 99, 235, 0.18);
   background:
     radial-gradient(circle at 50% 50%, transparent 58%, rgba(37, 99, 235, 0.18) 59%, transparent 60%),
     radial-gradient(circle at 50% 50%, transparent 68%, rgba(37, 99, 235, 0.14) 69%, transparent 70%);
-  transform: translateY(-50%);
+  transform: translate(-50%, -50%);
   pointer-events: none;
 }
 
@@ -499,12 +499,11 @@ button {
 .portrait-photo {
   position: relative;
   z-index: 1;
-  width: 360px;
-  height: 360px;
+  width: min(360px, 100%);
+  aspect-ratio: 1;
   border-radius: 50%;
   overflow: hidden;
   background: #ffffff;
-  transform: translateX(-170px);
 }
 
 .portrait-photo img {
@@ -526,6 +525,11 @@ button {
 
 .career-scroll::-webkit-scrollbar {
   width: 8px;
+}
+
+.slide > .career-scroll {
+  flex-shrink: 1;
+  min-height: 0;
 }
 
 .career-scroll::-webkit-scrollbar-thumb {
@@ -594,6 +598,38 @@ button {
   box-shadow: 0 12px 26px rgba(15, 23, 42, 0.05);
 }
 
+.career-company-heading h3 {
+  margin: 0;
+  color: #132f89;
+  font-size: 21px;
+  line-height: 1.3;
+}
+
+.career-company-heading p {
+  margin: 6px 0 0;
+  color: #52627b;
+  font-size: 13px;
+}
+
+.career-role {
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid #e1e9f5;
+}
+
+.career-title-row h4 {
+  margin: 0;
+  color: #132f89;
+  font-size: 17px;
+  line-height: 1.4;
+}
+
+.career-tech-label {
+  align-self: center;
+  color: #173b96;
+  font-size: 12px;
+}
+
 .career-title-row {
   display: flex;
   align-items: flex-start;
@@ -647,6 +683,11 @@ button {
   color: #3d4c67;
   font-size: 14px;
   line-height: 1.45;
+  padding-left: 18px;
+}
+
+.career-description li + li {
+  margin-top: 8px;
 }
 
 .career-projects {
@@ -945,6 +986,16 @@ button {
   align-items: stretch;
 }
 
+.delivery-slide .slide-header {
+  min-height: 80px;
+}
+
+.slide > .delivery-achievement-layout {
+  flex-shrink: 1;
+  min-height: 0;
+  overflow: auto;
+}
+
 .big-number {
   display: grid;
   grid-template-columns: auto 1fr;
@@ -1025,12 +1076,12 @@ button {
 }
 
 .delivery-achievement-card {
-  min-height: 165px;
+  min-height: 156px;
   display: grid;
   grid-template-columns: 48px 1fr;
   gap: 13px;
   align-items: center;
-  padding: 16px;
+  padding: 14px;
   border: 1px solid rgba(201, 213, 232, 0.92);
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.86);
@@ -1291,6 +1342,13 @@ button {
   width: 35px;
   height: 35px;
   object-fit: contain;
+}
+
+.tech-item-icon img.tech-logo-grpc {
+  width: 46px;
+  height: 24px;
+  object-fit: cover;
+  object-position: center;
 }
 
 .tech-item-card h3 {
@@ -2550,7 +2608,6 @@ body.contact-modal-open {
   .portrait-ring {
     width: 290px;
     height: 290px;
-    right: calc(50% - 145px);
     top: 50%;
   }
 
@@ -2566,7 +2623,8 @@ body.contact-modal-open {
 
   .growth-stage-grid {
     grid-template-columns: 1fr;
-    padding-top: 28px;
+    row-gap: 56px;
+    padding-top: 40px;
   }
 
   .growth-stage-card,
@@ -2709,6 +2767,10 @@ body.contact-modal-open {
     max-height: none;
     overflow: visible;
     padding-right: 0;
+  }
+
+  .mobile-portfolio-flow .delivery-achievement-layout {
+    overflow: visible;
   }
 
   .mobile-portfolio-flow .tech-explorer {

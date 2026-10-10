@@ -1,13 +1,14 @@
 import sonarqubeLogo from "../../assets/sonarqube.png";
 import zustandLogo from "../../assets/zustand.jpg";
 import vaultLogo from "../../assets/vault.png";
+import grpcLogo from "../../assets/logo/grpc icon.png";
+import viteLogo from "../../assets/logo/Vitejs-logo.svg.webp";
 
 import {
   SiJavascript,
   SiTypescript,
   SiReact,
   SiNextdotjs,
-  SiVite,
   SiAngular,
   SiVuedotjs,
   SiHtml5,
@@ -39,6 +40,13 @@ import {
   SiC,
   SiCplusplus,
   SiFirebase,
+  SiReactquery,
+  SiAxios,
+  SiGit,
+  SiGitlab,
+  SiGithubactions,
+  SiJira,
+  SiClickup,
 } from "react-icons/si";
 import { FaCss3Alt } from "react-icons/fa";
 import { TbApi, TbBrandReactNative, TbDeviceMobileCode } from "react-icons/tb";
@@ -48,6 +56,10 @@ import {
   FiBookOpen,
   FiLayers,
   FiStar,
+  FiClock,
+  FiCpu,
+  FiGrid,
+  FiFileText,
 } from "react-icons/fi";
 
 const reactIconMap = {
@@ -55,8 +67,6 @@ const reactIconMap = {
   typescript: SiTypescript,
   react: SiReact,
   nextjs: SiNextdotjs,
-  vite: SiVite,
-  vitejs: SiVite,
   angular: SiAngular,
   vue: SiVuedotjs,
   html5: SiHtml5,
@@ -81,6 +91,24 @@ const reactIconMap = {
   rabbitmq: SiRabbitmq,
   api: TbApi,
   firebase: SiFirebase,
+  reactquery: SiReactquery,
+  axios: SiAxios,
+  protobuf: FiFileText,
+  microservices: FiGrid,
+  cron: FiClock,
+  monorepo: FiLayers,
+  microfrontends: FiGrid,
+  playwright: FiCheckCircle,
+  git: SiGit,
+  gitlab: SiGitlab,
+  githubactions: SiGithubactions,
+  jira: SiJira,
+  clickup: SiClickup,
+  youtrack: FiLayers,
+  delivery: FiLayers,
+  quality: FiCheckCircle,
+  documentation: FiBookOpen,
+  ai: FiCpu,
 
   reactnative: TbBrandReactNative,
   kotlin: SiKotlin,
@@ -99,6 +127,9 @@ const reactIconMap = {
 };
 
 const assetIconMap = {
+  grpc: grpcLogo,
+  vite: viteLogo,
+  vitejs: viteLogo,
   sonarqube: sonarqubeLogo,
   zustand: zustandLogo,
   vault: vaultLogo,
@@ -184,6 +215,25 @@ const techIconLabelMap = {
   rabbitmq: "RabbitMQ",
   api: "RESTful API",
   firebase: "Google Firebase",
+  reactquery: "React Query",
+  axios: "Axios",
+  grpc: "gRPC",
+  protobuf: "Protocol Buffers",
+  microservices: "Microservices",
+  cron: "cron jobs",
+  monorepo: "Monorepo",
+  microfrontends: "Microfrontends",
+  playwright: "Playwright",
+  git: "Git",
+  gitlab: "GitLab",
+  githubactions: "GitHub Actions",
+  jira: "Jira",
+  clickup: "ClickUp",
+  youtrack: "YouTrack",
+  delivery: "Delivery Planning",
+  quality: "Engineering Quality",
+  documentation: "Technical Documentation",
+  ai: "AI-Assisted Development",
   kotlin: "Kotlin",
   docker: "Docker",
   kubernetes: "Kubernetes",
@@ -229,6 +279,10 @@ const techStackGroupMap = {
   express: "backend",
   php: "backend",
   api: "backend",
+  grpc: "backend",
+  protobuf: "backend",
+  microservices: "backend",
+  cron: "backend",
   graphql: "backend",
   mysql: "backend",
   mongodb: "backend",
@@ -413,9 +467,15 @@ export function TechIcon({ iconKey, index = 0 }) {
   const { IconComponent, assetIcon, label, color } = getTechIconInfo(iconKey);
 
   return (
-    <span key={`${iconKey}-${index}`} style={styles.techIconBox} title={label}>
+    <span key={`${iconKey}-${index}`} style={styles.techIconBox} title={label} role="img" aria-label={label}>
       {assetIcon ? (
-        <img src={assetIcon} alt={label} style={styles.assetIcon} />
+        <img
+          src={assetIcon}
+          alt={label}
+          style={iconKey === "grpc"
+            ? { ...styles.assetIcon, width: 28, height: 14, objectFit: "cover", objectPosition: "center" }
+            : styles.assetIcon}
+        />
       ) : IconComponent ? (
         <IconComponent size={21} color={color} />
       ) : null}

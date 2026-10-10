@@ -33,7 +33,6 @@ import {
   certifications,
   education,
   languages,
-  leadershipHighlights,
   leadershipSkillGroups,
   metrics,
   profile,
@@ -96,6 +95,21 @@ const cleanText = (text = "") =>
 
 const publicAsset = (path) => `${import.meta.env.BASE_URL}${path}`;
 
+const cvDownloads = [
+  {
+    language: "English",
+    file: "CV_Andri-Pramuji-ATS.pdf",
+    downloadName: "Andri_Pramuji_CV_ATS_English.pdf",
+    description: "Experience, achievements, and tech stacks in English",
+  },
+  {
+    language: "Bahasa Indonesia",
+    file: "CV_Andri-Pramuji-ATS-Indonesia.pdf",
+    downloadName: "Andri_Pramuji_CV_ATS_Indonesia.pdf",
+    description: "Pengalaman, pencapaian, dan tech stack dalam Bahasa Indonesia",
+  },
+];
+
 const getProjectImages = (folder, screenshotFiles = []) => {
   if (!folder) return [];
 
@@ -148,12 +162,13 @@ const growthStages = [
       "Started close to day-to-day operations, learning how business users work, how systems fail, and how support discipline shapes reliable delivery.",
   },
   {
-    title: "Software Engineer / Frontend Developer",
+    title: "Frontend Developer - Payment Systems",
     icon: FiCode,
     where: "PT. Arah Dinamika Abadi",
     points: [
       "Built secure transaction systems using ISO8583",
-      "Worked on EDC, POS, desktop, and System delivery",
+      "Delivered EDC, POS, and TMS solutions for 7 banks",
+      "Mentored 3 junior developers and interns",
     ],
     focus: "Systems & Product Engineering",
     story:
@@ -173,40 +188,31 @@ const growthStages = [
       "Took deeper ownership of frontend architecture, delivery predictability, reusable UI patterns, and production-quality business applications.",
   },
   {
-    title: "Frontend Technical Lead",
+    title: "Technical Lead Frontend",
     icon: FiUsers,
     where: "PT. Kaldu Sari Nabati Indonesia",
     points: [
       "Led frontend team, standards, and code reviews",
       "Improved UI platform, quality, and build performance",
-      "Reduced technical debt and strengthened reliability",
+      "Built internal full-stack reporting applications",
     ],
     focus: "Team Quality & Delivery",
     story:
       "Shifted from individual delivery to technical direction, mentoring engineers and turning scattered frontend work into clearer standards and execution quality.",
   },
   {
-    title: "Squad Lead / Engineering Leader",
+    title: "Squad Leader",
     icon: FiTarget,
     where: "PT. Kaldu Sari Nabati Indonesia",
     points: [
       "Led cross-functional delivery across FE, BE, and QA",
       "Drove planning, execution, and stakeholder alignment",
-      "Balanced people leadership with business impact",
+      "Developed frontend applications and Go microservices",
     ],
     focus: "Strategy & Execution",
     story:
-      "Expanded into delivery ownership across people, product, and engineering quality, aligning teams around business outcomes and sustainable execution.",
+      "Combined cross-functional delivery leadership with hands-on frontend and backend development across Sales, Inventory, Reporting, and logistics workflows.",
   },
-];
-
-const leadershipCards = [
-  { label: "Led Teams up to 12 Members", icon: FiUsers },
-  { label: "Cross-functional Collaboration", icon: FiBriefcase },
-  { label: "Delivery Planning & Execution", icon: FiCheckCircle },
-  { label: "Risk & Issue Management", icon: FiTarget },
-  { label: "Stakeholder Communication", icon: FiMail },
-  { label: "Engineering Standards", icon: FiCode },
 ];
 
 const leadershipIconMap = {
@@ -379,7 +385,11 @@ function TechStackExplorer() {
                         <div className="tech-item-main">
                           <span className="tech-item-icon">
                             {assetIcon ? (
-                              <img src={assetIcon} alt="" />
+                              <img
+                                src={assetIcon}
+                                alt=""
+                                className={item.iconKey === "grpc" ? "tech-logo-grpc" : undefined}
+                              />
                             ) : IconComponent ? (
                               <IconComponent color={item.color || color} />
                             ) : null}
@@ -424,6 +434,8 @@ function TechStackExplorer() {
 }
 
 function IntroSlide() {
+  const [isCvDialogOpen, setIsCvDialogOpen] = useState(false);
+
   return (
     <section className="slide slide-intro">
       <span className="intro-circuit intro-circuit-top" aria-hidden="true" />
@@ -437,7 +449,7 @@ function IntroSlide() {
       <div className="intro-copy">
         <p className="eyebrow">Engineering Portfolio</p>
         <h1>{profile.name}</h1>
-        <h3>Engineering Leader & Software Engineer</h3>
+        <h3>{profile.role}</h3>
         <div className="intro-summary">
           {profile.summary.split("\n\n").map((paragraph) => (
             <p key={paragraph}>{cleanText(paragraph)}</p>
@@ -455,14 +467,14 @@ function IntroSlide() {
             icon={FiMail}
             label="Email"
           />
-          <a
+          <button
+            type="button"
             className="download-button"
-            href={publicAsset("documents/CV_Andri-Pramuji-Visual.pdf")}
-            download
+            onClick={() => setIsCvDialogOpen(true)}
           >
             <FiDownload />
             CV
-          </a>
+          </button>
         </div>
       </div>
 
@@ -472,11 +484,29 @@ function IntroSlide() {
           <img src={publicAsset("pas-photo.png")} alt={profile.name} />
         </div>
       </div>
+      {isCvDialogOpen ? (
+        <ContactDialog type="cv" onClose={() => setIsCvDialogOpen(false)} />
+      ) : null}
     </section>
   );
 }
 
 function JourneySlide() {
+  const companies = Array.from(
+    timelineItems.reduce((groups, item) => {
+      if (!groups.has(item.company)) {
+        groups.set(item.company, {
+          company: item.company,
+          location: item.location,
+          employmentType: item.employmentType,
+          roles: [],
+        });
+      }
+      groups.get(item.company).roles.push(item);
+      return groups;
+    }, new Map()).values(),
+  );
+
   return (
     <section className="slide">
       <SlideHeader
@@ -486,13 +516,13 @@ function JourneySlide() {
       />
 
       <div className="career-scroll">
-        {timelineItems.map((item) => {
-          const companyLogo = getCompanyLogo(item.company);
+        {companies.map((company) => {
+          const companyLogo = getCompanyLogo(company.company);
 
           return (
             <article
               className="career-card"
-              key={`${item.role}-${item.period}`}
+              key={company.company}
             >
               <div className="career-marker">
                 <span>
@@ -505,46 +535,37 @@ function JourneySlide() {
               </div>
 
               <div className="career-content">
-                <div className="career-title-row">
-                  <div>
-                    <h3>{item.role}</h3>
-                    <p>{item.company}</p>
-                  </div>
-                  <span>{cleanText(item.period)}</span>
+                <div className="career-company-heading">
+                  <h3>{company.company}</h3>
+                  <p>{company.location} · {company.employmentType}</p>
                 </div>
-
-                <div className="career-meta">
-                  <span>{cleanText(item.duration)}</span>
-                  <span>{item.employmentType}</span>
-                  <span>{item.location}</span>
-                </div>
-
-                <p className="career-description">
-                  {cleanText(item.description)}
-                </p>
-
-                {item.notableProjects?.length ? (
-                  <div className="career-projects">
-                    <strong>
-                      {item.notableProjectsTitle || "Notable Projects"}
-                    </strong>
-                    {item.notableProjects.map((project) => (
-                      <span key={project}>{cleanText(project)}</span>
-                    ))}
-                  </div>
-                ) : null}
-
-                {item.techStackIconKeys?.length ? (
-                  <div className="career-tech">
-                    {item.techStackIconKeys.map((iconKey, techIndex) => (
-                      <TechIcon
-                        key={`${item.role}-${iconKey}-${techIndex}`}
-                        iconKey={iconKey}
-                        index={techIndex}
-                      />
-                    ))}
-                  </div>
-                ) : null}
+                {company.roles.map((item) => (
+                  <section className="career-role" key={`${item.role}-${item.period}`}>
+                    <div className="career-title-row">
+                      <h4>{item.role}</h4>
+                      <span>{cleanText(item.period)}</span>
+                    </div>
+                    <ul className="career-description">
+                      {item.responsibilities.map((point) => (
+                        <li key={point}>{cleanText(point)}</li>
+                      ))}
+                    </ul>
+                    {item.notableProjects?.length ? (
+                      <div className="career-projects">
+                        <strong>{item.notableProjectsTitle || "Notable Projects"}</strong>
+                        {item.notableProjects.map((project) => (
+                          <span key={project}>{cleanText(project)}</span>
+                        ))}
+                      </div>
+                    ) : null}
+                    <div className="career-tech" aria-label={`Tech stack for ${item.role}`}>
+                      <strong className="career-tech-label">Tech Stack</strong>
+                      {item.techStackIconKeys.map((iconKey, techIndex) => (
+                        <TechIcon key={iconKey} iconKey={iconKey} index={techIndex} />
+                      ))}
+                    </div>
+                  </section>
+                ))}
               </div>
             </article>
           );
@@ -566,7 +587,7 @@ function GrowthSlide() {
 
       <SlideHeader
         eyebrow="Career Highlight"
-        title="13 Years Career Growth Journey"
+        title="13+ Years Career Growth Journey"
         description="From ICT support and operations to software engineering, frontend leadership, and cross-functional delivery ownership."
       />
 
@@ -610,7 +631,7 @@ function DeliverySlide() {
   const appMetric = metrics.find((item) => item.icon === "projects");
 
   return (
-    <section className="slide">
+    <section className="slide delivery-slide">
       <SlideHeader
         eyebrow="Delivery Portfolio"
         title="Built Across Business Platforms"
@@ -619,9 +640,9 @@ function DeliverySlide() {
       <div className="delivery-achievement-layout">
         <div className="delivery-grid">
           <div className="big-number">
-            <strong>{appMetric?.value || "20+"}</strong>
+            <strong>{appMetric?.value || "25"}</strong>
             <div>
-              <h3>Applications Go-Live</h3>
+              <h3>Applications Delivered</h3>
               <p>{cleanText(appMetric?.description)}</p>
             </div>
           </div>
@@ -639,10 +660,6 @@ function DeliverySlide() {
             })}
           </div>
 
-          <p className="supporting-copy">
-            Delivered both as individual contributor and in engineering
-            leadership roles.
-          </p>
         </div>
 
         <div className="delivery-achievement-panel">
@@ -664,36 +681,6 @@ function DeliverySlide() {
               </article>
             ))}
         </div>
-      </div>
-    </section>
-  );
-}
-
-function LeadershipSlide() {
-  return (
-    <section className="slide">
-      <SlideHeader
-        eyebrow="Leadership & Strengths"
-        title="Built for Delivery Ownership"
-      />
-
-      <div className="leadership-grid">
-        {leadershipCards.map((item) => {
-          const Icon = item.icon;
-
-          return (
-            <article className="leadership-card" key={item.label}>
-              <Icon />
-              <span>{item.label}</span>
-            </article>
-          );
-        })}
-      </div>
-
-      <div className="leadership-strip">
-        {leadershipHighlights.slice(0, 3).map((item) => (
-          <span key={item}>{cleanText(item)}</span>
-        ))}
       </div>
     </section>
   );
@@ -1030,34 +1017,25 @@ function ContactDialog({ type, onClose }) {
               <span><FiDownload /></span>
               <div>
                 <p>Download CV</p>
-                <h2 id="contact-dialog-title">Choose a CV Format</h2>
+                <h2 id="contact-dialog-title">Latest CV</h2>
               </div>
             </div>
             <div className="cv-choice-list">
-              <a
-                href={publicAsset("documents/CV_Andri-Pramuji-ATS.pdf")}
-                download
-                onClick={onClose}
-              >
-                <span><FiFileText /></span>
-                <div>
-                  <strong>ATS-Friendly CV</strong>
-                  <small>Optimized for applicant tracking systems</small>
-                </div>
-                <FiDownload />
-              </a>
-              <a
-                href={publicAsset("documents/CV_Andri-Pramuji-Visual.pdf")}
-                download
-                onClick={onClose}
-              >
-                <span><FiFileText /></span>
-                <div>
-                  <strong>Visual CV</strong>
-                  <small>Designed presentation with a visual layout</small>
-                </div>
-                <FiDownload />
-              </a>
+              {cvDownloads.map((cv) => (
+                <a
+                  key={cv.language}
+                  href={publicAsset(`documents/${cv.file}`)}
+                  download={cv.downloadName}
+                  onClick={onClose}
+                >
+                  <span><FiFileText /></span>
+                  <div>
+                    <strong>ATS-Friendly CV — {cv.language}</strong>
+                    <small>{cv.description}</small>
+                  </div>
+                  <FiDownload />
+                </a>
+              ))}
             </div>
           </>
         )}
@@ -1126,7 +1104,6 @@ const slides = [
   { title: "Growth", component: GrowthSlide },
   { title: "Career", component: JourneySlide },
   { title: "Delivery", component: DeliverySlide },
-  { title: "Leadership", component: LeadershipSlide },
   { title: "Tech Stack", component: TechStackSlide },
   { title: "Skill Groups", component: SkillGroupsSlide },
   { title: "Projects", component: ProjectsSlide },
@@ -1168,7 +1145,7 @@ export default function App() {
   );
 
   useEffect(() => {
-    document.title = `${profile.name} | Portfolio Slideshow`;
+    document.title = "Andri Pramuji | Senior Software Engineer & Technical Leadership";
 
     if (isMobileLayout) return undefined;
 
@@ -1225,7 +1202,7 @@ export default function App() {
                 <span className="brand-dot" />
                 <span className="brand-copy">
                   <strong>{profile.name}</strong>
-                  <small>Engineering Leadership | Software Engineer</small>
+                  <small>{profile.role}</small>
                   <span className="brand-tags">
                     <b>
                       <FiCode />

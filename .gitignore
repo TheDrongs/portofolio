@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Locally generated previews, documents, reports, and temporary working files.
+# Downloadable CVs in public/documents remain eligible for version control.
+/output/
+/tmp/
