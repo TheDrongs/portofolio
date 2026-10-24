@@ -6,7 +6,7 @@ export const profile = {
   email: "andripramuji88@gmail.com",
   linkedin: "https://www.linkedin.com/in/andri-p-47aa42220/",
   summary:
-    "Software engineer with 13+ years in technology, specializing in frontend and full-stack development. Delivered 25 applications across web, mobile, desktop, and banking payment platforms. Led teams of up to 12 people and coordinated delivery across Frontend, Backend, and QA.\n\nCombines hands-on engineering, technical leadership, and practical adoption of agentic AI development tools to improve engineering productivity, software quality, and operational efficiency.",
+    "Software engineer with 13+ years in technology, specializing in frontend and full-stack development. Started in IT Operations before moving into payment systems and enterprise application development. \n\nDelivered 25 applications across web, mobile, desktop, and banking payment platforms. Led teams of up to 12 people and coordinated delivery across Frontend, Backend, and QA.\n\nCombines hands-on engineering, technical leadership, and practical adoption of agentic AI development tools to improve engineering productivity, software quality, and operational efficiency.",
 };
 
 export const hero = {
@@ -1008,7 +1008,6 @@ export const keyAchievements = [
 export const education = {
   school: "Bina Nusantara University (BINUS)",
   degree: "Bachelor of Computer Science (S.Kom)",
-  period: "2007 – 2012",
 };
 
 export const languages = [

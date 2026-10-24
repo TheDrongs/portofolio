@@ -146,8 +146,8 @@ function Home({ navigate }) {
         From banking payment systems to enterprise platforms, I turn complex
         problems into useful software, and help teams do their best work.
       </p>
-      <button className="text-link" onClick={() => navigate("projects")}>
-        Take a look at my work <FiArrowUpRight />
+      <button className="text-link" onClick={() => navigate("about")}>
+        Let's start the story <FiArrowUpRight />
       </button>
       <div className="home-footnote">
         <span>Based in Bandung, Indonesia</span>

@@ -127,6 +127,9 @@ a { color: inherit; }
 .experience-technologies .technology-list span { display: block; font-size: 11px; line-height: 1.5; overflow-wrap: anywhere; }
 
 .entry-meta { display: flex; justify-content: space-between; gap: 15px; font-size: 10px; color: #8a947c; }
+@media (min-width: 761px) {
+  .experience-entry .entry-meta { font-size: 12px; }
+}
 .company-name { font-size: 12px !important; color: #7a816c !important; }
 .project-list { margin-top: 30px; }
 .project-row { display: grid; grid-template-columns: 24px 1fr 17px; gap: 14px; text-align: left; padding: 22px 0; background: transparent; border: 0; border-top: 1px solid #bac3ad; width: 100%; align-items: start; }
@@ -246,7 +249,7 @@ a { color: inherit; }
   .resume-links { gap: 10px; }
   .resume-links > div > span { font-size: 21px; }
   .resume-links a { font-size: 10px; }
-  .entry-meta { flex-direction: column; gap: 5px; font-size: 9px; }
+  .entry-meta { flex-direction: column; gap: 5px; font-size: 10.8px; }
   .experience-entry h2 { font-size: 31px; }
   .project-row { grid-template-columns: 19px 1fr 15px; gap: 10px; }
   .project-row img { height: 140px; }
