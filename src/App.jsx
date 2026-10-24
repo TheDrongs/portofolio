@@ -419,9 +419,6 @@ function Contact() {
         {profile.email} <FiArrowUpRight />
       </a>
       <div className="contact-links">
-        <a href={profile.github} target="_blank" rel="noreferrer">
-          <FiGithub /> GitHub <FiArrowUpRight />
-        </a>
         <a href={profile.linkedin} target="_blank" rel="noreferrer">
           LinkedIn <FiArrowUpRight />
         </a>
@@ -438,7 +435,16 @@ function RetroDesktop({ onShutdown, opened }) {
     createDesktopState,
   );
   const [shutdownProgress, setShutdownProgress] = useState(0);
-  const { page, maximized, minimized, windowOpen, menuOpen, power, tools, windowOrder } = state;
+  const {
+    page,
+    maximized,
+    minimized,
+    windowOpen,
+    menuOpen,
+    power,
+    tools,
+    windowOrder,
+  } = state;
   const activeWindow = windowOrder.at(-1);
   const contentRef = useRef(null);
   const navRef = useRef(null);
@@ -447,23 +453,29 @@ function RetroDesktop({ onShutdown, opened }) {
   const dialogRef = useRef(null);
   const noRef = useRef(null);
   const navigate = (next) => dispatch({ type: "NAVIGATE", page: next });
-  const focusWindow = id => {
+  const focusWindow = (id) => {
     requestAnimationFrame(() => {
-      const windowElement = rootRef.current?.querySelector(`[data-desktop-window="${id}"]`);
-      (windowElement?.querySelector('nav button, .calculator-key') || windowElement || startRef.current)?.focus({ preventScroll: true });
+      const windowElement = rootRef.current?.querySelector(
+        `[data-desktop-window="${id}"]`,
+      );
+      (
+        windowElement?.querySelector("nav button, .calculator-key") ||
+        windowElement ||
+        startRef.current
+      )?.focus({ preventScroll: true });
     });
   };
   const openPortfolio = () => {
     dispatch({ type: "OPEN_PORTFOLIO" });
-    focusWindow('portfolio');
+    focusWindow("portfolio");
   };
-  const openTool = tool => {
+  const openTool = (tool) => {
     dispatch({ type: "OPEN_TOOL", tool });
     focusWindow(tool);
   };
   const hideTool = (tool, type) => {
     dispatch({ type, tool });
-    focusWindow(windowOrder.filter(id => id !== tool).at(-1));
+    focusWindow(windowOrder.filter((id) => id !== tool).at(-1));
   };
 
   useEffect(() => {
@@ -474,9 +486,14 @@ function RetroDesktop({ onShutdown, opened }) {
     const frame = requestAnimationFrame(() => {
       if (power === "confirm") noRef.current?.focus({ preventScroll: true });
       else if (activeWindow) {
-        const windowElement = rootRef.current?.querySelector(`[data-desktop-window="${activeWindow}"]`);
+        const windowElement = rootRef.current?.querySelector(
+          `[data-desktop-window="${activeWindow}"]`,
+        );
         if (!windowElement?.contains(document.activeElement))
-          (windowElement?.querySelector('nav button, .calculator-key') || windowElement)?.focus({ preventScroll: true });
+          (
+            windowElement?.querySelector("nav button, .calculator-key") ||
+            windowElement
+          )?.focus({ preventScroll: true });
       } else
         rootRef.current
           ?.querySelector("[data-portfolio-shortcut]")
@@ -577,10 +594,16 @@ function RetroDesktop({ onShutdown, opened }) {
                 className="portfolio-window"
                 aria-label="Andri Pramuji portfolio"
                 data-desktop-window="portfolio"
-                data-window-active={activeWindow === 'portfolio' && power === 'on'}
-                style={{ zIndex: windowOrder.indexOf('portfolio') + 1 }}
-                onPointerDownCapture={() => dispatch({ type: "FOCUS_WINDOW", id: 'portfolio' })}
-                onFocusCapture={() => dispatch({ type: "FOCUS_WINDOW", id: 'portfolio' })}
+                data-window-active={
+                  activeWindow === "portfolio" && power === "on"
+                }
+                style={{ zIndex: windowOrder.indexOf("portfolio") + 1 }}
+                onPointerDownCapture={() =>
+                  dispatch({ type: "FOCUS_WINDOW", id: "portfolio" })
+                }
+                onFocusCapture={() =>
+                  dispatch({ type: "FOCUS_WINDOW", id: "portfolio" })
+                }
               >
                 <header className="window-title">
                   <span>
@@ -600,7 +623,11 @@ function RetroDesktop({ onShutdown, opened }) {
                       }
                       onClick={() => dispatch({ type: "TOGGLE_MAXIMIZE" })}
                     >
-                      {maximized ? <VscChromeRestore aria-hidden="true" /> : <VscChromeMaximize aria-hidden="true" />}
+                      {maximized ? (
+                        <VscChromeRestore aria-hidden="true" />
+                      ) : (
+                        <VscChromeMaximize aria-hidden="true" />
+                      )}
                     </button>
                     <button
                       aria-label="Close portfolio"
@@ -682,12 +709,16 @@ function RetroDesktop({ onShutdown, opened }) {
               </section>
             )}
             {Object.entries(tools).map(([tool, toolState]) => (
-              <DesktopTool key={tool} tool={tool}
-                active={activeWindow === tool && power === 'on'} minimized={toolState.minimized}
+              <DesktopTool
+                key={tool}
+                tool={tool}
+                active={activeWindow === tool && power === "on"}
+                minimized={toolState.minimized}
                 zIndex={windowOrder.indexOf(tool) + 1}
                 onActivate={() => dispatch({ type: "FOCUS_WINDOW", id: tool })}
                 onMinimize={() => hideTool(tool, "MINIMIZE_TOOL")}
-                onClose={() => hideTool(tool, "CLOSE_TOOL")} />
+                onClose={() => hideTool(tool, "CLOSE_TOOL")}
+              />
             ))}
           </div>
           <div
@@ -724,29 +755,44 @@ function RetroDesktop({ onShutdown, opened }) {
               >
                 <span aria-hidden="true">▦</span> Start
               </button>
-              <div className="taskbar-apps" role="group" aria-label="Open applications">
-              {windowOpen && (
-                <button
-                  className={`taskbar-app ${activeWindow === 'portfolio' ? "is-active" : ""}`}
-                  aria-pressed={activeWindow === 'portfolio'}
-                  aria-label={
-                    activeWindow === 'portfolio' ? "Minimize portfolio" : "Restore portfolio"
-                  }
-                  onClick={() => dispatch({ type: "TOGGLE_TASKBAR" })}
-                >
-                  <FiMonitor /><span>Portofolio</span>
-                </button>
-              )}
-              {Object.entries(tools).map(([tool]) => (
-                <button key={tool} type="button"
-                  className={`taskbar-app ${activeWindow === tool ? 'is-active' : ''}`}
-                  aria-pressed={activeWindow === tool}
-                  aria-label={`${activeWindow === tool ? 'Minimize' : 'Restore'} ${tool === 'calculator' ? 'calculator' : 'game'}`}
-                  title={tool === 'calculator' ? 'Calculator' : 'Game 01'}
-                  onClick={() => dispatch({ type: "TOGGLE_TOOL_TASKBAR", tool })}>
-                  {tool === 'calculator' ? <TbCalculator /> : <FiGrid />}<span>{tool === 'calculator' ? 'Calculator' : 'Game 01'}</span>
-                </button>
-              ))}
+              <div
+                className="taskbar-apps"
+                role="group"
+                aria-label="Open applications"
+              >
+                {windowOpen && (
+                  <button
+                    className={`taskbar-app ${activeWindow === "portfolio" ? "is-active" : ""}`}
+                    aria-pressed={activeWindow === "portfolio"}
+                    aria-label={
+                      activeWindow === "portfolio"
+                        ? "Minimize portfolio"
+                        : "Restore portfolio"
+                    }
+                    onClick={() => dispatch({ type: "TOGGLE_TASKBAR" })}
+                  >
+                    <FiMonitor />
+                    <span>Portofolio</span>
+                  </button>
+                )}
+                {Object.entries(tools).map(([tool]) => (
+                  <button
+                    key={tool}
+                    type="button"
+                    className={`taskbar-app ${activeWindow === tool ? "is-active" : ""}`}
+                    aria-pressed={activeWindow === tool}
+                    aria-label={`${activeWindow === tool ? "Minimize" : "Restore"} ${tool === "calculator" ? "calculator" : "game"}`}
+                    title={tool === "calculator" ? "Calculator" : "Game 01"}
+                    onClick={() =>
+                      dispatch({ type: "TOGGLE_TOOL_TASKBAR", tool })
+                    }
+                  >
+                    {tool === "calculator" ? <TbCalculator /> : <FiGrid />}
+                    <span>
+                      {tool === "calculator" ? "Calculator" : "Game 01"}
+                    </span>
+                  </button>
+                ))}
               </div>
               <JakartaClock />
             </footer>
@@ -925,10 +971,16 @@ export default function App() {
       <div className="mobile-screen-host" ref={mobileHost}>
         {opened && !settled && (
           <div className="mobile-startup" role="status" aria-live="polite">
-            <span className="startup-monogram" aria-hidden="true">ap.</span>
+            <span className="startup-monogram" aria-hidden="true">
+              ap.
+            </span>
             <span className="startup-title">Starting up</span>
-            <span className="startup-caption">A little world is waking up.</span>
-            <span className="startup-loading" aria-hidden="true"><span /></span>
+            <span className="startup-caption">
+              A little world is waking up.
+            </span>
+            <span className="startup-loading" aria-hidden="true">
+              <span />
+            </span>
           </div>
         )}
       </div>
