@@ -1,1269 +1,944 @@
-import {
-  createElement,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
 import { createPortal } from "react-dom";
+import { useCallback, useEffect, useRef, useState, useReducer } from "react";
 import {
+  FiArrowUpRight,
   FiArrowLeft,
-  FiArrowRight,
+  FiBookOpen,
   FiBriefcase,
-  FiCheckCircle,
   FiCode,
-  FiDownload,
   FiFileText,
-  FiLinkedin,
+  FiFolder,
+  FiGithub,
   FiMail,
+  FiMinus,
   FiMonitor,
-  FiSend,
-  FiSmartphone,
-  FiTarget,
-  FiUsers,
+  FiUser,
   FiX,
+  FiPower,
+  FiGrid,
 } from "react-icons/fi";
-import { FaAndroid } from "react-icons/fa";
+import { TbCalculator } from "react-icons/tb";
+import { VscChromeMaximize, VscChromeRestore } from "react-icons/vsc";
+import LaptopScene from "./components/LaptopScene";
+import Skills from "./components/Skills";
+import WindowMenu from "./components/WindowMenu";
+import ResumeDownload from "./components/ResumeDownload";
+import JakartaClock from "./components/JakartaClock";
+import StartMenu from "./components/StartMenu";
+import DesktopTool from "./components/DesktopTool";
+import useMouseClickSound from "./components/useMouseClickSound";
 import {
-  TbCloud,
-  TbDeviceDesktopAnalytics,
-  TbDeviceMobileCog,
-} from "react-icons/tb";
+  createDesktopState,
+  desktopReducer,
+  SHUTDOWN_DURATION,
+} from "./desktopState";
 import {
   certifications,
   education,
   languages,
-  leadershipSkillGroups,
   metrics,
   profile,
   selectedProjects,
   techStack,
-  techStackGroups,
   timelineItems,
 } from "./data/portofolioData";
-import {
-  getBadgeConfig,
-  getTechIconInfo,
-  sortByExperience,
-  TechIcon,
-} from "./components/icons/techStackIcons";
-import ClickSpark from "./components/ClickSpark";
-import CircularGallery from "./components/CircularGallery";
-import MetricIcon from "./components/MetricIcon";
-import ProjectModal from "./components/ProjectModal";
-
-import projectManagementIcon from "./assets/projectmanagement.png";
-import teamLeadershipIcon from "./assets/teamleadership.png";
-import manpowerPlanningIcon from "./assets/manpowerplanning.png";
-import techStandardsIcon from "./assets/techStandards.png";
-import productOwnershipIcon from "./assets/productownership.png";
-import uxIcon from "./assets/UX.png";
-import webDevIcon from "./assets/webdev.png";
-import appDevIcon from "./assets/appdev.png";
-import fullstackIcon from "./assets/fullstack.png";
-import mobileDevIcon from "./assets/mobiledev.png";
-import growthRoadBackground from "./assets/growth-road-bg.svg";
-import arahnetsLogo from "./assets/logo/arahnets.png";
-import nabatiLogo from "./assets/logo/nabatilogo.png";
-import nellyLogo from "./assets/logo/nelly.jpg";
-
-const projectImages = import.meta.glob(
-  "./assets/projects/**/*.{png,jpg,jpeg}",
+const sections = [
   {
-    eager: true,
-    import: "default",
+    id: "home",
+    label: "Home",
+    Icon: FiMonitor,
   },
-);
-
-const certificateImages = import.meta.glob(
-  "./assets/certificates/**/*.{png,jpg,jpeg}",
   {
-    eager: true,
-    import: "default",
+    id: "about",
+    label: "About",
+    Icon: FiUser,
   },
-);
-
-const cleanText = (text = "") =>
-  String(text)
-    .replaceAll("â€“", "-")
-    .replaceAll("â€¢", "•")
-    .replaceAll("â€™", "'")
-    .replaceAll("â€œ", '"')
-    .replaceAll("â€", '"')
-    .replaceAll(/\s+/g, " ")
-    .trim();
-
+  {
+    id: "experience",
+    label: "Experience",
+    Icon: FiBriefcase,
+  },
+  {
+    id: "projects",
+    label: "Projects",
+    Icon: FiFolder,
+  },
+  {
+    id: "skills",
+    label: "Skills",
+    Icon: FiCode,
+  },
+  {
+    id: "credentials",
+    label: "Credentials",
+    Icon: FiBookOpen,
+  },
+  {
+    id: "contact",
+    label: "Contact",
+    Icon: FiMail,
+  },
+];
 const publicAsset = (path) => `${import.meta.env.BASE_URL}${path}`;
-
-const cvDownloads = [
+const imageFiles = import.meta.glob("./assets/projects/**/*.{png,jpg,jpeg}", {
+  eager: true,
+  import: "default",
+});
+const certificates = import.meta.glob(
+  "./assets/certificates/*.{png,jpg,jpeg}",
   {
-    language: "English",
-    file: "CV_Andri-Pramuji-ATS.pdf",
-    downloadName: "Andri_Pramuji_CV_ATS_English.pdf",
-    description: "Experience, achievements, and tech stacks in English",
+    eager: true,
+    import: "default",
   },
-  {
-    language: "Bahasa Indonesia",
-    file: "CV_Andri-Pramuji-ATS-Indonesia.pdf",
-    downloadName: "Andri_Pramuji_CV_ATS_Indonesia.pdf",
-    description: "Pengalaman, pencapaian, dan tech stack dalam Bahasa Indonesia",
-  },
-];
-
-const getProjectImages = (folder, screenshotFiles = []) => {
-  if (!folder) return [];
-
-  const folderImages = Object.entries(projectImages)
-    .filter(([path]) => path.includes(`/projects/${folder}/`))
-    .sort(([leftPath], [rightPath]) => leftPath.localeCompare(rightPath));
-
-  if (screenshotFiles.length) {
-    return screenshotFiles
-      .map((fileName) =>
-        folderImages.find(([path]) => path.endsWith(`/${fileName}`))?.[1],
-      )
-      .filter(Boolean);
-  }
-
-  return folderImages.map(([, image]) => image);
+);
+const projectImages = (project) => {
+  const entries = Object.entries(imageFiles).filter(([path]) =>
+    path.includes(`/projects/${project.screenshotFolder}/`),
+  );
+  return project.screenshotFiles?.length
+    ? project.screenshotFiles
+        .map((file) => entries.find(([path]) => path.endsWith(`/${file}`))?.[1])
+        .filter(Boolean)
+    : entries.sort(([a], [b]) => a.localeCompare(b)).map(([, url]) => url);
 };
-
-const getCertificateImage = (fileName) => {
-  if (!fileName) return null;
-
-  const match = Object.entries(certificateImages).find(([path]) =>
-    path.endsWith(`/certificates/${fileName}`),
-  );
-
-  return match?.[1] || null;
-};
-
-const platformCards = [
-  { label: "SaaS", icon: TbCloud },
-  { label: "ERP", icon: TbDeviceDesktopAnalytics },
-  { label: "Mobile", icon: FiSmartphone },
-  { label: "Android", icon: FaAndroid },
-  { label: "EDC", icon: TbDeviceMobileCog },
-  { label: "Desktop", icon: FiMonitor },
-];
-
-const growthStages = [
-  {
-    title: "ICT Staff & Administration",
-    icon: FiMonitor,
-    where: "PT. Pelayaran Nelly Dwi Putri Tbk.",
-    points: [
-      "Supported IT infrastructure and operations",
-      "Managed internal systems and devices",
-      "Built early web and automated backup solutions",
-    ],
-    focus: "Foundation & Operations",
-    story:
-      "Started close to day-to-day operations, learning how business users work, how systems fail, and how support discipline shapes reliable delivery.",
-  },
-  {
-    title: "Frontend Developer - Payment Systems",
-    icon: FiCode,
-    where: "PT. Arah Dinamika Abadi",
-    points: [
-      "Built secure transaction systems using ISO8583",
-      "Delivered EDC, POS, and TMS solutions for 7 banks",
-      "Mentored 3 junior developers and interns",
-    ],
-    focus: "Systems & Product Engineering",
-    story:
-      "Moved into software delivery with more ownership across frontend, EDC, and banking-related products, building the bridge from support work to engineering craft.",
-  },
-  {
-    title: "Senior Frontend Developer",
-    icon: FiCode,
-    where: "PT. Kaldu Sari Nabati Indonesia",
-    points: [
-      "Owned complex frontend delivery",
-      "Improved reusability and maintainability",
-      "Collaborated closely with product and backend teams",
-    ],
-    focus: "Engineering Craft",
-    story:
-      "Took deeper ownership of frontend architecture, delivery predictability, reusable UI patterns, and production-quality business applications.",
-  },
-  {
-    title: "Technical Lead Frontend",
-    icon: FiUsers,
-    where: "PT. Kaldu Sari Nabati Indonesia",
-    points: [
-      "Led frontend team, standards, and code reviews",
-      "Improved UI platform, quality, and build performance",
-      "Built internal full-stack reporting applications",
-    ],
-    focus: "Team Quality & Delivery",
-    story:
-      "Shifted from individual delivery to technical direction, mentoring engineers and turning scattered frontend work into clearer standards and execution quality.",
-  },
-  {
-    title: "Squad Leader",
-    icon: FiTarget,
-    where: "PT. Kaldu Sari Nabati Indonesia",
-    points: [
-      "Led cross-functional delivery across FE, BE, and QA",
-      "Drove planning, execution, and stakeholder alignment",
-      "Developed frontend applications and Go microservices",
-    ],
-    focus: "Strategy & Execution",
-    story:
-      "Combined cross-functional delivery leadership with hands-on frontend and backend development across Sales, Inventory, Reporting, and logistics workflows.",
-  },
-];
-
-const leadershipIconMap = {
-  projectmanagement: projectManagementIcon,
-  teamleadership: teamLeadershipIcon,
-  manpowerplanning: manpowerPlanningIcon,
-  techStandards: techStandardsIcon,
-  productownership: productOwnershipIcon,
-  UX: uxIcon,
-  webdev: webDevIcon,
-  appdev: appDevIcon,
-  mobiledev: mobileDevIcon,
-  fullstack: fullstackIcon,
-};
-
-const getCompanyLogo = (company = "") => {
-  const normalizedCompany = company.toLowerCase();
-
-  if (normalizedCompany.includes("nabati")) return nabatiLogo;
-  if (normalizedCompany.includes("arah")) return arahnetsLogo;
-  if (normalizedCompany.includes("nelly")) return nellyLogo;
-
-  return null;
-};
-
-function SlideHeader({ eyebrow, title, description }) {
+function ResumeLinks() {
   return (
-    <header className="slide-header">
-      <p>{eyebrow}</p>
-      <h2>{title}</h2>
-      {description ? <span>{description}</span> : null}
-    </header>
-  );
-}
-
-function SocialLink({ href, icon: Icon, label }) {
-  return (
-    <a
-      className="social-button"
-      href={href}
-      aria-label={label}
-      target="_blank"
-      rel="noreferrer"
-    >
-      {createElement(Icon)}
-    </a>
-  );
-}
-
-function TechStackExplorer() {
-  const [activeGroup, setActiveGroup] = useState("frontend");
-  const [openSections, setOpenSections] = useState({});
-
-  const visibleGroups = useMemo(
-    () => techStackGroups.filter((group) => group.key !== "all"),
-    [],
-  );
-
-  const filteredTechStack = useMemo(
-    () =>
-      sortByExperience(techStack.filter((item) => item.group === activeGroup)),
-    [activeGroup],
-  );
-
-  const groupedTechStack = useMemo(() => {
-    const groups = [];
-
-    filteredTechStack.forEach((item) => {
-      const sectionTitle = item.subcategory || "Others";
-      const existingGroup = groups.find(
-        (group) => group.title === sectionTitle,
-      );
-
-      if (existingGroup) {
-        existingGroup.items.push(item);
-        return;
-      }
-
-      groups.push({
-        title: sectionTitle,
-        items: [item],
-      });
-    });
-
-    return groups;
-  }, [filteredTechStack]);
-
-  useEffect(() => {
-    if (groupedTechStack.length === 0) {
-      setOpenSections({});
-      return;
-    }
-
-    if (activeGroup === "frontend") {
-      setOpenSections({
-        Languages: true,
-        "UI Library & Frameworks": true,
-      });
-      return;
-    }
-
-    if (activeGroup === "backend") {
-      setOpenSections({
-        "Languages & Runtime": true,
-        "API & Communication": true,
-      });
-      return;
-    }
-
-    setOpenSections({
-      [groupedTechStack[0].title]: true,
-    });
-  }, [activeGroup, groupedTechStack]);
-
-  const getGroupCount = (groupKey) =>
-    techStack.filter((item) => item.group === groupKey).length;
-
-  const toggleSection = (sectionTitle) => {
-    setOpenSections((currentSections) => ({
-      ...currentSections,
-      [sectionTitle]: !currentSections[sectionTitle],
-    }));
-  };
-
-  return (
-    <article className="tech-explorer">
-      <div className="tech-tabs">
-        {visibleGroups.map((group) => {
-          const isActive = activeGroup === group.key;
-
-          return (
-            <button
-              type="button"
-              className={isActive ? "active" : ""}
-              key={group.key}
-              onClick={() => setActiveGroup(group.key)}
-            >
-              <span>{group.label}</span>
-              <b>{getGroupCount(group.key)}</b>
-            </button>
-          );
-        })}
-      </div>
-
-      <div className="tech-scroll">
-        {groupedTechStack.map((group) => {
-          const isOpen = Boolean(openSections[group.title]);
-
-          return (
-            <section className="tech-section" key={group.title}>
-              <button type="button" onClick={() => toggleSection(group.title)}>
-                <span>{group.title}</span>
-                <small>
-                  {group.items.length} Skills / {isOpen ? "hide" : "show"}
-                </small>
-              </button>
-
-              {isOpen ? (
-                <div className="tech-section-grid">
-                  {group.items.map((item) => {
-                    const { IconComponent, assetIcon, color } = getTechIconInfo(
-                      item.iconKey,
-                    );
-
-                    return (
-                      <article
-                        className="tech-item-card"
-                        key={`${item.group}-${item.subcategory}-${item.name}`}
-                      >
-                        <div className="tech-item-main">
-                          <span className="tech-item-icon">
-                            {assetIcon ? (
-                              <img
-                                src={assetIcon}
-                                alt=""
-                                className={item.iconKey === "grpc" ? "tech-logo-grpc" : undefined}
-                              />
-                            ) : IconComponent ? (
-                              <IconComponent color={item.color || color} />
-                            ) : null}
-                          </span>
-                          <div>
-                            <h3>{item.name}</h3>
-                            <p>{cleanText(item.experience)}</p>
-                          </div>
-                        </div>
-
-                        <div className="tech-item-badges">
-                          {item.badges?.map((badge) => {
-                            const badgeConfig = getBadgeConfig(badge);
-                            const BadgeIcon = badgeConfig.icon;
-
-                            return (
-                              <span
-                                key={`${item.name}-${badge}`}
-                                style={{
-                                  color: badgeConfig.color,
-                                  background: badgeConfig.background,
-                                  borderColor: badgeConfig.border,
-                                }}
-                              >
-                                <BadgeIcon />
-                                {badge}
-                              </span>
-                            );
-                          })}
-                        </div>
-                      </article>
-                    );
-                  })}
-                </div>
-              ) : null}
-            </section>
-          );
-        })}
-      </div>
-    </article>
-  );
-}
-
-function IntroSlide() {
-  const [isCvDialogOpen, setIsCvDialogOpen] = useState(false);
-
-  return (
-    <section className="slide slide-intro">
-      <span className="intro-circuit intro-circuit-top" aria-hidden="true" />
-      <span className="intro-circuit intro-circuit-bottom" aria-hidden="true" />
-      <span className="intro-dot-grid intro-dot-grid-top" aria-hidden="true" />
-      <span
-        className="intro-dot-grid intro-dot-grid-bottom"
-        aria-hidden="true"
-      />
-
-      <div className="intro-copy">
-        <p className="eyebrow">Engineering Portfolio</p>
-        <h1>{profile.name}</h1>
-        <h3>{profile.role}</h3>
-        <div className="intro-summary">
-          {profile.summary.split("\n\n").map((paragraph) => (
-            <p key={paragraph}>{cleanText(paragraph)}</p>
-          ))}
-        </div>
-
-        <div className="intro-actions">
-          <SocialLink
-            href={profile.linkedin}
-            icon={FiLinkedin}
-            label="LinkedIn"
-          />
-          <SocialLink
-            href={`mailto:${profile.email}`}
-            icon={FiMail}
-            label="Email"
-          />
-          <button
-            type="button"
-            className="download-button"
-            onClick={() => setIsCvDialogOpen(true)}
+    <div className="resume-links">
+      <FiFileText aria-hidden="true" />
+      <div>
+        <span>Looking for my resume?</span>
+        <div>
+          <a
+            href={publicAsset("documents/CV_Andri-Pramuji-ATS.pdf")}
+            download="Andri_Pramuji_CV_English.pdf"
           >
-            <FiDownload />
-            CV
-          </button>
+            English ↓
+          </a>
+          <span className="link-separator">/</span>
+          <a
+            href={publicAsset("documents/CV_Andri-Pramuji-ATS-Indonesia.pdf")}
+            download="Andri_Pramuji_CV_Indonesia.pdf"
+          >
+            Bahasa Indonesia ↓
+          </a>
         </div>
       </div>
-
-      <div className="portrait-stage">
-        <div className="portrait-ring" />
-        <div className="portrait-photo">
-          <img src={publicAsset("pas-photo.png")} alt={profile.name} />
-        </div>
-      </div>
-      {isCvDialogOpen ? (
-        <ContactDialog type="cv" onClose={() => setIsCvDialogOpen(false)} />
-      ) : null}
-    </section>
+    </div>
   );
 }
-
-function JourneySlide() {
-  const companies = Array.from(
-    timelineItems.reduce((groups, item) => {
-      if (!groups.has(item.company)) {
-        groups.set(item.company, {
-          company: item.company,
-          location: item.location,
-          employmentType: item.employmentType,
-          roles: [],
-        });
-      }
-      groups.get(item.company).roles.push(item);
-      return groups;
-    }, new Map()).values(),
-  );
-
-  return (
-    <section className="slide">
-      <SlideHeader
-        eyebrow="Career Journey"
-        title="Experience Timeline"
-        description="Career history, delivery ownership, and technology exposure across each role."
-      />
-
-      <div className="career-scroll">
-        {companies.map((company) => {
-          const companyLogo = getCompanyLogo(company.company);
-
-          return (
-            <article
-              className="career-card"
-              key={company.company}
-            >
-              <div className="career-marker">
-                <span>
-                  {companyLogo ? (
-                    <img src={companyLogo} alt="" />
-                  ) : (
-                    <FiBriefcase />
-                  )}
-                </span>
-              </div>
-
-              <div className="career-content">
-                <div className="career-company-heading">
-                  <h3>{company.company}</h3>
-                  <p>{company.location} · {company.employmentType}</p>
-                </div>
-                {company.roles.map((item) => (
-                  <section className="career-role" key={`${item.role}-${item.period}`}>
-                    <div className="career-title-row">
-                      <h4>{item.role}</h4>
-                      <span>{cleanText(item.period)}</span>
-                    </div>
-                    <ul className="career-description">
-                      {item.responsibilities.map((point) => (
-                        <li key={point}>{cleanText(point)}</li>
-                      ))}
-                    </ul>
-                    {item.notableProjects?.length ? (
-                      <div className="career-projects">
-                        <strong>{item.notableProjectsTitle || "Notable Projects"}</strong>
-                        {item.notableProjects.map((project) => (
-                          <span key={project}>{cleanText(project)}</span>
-                        ))}
-                      </div>
-                    ) : null}
-                    <div className="career-tech" aria-label={`Tech stack for ${item.role}`}>
-                      <strong className="career-tech-label">Tech Stack</strong>
-                      {item.techStackIconKeys.map((iconKey, techIndex) => (
-                        <TechIcon key={iconKey} iconKey={iconKey} index={techIndex} />
-                      ))}
-                    </div>
-                  </section>
-                ))}
-              </div>
-            </article>
-          );
-        })}
-      </div>
-    </section>
-  );
-}
-
-function GrowthSlide() {
-  return (
-    <section className="slide growth-slide">
-      <img
-        className="growth-road-bg"
-        src={growthRoadBackground}
-        alt=""
-        aria-hidden="true"
-      />
-
-      <SlideHeader
-        eyebrow="Career Highlight"
-        title="13+ Years Career Growth Journey"
-        description="From ICT support and operations to software engineering, frontend leadership, and cross-functional delivery ownership."
-      />
-
-      <div className="growth-roadmap">
-        <div className="growth-stage-grid">
-          {growthStages.map((stage, index) => {
-            const Icon = stage.icon;
-
-            return (
-              <article
-                className="growth-stage-card"
-                key={stage.title}
-                tabIndex={0}
-              >
-                <span className="growth-stage-icon">
-                  <Icon />
-                </span>
-                <h3>{stage.title}</h3>
-                <span className="growth-stage-place">Where: {stage.where}</span>
-                <ul>
-                  {stage.points.map((point) => (
-                    <li key={point}>{point}</li>
-                  ))}
-                </ul>
-                <strong>Focus: {stage.focus}</strong>
-                <b>{index + 1}</b>
-                <div className="growth-popover" role="tooltip">
-                  <strong>{stage.title}</strong>
-                  <p>{stage.story}</p>
-                </div>
-              </article>
-            );
-          })}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function DeliverySlide() {
-  const appMetric = metrics.find((item) => item.icon === "projects");
-
-  return (
-    <section className="slide delivery-slide">
-      <SlideHeader
-        eyebrow="Delivery Portfolio"
-        title="Built Across Business Platforms"
-      />
-
-      <div className="delivery-achievement-layout">
-        <div className="delivery-grid">
-          <div className="big-number">
-            <strong>{appMetric?.value || "25"}</strong>
-            <div>
-              <h3>Applications Delivered</h3>
-              <p>{cleanText(appMetric?.description)}</p>
-            </div>
-          </div>
-
-          <div className="platform-grid">
-            {platformCards.map((item) => {
-              const Icon = item.icon;
-
-              return (
-                <div className="platform-card" key={item.label}>
-                  <Icon />
-                  <span>{item.label}</span>
-                </div>
-              );
-            })}
-          </div>
-
-        </div>
-
-        <div className="delivery-achievement-panel">
-          {metrics
-            .filter((metric) => metric.icon !== "projects")
-            .map((metric, index) => (
-              <article className="delivery-achievement-card" key={metric.title}>
-                <span>
-                  <MetricIcon
-                    type={metric.icon || metric.title}
-                    index={index + 1}
-                  />
-                </span>
-                <div>
-                  <strong>{metric.value}</strong>
-                  <h3>{metric.title}</h3>
-                  <p>{cleanText(metric.description)}</p>
-                </div>
-              </article>
-            ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function TechStackSlide() {
-  return (
-    <section className="slide">
-      <SlideHeader
-        eyebrow="Tech Stack"
-        title="Interactive Stack by Domain"
-        description="Browse stack categories, open the relevant section, and keep longer lists scrollable inside the slide."
-      />
-
-      <TechStackExplorer />
-    </section>
-  );
-}
-
-function SkillGroupsSlide() {
-  return (
-    <section className="slide">
-      <SlideHeader
-        eyebrow="Leadership Skill Groups"
-        title="Management, Product & Execution Skills"
-      />
-
-      <div className="skill-groups-scroll">
-        {leadershipSkillGroups.map((group) => (
-          <section className="skill-group-section" key={group.title}>
-            <h3>{group.title}</h3>
-
-            <div className="skill-group-grid">
-              {group.items.map((item) => {
-                const icon = leadershipIconMap[item.iconKey];
-
-                return (
-                  <article className="skill-group-card" key={item.name}>
-                    <span>{icon ? <img src={icon} alt="" /> : null}</span>
-                    <div>
-                      <h4>{item.name}</h4>
-                      <p>{cleanText(item.experience)}</p>
-                    </div>
-                  </article>
-                );
-              })}
-            </div>
-          </section>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function ProjectsSlide() {
-  const [activeProject, setActiveProject] = useState(null);
-  const projects = useMemo(
-    () =>
-      selectedProjects
-        .filter((project) => project.screenshotFolder)
-        .map((project, index) => ({
-          ...project,
-          id: index,
-          period: cleanText(project.period),
-          description: cleanText(project.description),
-          images: getProjectImages(
-            project.screenshotFolder,
-            project.screenshotFiles,
-          ),
-        })),
-    [],
-  );
-  const galleryItems = useMemo(
-    () =>
-      projects.map((project) => ({
-        id: project.id,
-        image: project.images[0],
-        text: project.title,
-      })),
-    [projects],
-  );
-  const openProject = useCallback(
-    (projectId) => {
-      const project = projects.find((item) => item.id === projectId);
-      if (project) setActiveProject(project);
-    },
-    [projects],
-  );
-
+function Home({ navigate }) {
   return (
     <>
-      <section className="slide projects-slide">
-        <SlideHeader
-          eyebrow="Selected Projects"
-          title="Portfolio Highlights"
-          description="Drag to explore. Click a project to open its details and screenshots."
-        />
-
-        <div className="project-gallery-shell">
-          <CircularGallery
-            items={galleryItems}
-            onSelect={openProject}
-            bend={0.5}
-            borderRadius={0.045}
-            scrollSpeed={2.2}
-          />
-        </div>
-      </section>
-
-      {activeProject ? (
-        <ProjectModal
-          project={activeProject}
-          onClose={() => setActiveProject(null)}
-        />
-      ) : null}
+      <div className="document-eyebrow">
+        HELLO, WORLD. WELCOME TO MY CORNER OF THE INTERNET.
+      </div>
+      <h1>
+        Hi, I'm Andri.
+        <br />I build things
+        <br />
+        <em>that work.</em>
+      </h1>
+      <p className="home-role">
+        Software engineer. Technical leader.
+        <br />
+      </p>
+      <p>
+        From banking payment systems to enterprise platforms, I turn complex
+        problems into useful software, and help teams do their best work.
+      </p>
+      <button className="text-link" onClick={() => navigate("projects")}>
+        Take a look at my work <FiArrowUpRight />
+      </button>
+      <div className="home-footnote">
+        <span>Based in Bandung, Indonesia</span>
+        <span>Engineering since 2013</span>
+      </div>
     </>
   );
 }
-
-function DetailsSlide() {
-  const [previewCertificate, setPreviewCertificate] = useState(null);
-
-  useEffect(() => {
-    if (!previewCertificate) return undefined;
-    document.body.classList.add("certificate-modal-open");
-
-    const handleKeyDown = (event) => {
-      if (event.key === "Escape") setPreviewCertificate(null);
-    };
-    window.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      document.body.classList.remove("certificate-modal-open");
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [previewCertificate]);
-
+function About() {
   return (
-    <section className="slide">
-      <SlideHeader
-        eyebrow="Education, Languages & Certifications"
-        title="Education, Languages & Certifications"
-      />
-
-      <div className="credentials-panel">
-        <article className="credential-card education-card credential-education">
-          <h3>{education.school}</h3>
-          <strong>{education.degree}</strong>
-          <p>{cleanText(education.period)}</p>
-        </article>
-
-        <article className="credential-card language-card credential-languages">
-          <h3>Languages</h3>
-          <div>
-            {languages.map((language) => (
-              <span key={language}>{language}</span>
-            ))}
-          </div>
-        </article>
-
-        <article className="credential-card certification-card credential-certifications">
-          <h3>Certifications</h3>
-          <div className="certification-list">
-            {certifications.map((certification) => {
-              const certificateImage = getCertificateImage(
-                certification.certificateFile,
-              );
-
-              return (
-                <section key={certification.title}>
-                  <div className="certification-title">
-                    <strong>{certification.title}</strong>
-                    {certificateImage ? (
-                      <button
-                        type="button"
-                        onClick={() =>
-                          setPreviewCertificate({
-                            ...certification,
-                            image: certificateImage,
-                          })
-                        }
-                      >
-                        [Show Certificate]
-                      </button>
-                    ) : null}
-                  </div>
-                  <b>{certification.issuer}</b>
-                  <p>{certification.issued}</p>
-                  <span>Credential ID: {certification.credentialId}</span>
-                </section>
-              );
-            })}
-          </div>
-        </article>
+    <>
+      <div className="document-eyebrow">THE PERSON BEHIND THE SCREEN</div>
+      <h1>
+        A little
+        <br />
+        <em>about me.</em>
+      </h1>
+      <div className="about-intro">
+        <img src={publicAsset("pas-photo.png")} alt="Andri Pramuji" />{" "}
+        <p>
+          {profile.role}
+          <br />
+          <span className="muted-copy">{profile.location}</span>
+        </p>
       </div>
-
-      {previewCertificate ? createPortal(
-        <div
-          className="project-modal-backdrop"
-          role="presentation"
-          onMouseDown={(event) => {
-            if (event.target === event.currentTarget) {
-              setPreviewCertificate(null);
-            }
-          }}
-        >
-          <section
-            className="certificate-modal"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="certificate-preview-title"
-          >
-            <button
-              type="button"
-              className="project-modal-close"
-              onClick={() => setPreviewCertificate(null)}
-              aria-label="Close certificate preview"
-            >
-              <FiX />
-            </button>
-            <header>
-              <span>{previewCertificate.issuer}</span>
-              <h2 id="certificate-preview-title">
-                {previewCertificate.title}
-              </h2>
-            </header>
-            <div className="certificate-modal-image">
-              <img
-                src={previewCertificate.image}
-                alt={`${previewCertificate.title} certificate`}
-              />
+      {profile.summary.split("\n\n").map((text) => (
+        <p key={text}>{text}</p>
+      ))}
+      <h2>A few things along the way</h2>
+      <div className="achievement-list">
+        {metrics.map((metric) => (
+          <div key={metric.title}>
+            <strong>{metric.value}</strong>
+            <div>
+              <h3>{metric.title}</h3>
+              <p>{metric.description}</p>
             </div>
-          </section>
-        </div>,
-        document.body,
-      ) : null}
-    </section>
+          </div>
+        ))}
+      </div>
+    </>
   );
 }
-
-const opportunityTags = [
-  "Engineering Leadership",
-  "Technical Lead",
-  "Technical PM",
-  "Software Engineering",
-  "Onsite / Remote / Hybrid Opportunities",
-];
-
-function ContactDialog({ type, onClose }) {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    const subject = formData.get("subject") || "Portfolio collaboration";
-    const body = [
-      `Name: ${formData.get("name")}`,
-      `Email: ${formData.get("email")}`,
-      "",
-      formData.get("message"),
-    ].join("\n");
-
-    window.location.href = `mailto:${profile.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+function Experience() {
+  return (
+    <>
+      <ResumeLinks />
+      <h1>
+        The journey
+        <br />
+        <em>so far.</em>
+      </h1>
+      {timelineItems.map((item) => (
+        <section
+          className="experience-entry"
+          key={`${item.role}-${item.period}`}
+        >
+          <div className="entry-meta">
+            <span>{item.period}</span>
+            <span>{item.location}</span>
+          </div>
+          <h2>{item.role}</h2>
+          <p className="company-name">{item.company}</p>
+          <ul>
+            {item.responsibilities.map((point) => (
+              <li key={point}>{point}</li>
+            ))}
+          </ul>
+          {item.notableProjects?.map((text) => (
+            <p key={text}>
+              <strong>{item.notableProjectsTitle}: </strong>
+              {text}
+            </p>
+          ))}
+          {item.techStackIconKeys?.length > 0 && (
+            <div
+              className="experience-technologies"
+              role="group"
+              aria-label={`Tech stack for ${item.role}`}
+            >
+              <h3>Tech Stack</h3>
+              <ul className="technology-list">
+                {item.techStackIconKeys.map((key) => (
+                  <li key={key}>
+                    <span>
+                      {techStack.find((skill) => skill.iconKey === key)?.name ||
+                        key}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </section>
+      ))}
+    </>
+  );
+}
+function Projects() {
+  const [active, setActive] = useState(null);
+  const [imageIndex, setImageIndex] = useState(0);
+  const images = active ? projectImages(active) : [];
+  if (active)
+    return (
+      <>
+        <button
+          className="text-link project-back"
+          onClick={() => setActive(null)}
+        >
+          <FiArrowLeft /> All projects
+        </button>
+        <div className="document-eyebrow">{active.period}</div>
+        <h1 className="project-detail-title">{active.title}</h1>
+        {images.length > 0 && (
+          <div
+            className={`project-viewer ${active.screenshotDisplay === "mobile" ? "portrait-project" : ""}`}
+          >
+            <img
+              src={images[imageIndex]}
+              alt={`${active.title}, screenshot ${imageIndex + 1}`}
+            />
+            <div className="image-controls">
+              <button
+                className="retro-button"
+                disabled={images.length < 2}
+                onClick={() =>
+                  setImageIndex(
+                    (imageIndex - 1 + images.length) % images.length,
+                  )
+                }
+                aria-label="Previous screenshot"
+              >
+                ←
+              </button>
+              <span>
+                {imageIndex + 1} / {images.length}
+              </span>
+              <button
+                className="retro-button"
+                disabled={images.length < 2}
+                onClick={() => setImageIndex((imageIndex + 1) % images.length)}
+                aria-label="Next screenshot"
+              >
+                →
+              </button>
+            </div>
+          </div>
+        )}
+        <p>{active.description}</p>
+        <div className="technology-list">
+          {active.techStackIconKeys.map((key) => (
+            <span key={key}>
+              {techStack.find((skill) => skill.iconKey === key)?.name || key}
+            </span>
+          ))}
+        </div>
+        {active.url && (
+          <a href={active.url} target="_blank" rel="noreferrer">
+            Visit project <FiArrowUpRight />
+          </a>
+        )}
+      </>
+    );
+  return (
+    <>
+      <div className="document-eyebrow">
+        A SELECTION OF THINGS I'VE HELPED BUILD
+      </div>
+      <h1>
+        From idea
+        <br />
+        <em>to Production.</em>
+      </h1>
+      <p>
+        Enterprise applications, payment systems, and a few things in between.
+        Open a project to have a closer look.
+      </p>
+      <div className="project-list">
+        {selectedProjects.map((project, index) => {
+          const image = projectImages(project)[0];
+          return (
+            <button
+              className="project-row"
+              key={project.title}
+              onClick={() => {
+                setActive(project);
+                setImageIndex(0);
+              }}
+            >
+              <span className="project-number">0{index + 1}</span>
+              <div>
+                {image ? (
+                  <img src={image} alt="" loading="lazy" />
+                ) : (
+                  <div className="project-placeholder">
+                    <FiCode />
+                  </div>
+                )}
+                <h2>{project.title}</h2>
+                <span>{project.period}</span>
+              </div>
+              <FiArrowUpRight aria-hidden="true" />
+            </button>
+          );
+        })}
+      </div>
+    </>
+  );
+}
+function Credentials() {
+  return (
+    <>
+      <div className="document-eyebrow">KEEP LEARNING. KEEP MAKING.</div>
+      <h1>
+        Notes from
+        <br />
+        <em>the classroom.</em>
+      </h1>
+      <h2>{education.school}</h2>
+      <p>
+        {education.degree}
+        <br />
+        {education.period}
+      </p>
+      <h2>Certifications</h2>
+      {certifications.map((certificate) => {
+        const image = Object.entries(certificates).find(([path]) =>
+          path.endsWith(`/${certificate.certificateFile}`),
+        )?.[1];
+        return (
+          <section className="certificate-entry" key={certificate.title}>
+            <h3>{certificate.title}</h3>
+            <p>
+              {certificate.issuer} · {certificate.issued}
+            </p>
+            {image && (
+              <a href={image} target="_blank" rel="noreferrer">
+                View certificate <FiArrowUpRight />
+              </a>
+            )}
+          </section>
+        );
+      })}
+      <h2>Languages</h2>
+      {languages.map((language) => (
+        <p key={language}>{language}</p>
+      ))}
+    </>
+  );
+}
+function Contact() {
+  return (
+    <>
+      <div className="document-eyebrow">
+        GOOD THINGS START WITH A CONVERSATION
+      </div>
+      <h1>
+        Let's make
+        <br />
+        something
+        <br />
+        <em>good.</em>
+      </h1>
+      <p>
+        Have a project in mind, a tricky problem to solve, or just want to say
+        hello? My inbox is open.
+      </p>
+      <a className="contact-email" href={`mailto:${profile.email}`}>
+        {profile.email} <FiArrowUpRight />
+      </a>
+      <div className="contact-links">
+        <a href={profile.github} target="_blank" rel="noreferrer">
+          <FiGithub /> GitHub <FiArrowUpRight />
+        </a>
+        <a href={profile.linkedin} target="_blank" rel="noreferrer">
+          LinkedIn <FiArrowUpRight />
+        </a>
+      </div>
+      <ResumeLinks />
+      <p className="muted-copy">{profile.location}</p>
+    </>
+  );
+}
+function RetroDesktop({ onShutdown, opened }) {
+  const [state, dispatch] = useReducer(
+    desktopReducer,
+    undefined,
+    createDesktopState,
+  );
+  const [shutdownProgress, setShutdownProgress] = useState(0);
+  const { page, maximized, minimized, windowOpen, menuOpen, power, tools, windowOrder } = state;
+  const activeWindow = windowOrder.at(-1);
+  const contentRef = useRef(null);
+  const navRef = useRef(null);
+  const startRef = useRef(null);
+  const rootRef = useRef(null);
+  const dialogRef = useRef(null);
+  const noRef = useRef(null);
+  const navigate = (next) => dispatch({ type: "NAVIGATE", page: next });
+  const focusWindow = id => {
+    requestAnimationFrame(() => {
+      const windowElement = rootRef.current?.querySelector(`[data-desktop-window="${id}"]`);
+      (windowElement?.querySelector('nav button, .calculator-key') || windowElement || startRef.current)?.focus({ preventScroll: true });
+    });
+  };
+  const openPortfolio = () => {
+    dispatch({ type: "OPEN_PORTFOLIO" });
+    focusWindow('portfolio');
+  };
+  const openTool = tool => {
+    dispatch({ type: "OPEN_TOOL", tool });
+    focusWindow(tool);
+  };
+  const hideTool = (tool, type) => {
+    dispatch({ type, tool });
+    focusWindow(windowOrder.filter(id => id !== tool).at(-1));
   };
 
   useEffect(() => {
-    document.body.classList.add("contact-modal-open");
-    const handleKeyDown = (event) => {
-      if (event.key === "Escape") onClose();
-    };
-    window.addEventListener("keydown", handleKeyDown);
-
+    if (contentRef.current) contentRef.current.scrollTop = 0;
+  }, [page]);
+  useEffect(() => {
+    if (!opened) return;
+    const frame = requestAnimationFrame(() => {
+      if (power === "confirm") noRef.current?.focus({ preventScroll: true });
+      else if (activeWindow) {
+        const windowElement = rootRef.current?.querySelector(`[data-desktop-window="${activeWindow}"]`);
+        if (!windowElement?.contains(document.activeElement))
+          (windowElement?.querySelector('nav button, .calculator-key') || windowElement)?.focus({ preventScroll: true });
+      } else
+        rootRef.current
+          ?.querySelector("[data-portfolio-shortcut]")
+          ?.focus({ preventScroll: true });
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [opened, power, activeWindow]);
+  useEffect(() => {
+    if (power !== "shutting-down" || !opened) return;
+    setShutdownProgress(0);
+    const start = performance.now();
+    const interval = setInterval(() => {
+      setShutdownProgress(
+        Math.min(100, ((performance.now() - start) / SHUTDOWN_DURATION) * 100),
+      );
+    }, 25);
+    const timer = setTimeout(() => {
+      setShutdownProgress(100);
+      onShutdown();
+    }, SHUTDOWN_DURATION);
     return () => {
-      document.body.classList.remove("contact-modal-open");
-      window.removeEventListener("keydown", handleKeyDown);
+      clearInterval(interval);
+      clearTimeout(timer);
     };
-  }, [onClose]);
+  }, [power, opened, onShutdown]);
 
-  return createPortal(
+  const cancelShutdown = () => {
+    dispatch({ type: "CANCEL_SHUTDOWN" });
+    requestAnimationFrame(() =>
+      startRef.current?.focus({ preventScroll: true }),
+    );
+  };
+  const handleKeyDown = (event) => {
+    if (event.key === "Escape") {
+      event.stopPropagation();
+      if (power === "confirm") cancelShutdown();
+      else {
+        dispatch({ type: "DISMISS_START" });
+        startRef.current?.focus({ preventScroll: true });
+      }
+    }
+    if (power === "confirm" && event.key === "Tab") {
+      const buttons = [...dialogRef.current.querySelectorAll("button")];
+      const index = buttons.indexOf(document.activeElement);
+      const next =
+        (index + (event.shiftKey ? -1 : 1) + buttons.length) % buttons.length;
+      event.preventDefault();
+      buttons[next].focus();
+    }
+  };
+
+  return (
     <div
-      className="contact-dialog-backdrop"
-      role="presentation"
-      onMouseDown={(event) => {
-        if (event.target === event.currentTarget) onClose();
+      className={`retro-desktop ${maximized && windowOpen && !minimized ? "window-maximized" : ""}`}
+      ref={rootRef}
+      onKeyDown={handleKeyDown}
+      onPointerDown={(event) => {
+        if (!event.target.closest(".start-menu, .start-button"))
+          dispatch({ type: "DISMISS_START" });
       }}
     >
-      <section
-        className="contact-dialog"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="contact-dialog-title"
-      >
-        <button
-          type="button"
-          className="contact-dialog-close"
-          onClick={onClose}
-          aria-label="Close dialog"
-        >
-          <FiX />
-        </button>
-
-        {type === "email" ? (
-          <>
-            <div className="contact-dialog-heading">
-              <span><FiMail /></span>
-              <div>
-                <p>Get in touch</p>
-                <h2 id="contact-dialog-title">Send Me a Message</h2>
-              </div>
-            </div>
-            <form className="contact-dialog-form" onSubmit={handleSubmit}>
-              <div>
-                <label htmlFor="contact-name">Name</label>
-                <input id="contact-name" name="name" type="text" required />
-              </div>
-              <div>
-                <label htmlFor="contact-email">Email</label>
-                <input id="contact-email" name="email" type="email" required />
-              </div>
-              <div className="full-width">
-                <label htmlFor="contact-subject">Subject</label>
-                <input id="contact-subject" name="subject" type="text" required />
-              </div>
-              <div className="full-width">
-                <label htmlFor="contact-message">Message</label>
-                <textarea id="contact-message" name="message" required />
-              </div>
-              <button className="full-width" type="submit">
-                <FiSend /> Send Message
-              </button>
-            </form>
-          </>
-        ) : (
-          <>
-            <div className="contact-dialog-heading">
-              <span><FiDownload /></span>
-              <div>
-                <p>Download CV</p>
-                <h2 id="contact-dialog-title">Latest CV</h2>
-              </div>
-            </div>
-            <div className="cv-choice-list">
-              {cvDownloads.map((cv) => (
-                <a
-                  key={cv.language}
-                  href={publicAsset(`documents/${cv.file}`)}
-                  download={cv.downloadName}
-                  onClick={onClose}
+      {power === "shutting-down" ? (
+        <div className="shutdown-screen" role="status" aria-live="polite">
+          <div className="shutdown-logo" aria-hidden="true">
+            ap.
+          </div>
+          <h2>Shutting Down</h2>
+          <p>Please wait a moment.</p>
+          <progress
+            className="shutdown-progress"
+            max="100"
+            value={shutdownProgress}
+            aria-label="Shutting down"
+          />
+        </div>
+      ) : (
+        <>
+          <div
+            className="desktop-workspace"
+            inert={power === "confirm" ? "" : undefined}
+          >
+            {(!windowOpen || minimized) && (
+              <div className="desktop-shortcuts" aria-label="Desktop shortcuts">
+                <button
+                  type="button"
+                  data-portfolio-shortcut=""
+                  onClick={openPortfolio}
                 >
-                  <span><FiFileText /></span>
-                  <div>
-                    <strong>ATS-Friendly CV — {cv.language}</strong>
-                    <small>{cv.description}</small>
-                  </div>
-                  <FiDownload />
-                </a>
-              ))}
-            </div>
-          </>
-        )}
-      </section>
-    </div>,
-    document.body,
-  );
-}
-
-function ContactSlide() {
-  const [activeDialog, setActiveDialog] = useState(null);
-
-  return (
-    <section className="slide contact-slide">
-      <div className="contact-hero">
-        <p className="contact-hero-eyebrow">Contact Me</p>
-        <h2>Let&apos;s Build Something<br />Impactful Together</h2>
-       <p className="contact-hero-description">
-        I help teams turn business goals into reliable digital products by combining
-        hands-on engineering experience, technical leadership, and strong delivery
-        ownership.
-      </p>
-
-        <div className="contact-hero-tags">
-          {opportunityTags.map((tag) => <span key={tag}>{tag}</span>)}
-        </div>
-
-        <div className="contact-action-orbs">
-          <button
-            type="button"
-            className="email"
-            onClick={() => setActiveDialog("email")}
-          >
-            <FiMail /><span>Email Me</span>
-          </button>
-          <a
-            className="linkedin"
-            href={profile.linkedin}
-            target="_blank"
-            rel="noreferrer"
-          >
-            <FiLinkedin /><span>Connect on<br />LinkedIn</span>
-          </a>
-          <button
-            type="button"
-            className="download"
-            onClick={() => setActiveDialog("cv")}
-          >
-            <FiDownload /><span>Download<br />CV</span>
-          </button>
-        </div>
-      </div>
-
-      {activeDialog ? (
-        <ContactDialog
-          type={activeDialog}
-          onClose={() => setActiveDialog(null)}
-        />
-      ) : null}
-    </section>
-  );
-}
-
-const slides = [
-  { title: "Intro", component: IntroSlide },
-  { title: "Growth", component: GrowthSlide },
-  { title: "Career", component: JourneySlide },
-  { title: "Delivery", component: DeliverySlide },
-  { title: "Tech Stack", component: TechStackSlide },
-  { title: "Skill Groups", component: SkillGroupsSlide },
-  { title: "Projects", component: ProjectsSlide },
-  { title: "Details", component: DetailsSlide },
-  { title: "Contact", component: ContactSlide },
-];
-
-export default function App() {
-  const [activeSlide, setActiveSlide] = useState(0);
-  const [transitionDirection, setTransitionDirection] = useState("next");
-  const [isMobileLayout, setIsMobileLayout] = useState(() =>
-    window.matchMedia("(max-width: 640px)").matches,
-  );
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia("(max-width: 640px)");
-    const updateLayout = (event) => setIsMobileLayout(event.matches);
-    mediaQuery.addEventListener("change", updateLayout);
-
-    return () => mediaQuery.removeEventListener("change", updateLayout);
-  }, []);
-
-  const ActiveSlide = useMemo(
-    () => slides[activeSlide].component,
-    [activeSlide],
-  );
-  const previousSlide = activeSlide > 0 ? slides[activeSlide - 1] : null;
-  const nextSlide =
-    activeSlide < slides.length - 1 ? slides[activeSlide + 1] : null;
-
-  const goToSlide = useCallback(
-    (index) => {
-      if (index < 0 || index >= slides.length) return;
-
-      setTransitionDirection(index > activeSlide ? "next" : "prev");
-      setActiveSlide(index);
-    },
-    [activeSlide],
-  );
-
-  useEffect(() => {
-    document.title = "Andri Pramuji | Senior Software Engineer & Technical Leadership";
-
-    if (isMobileLayout) return undefined;
-
-    const handleKeyDown = (event) => {
-      if (
-        document.body.classList.contains("project-modal-open") ||
-        document.body.classList.contains("contact-modal-open") ||
-        document.body.classList.contains("certificate-modal-open")
-      ) return;
-      if (event.key === "ArrowRight" && nextSlide) goToSlide(activeSlide + 1);
-      if (event.key === "ArrowLeft" && previousSlide)
-        goToSlide(activeSlide - 1);
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [activeSlide, goToSlide, isMobileLayout, nextSlide, previousSlide]);
-
-  if (isMobileLayout) {
-    return (
-      <ClickSpark sparkColor="#a8ecff">
-        <main className="portfolio-page mobile-portfolio-page">
-          <div className="mobile-portfolio-flow" aria-label="Portfolio">
-            {slides.map(({ title, component: SlideComponent }) => (
-              <div
-                className="mobile-portfolio-section"
-                id={`mobile-${title.toLowerCase().replaceAll(" ", "-")}`}
-                key={title}
-              >
-                {createElement(SlideComponent)}
+                  <span>
+                    <FiFolder />
+                  </span>
+                  Portofolio
+                </button>
               </div>
+            )}
+            {windowOpen && !minimized && (
+              <section
+                className="portfolio-window"
+                aria-label="Andri Pramuji portfolio"
+                data-desktop-window="portfolio"
+                data-window-active={activeWindow === 'portfolio' && power === 'on'}
+                style={{ zIndex: windowOrder.indexOf('portfolio') + 1 }}
+                onPointerDownCapture={() => dispatch({ type: "FOCUS_WINDOW", id: 'portfolio' })}
+                onFocusCapture={() => dispatch({ type: "FOCUS_WINDOW", id: 'portfolio' })}
+              >
+                <header className="window-title">
+                  <span>
+                    <FiMonitor aria-hidden="true" /> Andri Pramuji — Personal
+                    Portfolio
+                  </span>
+                  <div className="window-controls">
+                    <button
+                      aria-label="Minimize portfolio"
+                      onClick={() => dispatch({ type: "MINIMIZE" })}
+                    >
+                      <FiMinus />
+                    </button>
+                    <button
+                      aria-label={
+                        maximized ? "Restore window" : "Maximize window"
+                      }
+                      onClick={() => dispatch({ type: "TOGGLE_MAXIMIZE" })}
+                    >
+                      {maximized ? <VscChromeRestore aria-hidden="true" /> : <VscChromeMaximize aria-hidden="true" />}
+                    </button>
+                    <button
+                      aria-label="Close portfolio"
+                      onClick={() => dispatch({ type: "CLOSE_WINDOW" })}
+                    >
+                      <FiX />
+                    </button>
+                  </div>
+                </header>
+                <WindowMenu
+                  sections={sections}
+                  onNavigate={navigate}
+                  onExit={() => dispatch({ type: "CLOSE_WINDOW" })}
+                />
+                <div className="window-layout">
+                  <aside className="portfolio-sidebar">
+                    <a
+                      className="sidebar-name"
+                      href="#home"
+                      onClick={(event) => {
+                        event.preventDefault();
+                        navigate("home");
+                      }}
+                    >
+                      Andri
+                      <br /> Pramuji<span>Personal showcase '26</span>
+                    </a>
+                    <nav aria-label="Main navigation">
+                      {sections.map(({ id, label }, index) => (
+                        <button
+                          key={id}
+                          ref={index === 0 ? navRef : undefined}
+                          aria-current={page === id ? "page" : undefined}
+                          onClick={() => navigate(id)}
+                        >
+                          <span className="nav-marker" aria-hidden="true">
+                            •
+                          </span>
+                          {label}
+                        </button>
+                      ))}
+                    </nav>
+                    <ResumeDownload />
+                    <div className="sidebar-signature">
+                      Don't be afraid to fail. <br />
+                      Be afraid not to try.<span>— Michael Jordan</span>
+                    </div>
+                  </aside>
+                  <main
+                    className="portfolio-document"
+                    ref={contentRef}
+                    id="portfolio-document"
+                    aria-label={`${page} content`}
+                    tabIndex={0}
+                  >
+                    <div className="document-path">
+                      C: / ANDRI / {page.toUpperCase()}
+                    </div>
+                    <div className="document-page" key={page}>
+                      {page === "home" && <Home navigate={navigate} />}
+                      {page === "about" && <About />}
+                      {page === "experience" && <Experience />}
+                      {page === "projects" && <Projects />}
+                      {page === "skills" && <Skills />}
+                      {page === "credentials" && <Credentials />}
+                      {page === "contact" && <Contact />}
+                    </div>
+                  </main>
+                </div>
+                <footer className="window-status">
+                  <span>© {new Date().getFullYear()} Andri Pramuji</span>
+                  <span>
+                    {sections.find((item) => item.id === page)?.label} · Ready
+                  </span>
+                  <span className="resize-grip" aria-hidden="true">
+                    ◢
+                  </span>
+                </footer>
+              </section>
+            )}
+            {Object.entries(tools).map(([tool, toolState]) => (
+              <DesktopTool key={tool} tool={tool}
+                active={activeWindow === tool && power === 'on'} minimized={toolState.minimized}
+                zIndex={windowOrder.indexOf(tool) + 1}
+                onActivate={() => dispatch({ type: "FOCUS_WINDOW", id: tool })}
+                onMinimize={() => hideTool(tool, "MINIMIZE_TOOL")}
+                onClose={() => hideTool(tool, "CLOSE_TOOL")} />
             ))}
           </div>
-        </main>
-      </ClickSpark>
-    );
-  }
-
-  return (
-    <ClickSpark sparkColor="#a8ecff">
-      <main className="portfolio-page">
-        <section className="deck-shell" aria-label="Portfolio slideshow">
           <div
-            className={`slide-frame${activeSlide > 0 ? " has-brand-header" : ""}`}
+            className="desktop-system"
+            inert={power === "confirm" ? "" : undefined}
           >
-            {activeSlide > 0 ? (
+            {menuOpen && (
+              <StartMenu
+                onPortfolio={openPortfolio}
+                onCalculator={() => openTool("calculator")}
+                onGame={() => openTool("game")}
+                onShutdown={() => dispatch({ type: "REQUEST_SHUTDOWN" })}
+              />
+            )}
+            <footer className="desktop-taskbar">
               <button
-                type="button"
-                className="slide-brand-header"
-                onClick={() => goToSlide(0)}
-                aria-label="Back to intro slide"
+                className="start-button"
+                ref={startRef}
+                aria-haspopup="menu"
+                aria-expanded={menuOpen}
+                aria-controls="portfolio-start-menu"
+                onClick={() => dispatch({ type: "TOGGLE_START" })}
+                onKeyDown={(event) => {
+                  if (event.key === "ArrowDown") {
+                    event.preventDefault();
+                    dispatch({ type: "OPEN_START" });
+                    requestAnimationFrame(() =>
+                      rootRef.current
+                        ?.querySelector('[role="menuitem"]')
+                        ?.focus(),
+                    );
+                  }
+                }}
               >
-                <span className="brand-dot" />
-                <span className="brand-copy">
-                  <strong>{profile.name}</strong>
-                  <small>{profile.role}</small>
-                  <span className="brand-tags">
-                    <b>
-                      <FiCode />
-                      Builder
-                    </b>
-                    <b>
-                      <FiUsers />
-                      Leader
-                    </b>
-                    <b>
-                      <FiTarget />
-                      Delivery Owner
-                    </b>
-                    <b>
-                      <FiCheckCircle />
-                      Quality Driven
-                    </b>
-                  </span>
-                </span>
-                <span className="brand-shape" />
+                <span aria-hidden="true">▦</span> Start
               </button>
-            ) : null}
-
-            <div
-              key={activeSlide}
-              className={`slide-transition ${transitionDirection}`}
-            >
-              <ActiveSlide />
-            </div>
-
-            <nav
-              className={`side-controls${slides[activeSlide].title === "Contact" ? " contact-side-controls" : ""}`}
-              aria-label="Slide controls"
-            >
-              {previousSlide ? (
+              <div className="taskbar-apps" role="group" aria-label="Open applications">
+              {windowOpen && (
                 <button
-                  type="button"
-                  className="side-control side-control-prev"
-                  onClick={() => goToSlide(activeSlide - 1)}
-                  aria-label={`Previous slide: ${previousSlide.title}`}
+                  className={`taskbar-app ${activeWindow === 'portfolio' ? "is-active" : ""}`}
+                  aria-pressed={activeWindow === 'portfolio'}
+                  aria-label={
+                    activeWindow === 'portfolio' ? "Minimize portfolio" : "Restore portfolio"
+                  }
+                  onClick={() => dispatch({ type: "TOGGLE_TASKBAR" })}
                 >
-                  <FiArrowLeft />
-                  <span>Prev slide: {previousSlide.title}</span>
+                  <FiMonitor /><span>Portofolio</span>
                 </button>
-              ) : null}
-
-              {nextSlide ? (
-                <button
-                  type="button"
-                  className="side-control side-control-next"
-                  onClick={() => goToSlide(activeSlide + 1)}
-                  aria-label={`Next slide: ${nextSlide.title}`}
-                >
-                  <span>Next slide: {nextSlide.title}</span>
-                  <FiArrowRight />
+              )}
+              {Object.entries(tools).map(([tool]) => (
+                <button key={tool} type="button"
+                  className={`taskbar-app ${activeWindow === tool ? 'is-active' : ''}`}
+                  aria-pressed={activeWindow === tool}
+                  aria-label={`${activeWindow === tool ? 'Minimize' : 'Restore'} ${tool === 'calculator' ? 'calculator' : 'game'}`}
+                  title={tool === 'calculator' ? 'Calculator' : 'Game 01'}
+                  onClick={() => dispatch({ type: "TOGGLE_TOOL_TASKBAR", tool })}>
+                  {tool === 'calculator' ? <TbCalculator /> : <FiGrid />}<span>{tool === 'calculator' ? 'Calculator' : 'Game 01'}</span>
                 </button>
-              ) : null}
-            </nav>
+              ))}
+              </div>
+              <JakartaClock />
+            </footer>
           </div>
-        </section>
-      </main>
-    </ClickSpark>
+          {power === "confirm" && (
+            <div className="shutdown-backdrop">
+              <section
+                className="shutdown-dialog"
+                ref={dialogRef}
+                role="alertdialog"
+                aria-modal="true"
+                aria-labelledby="shutdown-title"
+                aria-describedby="shutdown-description"
+              >
+                <header className="window-title" id="shutdown-title">
+                  <span>
+                    <FiPower /> Shut Down
+                  </span>
+                </header>
+                <div className="shutdown-dialog-body">
+                  <FiPower aria-hidden="true" />
+                  <p id="shutdown-description">Click Yes to shutdown</p>
+                </div>
+                <div className="shutdown-actions">
+                  <button
+                    className="retro-button"
+                    onClick={() => dispatch({ type: "CONFIRM_SHUTDOWN" })}
+                  >
+                    Yes
+                  </button>
+                  <button
+                    className="retro-button"
+                    ref={noRef}
+                    onClick={cancelShutdown}
+                  >
+                    No
+                  </button>
+                </div>
+              </section>
+            </div>
+          )}
+        </>
+      )}
+    </div>
+  );
+}
+
+export default function App() {
+  const [opened, setOpened] = useState(false);
+  const [bootId, setBootId] = useState(0);
+  const [settled, setSettled] = useState(false);
+  const [fallback, setFallback] = useState(false);
+  const [ready, setReady] = useState(false);
+  const [screenElement] = useState(() => {
+    const element = document.createElement("div");
+    element.className = "screen-surface";
+    element.id = "laptop-portfolio";
+    return element;
+  });
+  const playMouseClick = useMouseClickSound();
+  const activate = useCallback(() => {
+    // Reset the desktop in the same commit that starts opening, before it can fade in.
+    setBootId((current) => current + 1);
+    setOpened(true);
+  }, []);
+  const mobileHost = useRef(null);
+  const welcomeRef = useRef(null);
+  const close = useCallback(() => {
+    setSettled(false);
+    setOpened(false);
+    requestAnimationFrame(() =>
+      welcomeRef.current?.focus({ preventScroll: true }),
+    );
+  }, []);
+  const onSettled = useCallback((value) => setSettled(value), []);
+  const onReady = useCallback(() => setReady(true), []);
+  const onFallback = useCallback(() => {
+    setFallback(true);
+    setReady(true);
+  }, []);
+  useEffect(() => {
+    screenElement.inert = !settled;
+    screenElement.setAttribute("aria-hidden", String(!settled));
+  }, [screenElement, settled]);
+  useEffect(() => {
+    if (fallback) setSettled(opened);
+  }, [fallback, opened]);
+  return (
+    <div
+      onClickCapture={playMouseClick}
+      className={`portfolio-app ${opened ? "is-open" : ""} ${settled ? "is-settled" : ""} ${fallback ? "has-fallback" : ""}`}
+    >
+      <header className="site-header">
+        <a
+          className="site-brand"
+          href="#"
+          onClick={(event) => {
+            event.preventDefault();
+            close();
+          }}
+          aria-label="Andri Pramuji, return to welcome"
+        >
+          <span className="brand-monogram">ap.</span>
+          <span style={{ fontSize: 15 }}>
+            ANDRI PRAMUJI
+            <small style={{ fontSize: 10 }}>A PERSONAL PORTFOLIO · 2026</small>
+          </span>
+        </a>
+        {opened && (
+          <button className="close-laptop" onClick={close}>
+            <FiArrowLeft /> <span style={{ fontSize: 13 }}>Back to desk</span>
+          </button>
+        )}
+      </header>
+      <div className="desk-stage">
+        <LaptopScene
+          opened={opened}
+          screenElement={screenElement}
+          mobileHost={mobileHost}
+          onSettled={onSettled}
+          onReady={onReady}
+          onFallback={onFallback}
+          onActivate={activate}
+        />
+        {!opened && (
+          <div className="welcome-copy">
+            <span className="welcome-eyebrow" style={{ fontSize: 14 }}>
+              PULL UP A CHAIR. STAY A LITTLE WHILE.
+            </span>
+            <h1>
+              Make yourself
+              <br />
+              <em>at home.</em>
+            </h1>
+            <p style={{ fontSize: 13 }}>
+              I'm Andri. Come in and take a look around.
+            </p>
+            <button
+              className="welcome-button"
+              aria-controls="laptop-portfolio"
+              aria-expanded={opened}
+              ref={welcomeRef}
+              disabled={!ready}
+              onClick={activate}
+            >
+              {ready ? "WELCOME" : "SETTING THE DESK"}
+              <FiArrowUpRight aria-hidden="true" />
+            </button>
+          </div>
+        )}
+        {!opened && (
+          <span className="scene-caption">
+            <span className="desktop-caption" style={{ fontSize: 12 }}>
+              A closed laptop. A few stories inside.
+            </span>
+            <span className="mobile-caption">
+              A little world, in the palm of your hand.
+            </span>
+          </span>
+        )}
+        {fallback && !opened && (
+          <button
+            className="fallback-device"
+            onClick={activate}
+            aria-label="Open portfolio"
+          >
+            ap.
+          </button>
+        )}
+        {opened && !settled && (
+          <span className="opening-status" role="status">
+            Powering on…
+          </span>
+        )}
+      </div>
+      <div className="mobile-screen-host" ref={mobileHost}>
+        {opened && !settled && (
+          <div className="mobile-startup" role="status" aria-live="polite">
+            <span className="startup-monogram" aria-hidden="true">ap.</span>
+            <span className="startup-title">Starting up</span>
+            <span className="startup-caption">A little world is waking up.</span>
+            <span className="startup-loading" aria-hidden="true"><span /></span>
+          </div>
+        )}
+      </div>
+      {createPortal(
+        <RetroDesktop key={bootId} onShutdown={close} opened={settled} />,
+        screenElement,
+      )}
+      <footer className="site-footer">
+        <span style={{ fontSize: 14 }}>BUILT WITH CURIOSITY.</span>
+      </footer>
+    </div>
   );
 }

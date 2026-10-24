@@ -7,7 +7,7 @@ export const profile = {
   linkedin: "https://www.linkedin.com/in/andri-pramuji-47aa42220/",
   github: "https://github.com/thedrongs",
   summary:
-    "Software engineer and technical leader with 13+ years of experience in technology, spanning IT operations, banking payment systems, and enterprise applications. Delivered 25 applications across web, mobile, desktop, and payment platforms through individual contributor and leadership roles.\n\nLed teams of up to 12 people and coordinated delivery across Frontend, Backend, and QA, combining hands-on development, system integration, and technical leadership.",
+    "Software engineer with 13+ years in technology, specializing in frontend and full-stack development. Delivered 25 applications across web, mobile, desktop, and banking payment platforms. Led teams of up to 12 people and coordinated delivery across Frontend, Backend, and QA.\n\nCombines hands-on engineering, technical leadership, and practical adoption of agentic AI development tools to improve engineering productivity, software quality, and operational efficiency.",
 };
 
 export const hero = {
@@ -18,6 +18,27 @@ export const hero = {
 };
 
 export const metrics = [
+  {
+    icon: "team-efficiency",
+    value: "10%",
+    title: "Frontend Team Efficiency & Productivity Improved",
+    description:
+      "At Nabati, through modernization, build optimization, and stronger engineering practices, measured in weekly reports.",
+  },
+  {
+    icon: "transaction-packets",
+    value: "~50%",
+    title: "Transaction Packet Sizes Reduced",
+    description:
+      "Refactored BPD Bali's EDC application at Arahnet, also cutting complex transaction response times from 4-5 seconds to 2 seconds.",
+  },
+  {
+    icon: "sms-reporting",
+    value: "60%",
+    title: "SMS Reporting Consolidation Time Reduced",
+    description:
+      "Built a web-based SMS gateway supporting 30 vessels at Nelly.",
+  },
   {
     icon: "projects",
     value: "25",
@@ -37,14 +58,14 @@ export const metrics = [
     value: "~90%",
     title: "Technical Debt Reduced",
     description:
-      "5,000+ to 450 (Jun-Dec 2025). SonarQube quality gates and refactoring.",
+      "5,000+ to 450 within 6 months, through SonarQube quality gates and refactoring.",
   },
   {
     icon: "build-time",
     value: "~80%",
     title: "UI Library Build Time Reduced",
     description:
-      "8-10 to 1-2 minutes in 3 months. Dependency cleanup and build architecture improvements.",
+      "8-10 to 1-2 minutes within 3 months, through code cleanup and build and architecture optimization.",
   },
   {
     icon: "code-issues",
@@ -108,7 +129,7 @@ export const leadershipSkillGroups = [
         name: "App Development",
         experience: "6+ Years Experience",
         iconKey: "appdev",
-      }, 
+      },
       {
         name: "Mobile Development",
         experience: "2+ Years Experience",
@@ -278,7 +299,7 @@ export const techStack = [
     {
       name: "React Query",
       iconKey: "reactquery",
-      experience: "Server-state management",
+      experience: "3 Years Experience",
       badges: [],
     },
     {
@@ -353,7 +374,7 @@ export const techStack = [
     {
       name: "Axios",
       iconKey: "axios",
-      experience: "HTTP client",
+      experience: "4 Years Experience",
       badges: [],
     },
   ]),
@@ -363,7 +384,7 @@ export const techStack = [
       name: "Go",
       iconKey: "go",
       color: "#00ADD8",
-      experience: "1+ Years Experience",
+      experience: "2+ Years Experience",
       badges: BADGES.handsOnProduction,
     },
     {
@@ -377,7 +398,7 @@ export const techStack = [
       name: "Node.js",
       iconKey: "nodejs",
       color: "#5FA04E",
-      experience: "1+ Years Experience",
+      experience: "2+ Years Experience",
       badges: BADGES.handsOnProduction,
     },
   ]),
@@ -385,12 +406,12 @@ export const techStack = [
     {
       name: "gRPC",
       iconKey: "grpc",
-      experience: "Backend service communication",
+      experience: "1 Year Experience",
     },
     {
       name: "Protocol Buffers",
       iconKey: "protobuf",
-      experience: "Service interface definitions",
+      experience: "1 Year Experience",
       badges: [],
     },
     {
@@ -419,7 +440,7 @@ export const techStack = [
       name: "Express.js",
       iconKey: "express",
       color: "#000000",
-      experience: "1+ Years Experience",
+      experience: "2+ Years Experience",
       badges: BADGES.handsOnProject,
     },
   ]),
@@ -443,7 +464,7 @@ export const techStack = [
       name: "Redis",
       iconKey: "redis",
       color: "#FF4438",
-      experience: "1+ Years Experience",
+      experience: "2 Years Experience",
       badges: BADGES.handsOnProduction,
     },
   ]),
@@ -452,13 +473,13 @@ export const techStack = [
     {
       name: "cron jobs",
       iconKey: "cron",
-      experience: "Scheduled backend processing",
+      experience: "2 Years Experience",
     },
     {
       name: "RabbitMQ",
       iconKey: "rabbitmq",
       color: "#FF6600",
-      experience: "1+ Year Experience",
+      experience: "2 Years Experience",
       badges: BADGES.handsOnProduction,
     },
   ]),
@@ -480,7 +501,7 @@ export const techStack = [
       badges: BADGES.handsOnProduction,
     },
     {
-      name: "Mini Program",
+      name: "Mini Program (Taro.js)",
       iconKey: "miniprogram",
       color: "#07C160",
       experience: "1+ Years Experience",
@@ -606,20 +627,65 @@ export const techStack = [
   ]),
 
   ...createSkillGroup(GROUPS.delivery, "Delivery & Engineering Practices", [
-    { name: "Agile / Scrum / Waterfall", iconKey: "delivery", experience: "Delivery methodologies", badges: [] },
-    { name: "Sprint Planning & Backlog Refinement", iconKey: "delivery", experience: "Delivery planning", badges: [] },
-    { name: "Code Review & Engineering Standardization", iconKey: "quality", experience: "Engineering quality", badges: [] },
-    { name: "Trunk-Based Development", iconKey: "git", experience: "Development workflow", badges: [] },
-    { name: "Release Planning & Technical Documentation", iconKey: "documentation", experience: "Delivery coordination", badges: [] },
-    { name: "AI-Assisted Development", iconKey: "ai", experience: "Development workflows", badges: [] },
+    {
+      name: "Agile / Scrum / Waterfall",
+      iconKey: "delivery",
+      experience: "Delivery methodologies",
+      badges: [],
+    },
+    {
+      name: "Sprint Planning & Backlog Refinement",
+      iconKey: "delivery",
+      experience: "Delivery planning",
+      badges: [],
+    },
+    {
+      name: "Code Review & Engineering Standardization",
+      iconKey: "quality",
+      experience: "Engineering quality",
+      badges: [],
+    },
+    {
+      name: "Trunk-Based Development",
+      iconKey: "git",
+      experience: "Development workflow",
+      badges: [],
+    },
+    {
+      name: "Release Planning & Technical Documentation",
+      iconKey: "documentation",
+      experience: "Delivery coordination",
+      badges: [],
+    },
+    {
+      name: "AI-Assisted Development",
+      iconKey: "ai",
+      experience: "Development workflows",
+      badges: [],
+    },
   ]),
   ...createSkillGroup(GROUPS.delivery, "Management Tools", [
-    { name: "Jira", iconKey: "jira", experience: "Project management", badges: [] },
-    { name: "ClickUp", iconKey: "clickup", experience: "Work coordination", badges: [] },
-    { name: "YouTrack", iconKey: "youtrack", experience: "Issue tracking", badges: [] },
+    {
+      name: "Jira",
+      iconKey: "jira",
+      experience: "Project management",
+      badges: [],
+    },
+    {
+      name: "ClickUp",
+      iconKey: "clickup",
+      experience: "Work coordination",
+      badges: [],
+    },
+    {
+      name: "YouTrack",
+      iconKey: "youtrack",
+      experience: "Issue tracking",
+      badges: [],
+    },
   ]),
 
-    ...createSkillGroup(GROUPS.backend, "Cloud & BaaS", [
+  ...createSkillGroup(GROUPS.backend, "Cloud & BaaS", [
     {
       name: "Google Firebase",
       iconKey: "firebase",
@@ -627,6 +693,48 @@ export const techStack = [
       textColor: "#111827",
       experience: "1 Year Experience",
       badges: BADGES.handsOnProduction,
+    },
+  ]),
+  ...createSkillGroup(GROUPS.devopsQuality, "Cloud Platforms", [
+    {
+      name: "AWS (EC2, S3, RDS)",
+      iconKey: "aws",
+      experience: "EC2, S3, RDS",
+      badges: [],
+    },
+  ]),
+  ...createSkillGroup(GROUPS.backend, "Database Administration", [
+    {
+      name: "phpMyAdmin",
+      iconKey: "phpmyadmin",
+      experience: "MySQL database administration",
+      badges: [],
+    },
+  ]),
+  ...createSkillGroup(GROUPS.delivery, "Agentic AI", [
+    {
+      name: "Codex",
+      iconKey: "codex",
+      experience: "Agentic AI development tools",
+      badges: [],
+    },
+    {
+      name: "Claude Code",
+      iconKey: "claudecode",
+      experience: "Agentic AI development tools",
+      badges: [],
+    },
+    {
+      name: "Kiro AWS",
+      iconKey: "kiro",
+      experience: "Agentic AI development tools",
+      badges: [],
+    },
+    {
+      name: "Antigravity",
+      iconKey: "antigravity",
+      experience: "Agentic AI development tools",
+      badges: [],
     },
   ]),
 ];
@@ -701,9 +809,9 @@ export const timelineItems = [
     responsibilities: [
       "Led a 9-person cross-functional squad across Frontend, Backend, and QA, translating business goals into sprint-ready delivery plans.",
       "Coordinated priorities, workloads, dependencies, risks, documentation, and engineering quality across Agile releases.",
-      "Developed and maintained frontend applications within a monorepo and microfrontend environment, supporting reusable UI components and API integrations.",
-      "Developed and maintained backend microservices across Sales, Inventory, and Reporting, supporting customer management, shipment workflows, and reporting through Go, gRPC, REST APIs, RabbitMQ, Redis, and cron jobs.",
-      "Supported logistics and transportation workflows, including booking, shipment updates, and third-party integrations, through debugging, API improvements, and UAT support.",
+      "Developed and maintained frontend applications within monorepo and microfrontend environments.",
+      "Developed and maintained backend microservices across Sales, Inventory, and Reporting.",
+      "Supported and maintained Logistics, Shipments, and third-party integrations through API improvements and UAT support.",
       "Improved delivery quality through code reviews, refactoring, automated testing with Jest and Playwright, and AI-assisted development workflows.",
     ],
     techStackIconKeys: [
@@ -712,6 +820,7 @@ export const timelineItems = [
       "typescript",
       "go",
       "mongodb",
+      "redis",
       "grpc",
       "rabbitmq",
       "cron",
@@ -721,31 +830,30 @@ export const timelineItems = [
       "grafana",
       "opentelemetry",
       "elastic",
-      "redis",
       "vault",
       "argocd",
     ],
   },
   {
     role: "Technical Lead Frontend",
-    period: "Apr 2024 – Dec 2025",
+    period: "Apr 2024 - Dec 2025",
     duration: "1 yr 9 months",
     employmentType: "Full-time",
     company: "PT. Kaldu Sari Nabati Indonesia (NABATI)",
     location: "Bandung, Indonesia",
     responsibilities: [
-      "Led a 12-person frontend team, managing delivery, legacy support, workforce planning, and KPIs, providing input for performance reviews, and guiding technical decisions through team feedback.",
-      "Reduced technical debt by approximately 90%, from 5,000+ to 450 between June and December 2025, through SonarQube quality gates and refactoring.",
-      "Cut UI library build time by approximately 80%, from 8-10 to 1-2 minutes, within 3 months, through dependency cleanup and build architecture improvements.",
-      "Reduced weekly frontend bug tickets by approximately 70%, from 20-30 to 5-10, within 4 months, through Jest testing, 1:1 code reviews, codebase modernization, and engineering standardization.",
-      "Rapidly built and maintained internal full-stack applications using React.js, Node.js, Express.js, Go, and MySQL, evolving prototypes into reporting tools for senior management.",
-      "Developed and maintained web applications within a monorepo and microfrontend environment, alongside mobile applications, across ERP, SFA, HRIS, and field operation tools.",
+      "Led a 12-person frontend team across delivery, legacy support, workforce planning, KPIs, performance review input, hiring, and technical decisions.",
+      "Reduced technical debt by 90%, from 5,000+ to 450 within 6 months, through SonarQube quality gates and refactoring.",
+      "Cut UI library build time by 80%, from 8-10 to 1-2 minutes within 3 months, through code cleanup and build and architecture optimization.",
+      "Reduced weekly frontend bug tickets by approximately 70%, from 20-30 to 5-10 within 4 months, through Jest testing, 1:1 code reviews, codebase modernization, and engineering standardization.",
+      "Built and maintained internal full-stack Reporting tools for senior management using monolithic and layered architecture.",
+      "Developed and maintained monorepo and microfrontend web apps and mobile apps across ERP, SFA, HRIS, and field operations.",
     ],
     techStackIconKeys: [
       "react",
       "nextjs",
-      "vitejs",
       "typescript",
+      "vitejs",
       "rollup",
       "antdesign",
       "tailwind",
@@ -754,17 +862,18 @@ export const timelineItems = [
       "reactnative",
       "miniprogram",
       "go",
-      "nodejs",
       "express",
+      "nodejs",
       "api",
       "mysql",
       "jest",
       "sonarqube",
+      "aws",
     ],
   },
   {
     role: "Senior Frontend Developer",
-    period: "Mar 2023 – Apr 2024",
+    period: "Mar 2023 - Apr 2024",
     duration: "1 yr 2 months",
     employmentType: "Full-time",
     company: "PT. Kaldu Sari Nabati Indonesia (NABATI)",
@@ -776,14 +885,14 @@ export const timelineItems = [
   },
   {
     role: "Frontend Developer - Payment Systems",
-    period: "Dec 2016 – Mar 2023",
+    period: "Dec 2016 - Mar 2023",
     duration: "6 yrs 4 months",
     employmentType: "Full-time",
     company: "PT. Arah Dinamika Abadi",
     location: "DKI Jakarta, Indonesia",
     responsibilities: [
       "Delivered secure NSICCS-compliant ISO8583 EDC, POS, and Terminal Management System solutions for 7 Indonesian banks.",
-      "Supported mandatory updates, pre- and post-UAT, issue analysis, regulatory compliance, and banking payment system continuity.",
+      "Supported mandatory updates, pre- and post-UAT, issue analysis, regulatory compliance, and legacy system continuity.",
       "Mentored 3 junior developers and interns from Feb 2021 to Dec 2022.",
     ],
     notableProjectsTitle: "Notable Projects",
@@ -793,17 +902,25 @@ export const timelineItems = [
     techStackIconKeys: ["c", "cplusplus", "php", "kotlin"],
   },
   {
-    role: "ICT Staff & Administration",
-    period: "Mar 2013 – Nov 2016",
+    role: "IT Staff & Full-stack Developer",
+    period: "Mar 2013 - Nov 2016",
     duration: "3 yrs 9 months",
     employmentType: "Full-time",
     company: "PT. Pelayaran Nelly Dwi Putri Tbk.",
     location: "DKI Jakarta, Indonesia",
     responsibilities: [
-      "Managed infrastructure, networking, maintenance, and troubleshooting for 40+ PCs across office and operational environments.",
-      "Delivered an SMS Gateway, company website, and automated file backups to support communication, administration, and operational continuity.",
+      "Developed and maintained a full-stack company website using HTML, CSS, JavaScript, PHP, and MySQL, enabling regular content updates to support periodic reviews by the Indonesia Stock Exchange (IDX).",
+      "Initiated, built, and maintained a web-based SMS gateway, reducing weekly SMS consolidation time by approximately 60%. Automated company file backups to support operational continuity.",
+      "Provided infrastructure, networking, maintenance, and troubleshooting support for 40+ PCs across office and operational environments.",
     ],
-    techStackIconKeys: ["html5", "css", "php", "mysql"],
+    techStackIconKeys: [
+      "html5",
+      "css",
+      "javascript",
+      "php",
+      "phpmyadmin",
+      "mysql",
+    ],
   },
 ];
 
@@ -857,10 +974,10 @@ export const selectedProjects = [
   },
   {
     title: "NSICCS, EDC & POS Payment Applications",
-    period: "Dec 2016 – Mar 2023",
+    period: "Dec 2016 - Mar 2023",
     screenshotFolder: "edc",
     description:
-      "Delivered NSICCS-compliant ISO8583 EDC, POS, and TMS solutions for 7 Indonesian banks, supporting certification, UAT, issue resolution, mandatory updates, and transaction continuity.",
+      "Delivered NSICCS-compliant ISO8583 EDC, POS, and TMS solutions for 7 Indonesian banks: BPD Bali, BPD Jateng, Bank Victoria, BNI, Bank Syariah Mandiri (now BSI), Bank Aceh, and Bank NTT, supporting certification, UAT, issue resolution, mandatory updates, and transaction continuity. Provided legacy payment system support and updates for Bank Mandiri.",
     techStackIconKeys: ["c", "cplusplus", "php", "kotlin"],
   },
   {
@@ -871,13 +988,6 @@ export const selectedProjects = [
       "Built and maintained a company website that required regular content updates for IDX-related checking and public information needs.",
     url: "https://www.nellydwiputri.co.id",
     techStackIconKeys: ["html5", "css", "php", "mysql"],
-  },
-  {
-    title: "Bakery E-Commerce Web Platform",
-    period: "Aug 2022 – Jan 2023",
-    description:
-      "Built and managed an e-commerce web platform for a bakery shop, covering product catalog, transaction flow, and backend data integration.",
-    techStackIconKeys: ["html5", "javascript", "react", "mongodb", "api"],
   },
   {
     title: "Crewing Offshore Recruitment App",
@@ -891,12 +1001,9 @@ export const selectedProjects = [
 ];
 
 export const keyAchievements = [
-  "Delivered 25 applications across web, mobile, desktop, and payment platforms through individual contributor and leadership roles.",
-  "Led engineering teams up to 12 members, improving delivery coordination, risk control, and engineering quality.",
-  "Reduced technical debt by approximately 90%, from 5,000+ to 450 between June and December 2025.",
-  "Reduced UI library build time by approximately 80%, from 8-10 to 1-2 minutes within 3 months.",
-  "Reduced weekly frontend bug tickets by approximately 70%, from 20-30 to 5-10 within 4 months.",
-  "Delivered mandatory NSICCS updates for 7 Indonesian banks, ensuring BI compliance and ISO8583 transaction continuity.",
+  "At Nabati, improved frontend team efficiency and productivity by 10% through modernization, build optimization, and stronger engineering practices, as measured in weekly reports.",
+  "At Arahnet, refactored BPD Bali's EDC application, reducing transaction packet sizes by approximately 50% and cutting response times for complex transactions from 4-5 seconds to 2 seconds.",
+  "At Nelly, reduced weekly SMS reporting consolidation time by 60% by building a web-based SMS gateway supporting 30 vessels.",
 ];
 
 export const education = {
@@ -934,5 +1041,406 @@ export const certifications = [
     issuedAt: "2025-06-01",
     credentialId: "UC-4fba38e0-1953-4a0d-8931-105f75d8bdcc",
     certificateFile: "golang.jpg",
+  },
+];
+
+// Categories and item order follow the latest supplied CV.
+export const cvSkillGroups = [
+  {
+    key: "leadership",
+    label: "Leadership",
+    iconKey: "leadership",
+    items: [
+      {
+        name: "Engineering Leadership",
+        iconKey: "leadership",
+      },
+      {
+        name: "Technical Leadership",
+        iconKey: "cpu",
+      },
+      {
+        name: "Mentoring",
+        iconKey: "users",
+      },
+      {
+        name: "Stakeholder Alignment",
+        iconKey: "message",
+      },
+      {
+        name: "Delivery Planning",
+        iconKey: "calendar",
+      },
+      {
+        name: "Risk Management",
+        iconKey: "shield",
+      },
+      {
+        name: "Performance Review Input",
+        iconKey: "user-check",
+      },
+      {
+        name: "Workforce Planning",
+        iconKey: "users",
+      },
+      {
+        name: "Project Management",
+        iconKey: "clipboard",
+      },
+    ],
+  },
+  {
+    key: "architecture",
+    label: "Software Design & Architecture",
+    iconKey: "architecture",
+    items: [
+      {
+        name: "Monolithic",
+        iconKey: "monolithic",
+      },
+      {
+        name: "Microfrontend",
+        iconKey: "microfrontends",
+      },
+      {
+        name: "Microservices",
+        iconKey: "microservices",
+      },
+      {
+        name: "Layered",
+        iconKey: "layered",
+      },
+      {
+        name: "Event-Driven",
+        iconKey: "event-driven",
+      },
+      {
+        name: "Clean",
+        iconKey: "clean",
+      },
+      {
+        name: "Hexagonal",
+        iconKey: "hexagonal",
+      },
+    ],
+  },
+  {
+    key: "engineering-practices",
+    label: "Delivery & Engineering Practices",
+    iconKey: "delivery",
+    items: [
+      {
+        name: "Agile",
+        iconKey: "iteration",
+      },
+      {
+        name: "Scrum",
+        iconKey: "users",
+      },
+      {
+        name: "Waterfall",
+        iconKey: "layered",
+      },
+      {
+        name: "Sprint Planning",
+        iconKey: "calendar",
+      },
+      {
+        name: "Backlog Refinement",
+        iconKey: "clipboard",
+      },
+      {
+        name: "Code Review",
+        iconKey: "quality",
+      },
+      {
+        name: "Trunk-Based Development",
+        iconKey: "git",
+      },
+      {
+        name: "Release Planning",
+        iconKey: "calendar",
+      },
+      {
+        name: "Technical Documentation",
+        iconKey: "documentation",
+      },
+      {
+        name: "Engineering Standardization",
+        iconKey: "shield",
+      },
+      {
+        name: "AI-Assisted Development",
+        iconKey: "ai",
+      },
+    ],
+  },
+  {
+    key: "agentic-ai",
+    label: "Agentic AI",
+    iconKey: "ai",
+    items: [
+      {
+        name: "Codex",
+        iconKey: "codex",
+      },
+      {
+        name: "Claude Code",
+        iconKey: "claudecode",
+      },
+      {
+        name: "Kiro AWS",
+        iconKey: "kiro",
+      },
+      {
+        name: "Antigravity",
+        iconKey: "antigravity",
+      },
+    ],
+  },
+  {
+    key: "frontend",
+    label: "Frontend",
+    iconKey: "frontend",
+    items: [
+      {
+        name: "JavaScript",
+        iconKey: "javascript",
+      },
+      {
+        name: "TypeScript",
+        iconKey: "typescript",
+      },
+      {
+        name: "React.js",
+        iconKey: "react",
+      },
+      {
+        name: "Next.js",
+        iconKey: "nextjs",
+      },
+      {
+        name: "React Native",
+        iconKey: "reactnative",
+      },
+      {
+        name: "Vite.js",
+        iconKey: "vitejs",
+      },
+      {
+        name: "Rollup.js",
+        iconKey: "rollup",
+      },
+      {
+        name: "React Query",
+        iconKey: "reactquery",
+      },
+      {
+        name: "Zustand",
+        iconKey: "zustand",
+      },
+      {
+        name: "Redux",
+        iconKey: "redux",
+      },
+      {
+        name: "Axios",
+        iconKey: "axios",
+      },
+      {
+        name: "Tailwind CSS",
+        iconKey: "tailwind",
+      },
+      {
+        name: "Ant Design",
+        iconKey: "antdesign",
+      },
+      {
+        name: "Radix UI",
+        iconKey: "radixui",
+      },
+      {
+        name: "Storybook.js",
+        iconKey: "storybook",
+      },
+      {
+        name: "Mini Program (Taro.js)",
+        iconKey: "miniprogram",
+      },
+    ],
+  },
+  {
+    key: "backend-integration",
+    label: "Backend & Integration",
+    iconKey: "backend",
+    items: [
+      {
+        name: "Go",
+        iconKey: "go",
+      },
+      {
+        name: "Node.js",
+        iconKey: "nodejs",
+      },
+      {
+        name: "Express.js",
+        iconKey: "express",
+      },
+      {
+        name: "REST APIs",
+        iconKey: "api",
+      },
+      {
+        name: "GraphQL",
+        iconKey: "graphql",
+      },
+      {
+        name: "gRPC",
+        iconKey: "grpc",
+      },
+      {
+        name: "Protocol Buffers",
+        iconKey: "protobuf",
+      },
+      {
+        name: "RabbitMQ",
+        iconKey: "rabbitmq",
+      },
+      {
+        name: "Redis",
+        iconKey: "redis",
+      },
+      {
+        name: "MySQL",
+        iconKey: "mysql",
+      },
+      {
+        name: "MongoDB",
+        iconKey: "mongodb",
+      },
+      {
+        name: "PHP",
+        iconKey: "php",
+      },
+      {
+        name: "Firebase",
+        iconKey: "firebase",
+      },
+      {
+        name: "cron jobs",
+        iconKey: "cron",
+      },
+    ],
+  },
+  {
+    key: "testing-quality",
+    label: "Testing & Quality",
+    iconKey: "quality",
+    items: [
+      {
+        name: "Jest",
+        iconKey: "jest",
+      },
+      {
+        name: "Playwright",
+        iconKey: "playwright",
+      },
+      {
+        name: "SonarQube",
+        iconKey: "sonarqube",
+      },
+    ],
+  },
+  {
+    key: "cloud-devops-observability",
+    label: "Cloud, DevOps & Observability",
+    iconKey: "cloud",
+    items: [
+      {
+        name: "AWS (EC2, S3, RDS)",
+        iconKey: "aws",
+      },
+      {
+        name: "Docker",
+        iconKey: "docker",
+      },
+      {
+        name: "Kubernetes",
+        iconKey: "kubernetes",
+      },
+      {
+        name: "Argo CD",
+        iconKey: "argocd",
+      },
+      {
+        name: "Vault",
+        iconKey: "vault",
+      },
+      {
+        name: "OpenTelemetry",
+        iconKey: "opentelemetry",
+      },
+      {
+        name: "Elastic APM",
+        iconKey: "elastic",
+      },
+      {
+        name: "Grafana",
+        iconKey: "grafana",
+      },
+    ],
+  },
+  {
+    key: "version-control",
+    label: "Version Control & CI/CD",
+    iconKey: "version-control",
+    items: [
+      {
+        name: "Git",
+        iconKey: "git",
+      },
+      {
+        name: "GitLab",
+        iconKey: "gitlab",
+      },
+      {
+        name: "GitHub Actions",
+        iconKey: "githubactions",
+      },
+    ],
+  },
+  {
+    key: "management-tools",
+    label: "Management Tools",
+    iconKey: "management",
+    items: [
+      {
+        name: "Jira",
+        iconKey: "jira",
+      },
+      {
+        name: "ClickUp",
+        iconKey: "clickup",
+      },
+      {
+        name: "YouTrack",
+        iconKey: "youtrack",
+      },
+    ],
+  },
+  {
+    key: "other-languages",
+    label: "Other Programming Languages",
+    iconKey: "embedded",
+    items: [
+      {
+        name: "C",
+        iconKey: "c",
+      },
+      {
+        name: "C++",
+        iconKey: "cplusplus",
+      },
+    ],
   },
 ];

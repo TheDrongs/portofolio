@@ -1,12 +1,28 @@
-# React + Vite
+# Andri Pramuji — Personal Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+An interactive portfolio built with React, Vite, and Three.js. Desktop visitors open a laptop; mobile visitors use a smartphone with the same retro portfolio interface.
 
-Currently, two official plugins are available:
+## Development
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+```sh
+npm install
+npm run dev
+```
 
-## Expanding the ESLint configuration
+Open http://localhost:7001/portofolio/. Click **Welcome** or the device to enter. Desktop mouse clicks play a quiet, locally synthesized click sound. Touch and keyboard interactions are silent.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+The portfolio window supports minimize, restore, maximize, and close. Closing the window leaves the device on and reveals a **Portofolio** shortcut. Open it again from that shortcut or **Start → Portofolio**. About, Projects, and Contact shortcuts are shown while the portfolio is open.
+
+**Start → Shut Down** opens a Yes/No confirmation. Yes shows **Shutting Down** and a one-second loading bar before powering off; No cancels. Escape dismisses the menu or cancels the confirmation.
+
+On mobile, a portrait smartphone frame keeps the content scrollable and readable. Reduced motion preferences are respected. If WebGL is unavailable, the portfolio still works with a fallback device view.
+
+## Checks and production
+
+```sh
+npm test
+npm run build
+npm run preview
+```
+
+The deployment base is `/portofolio/`, configured in `vite.config.js` for the existing GitHub Pages deployment. Portfolio content lives in `src/data/portofolioData.jsx`; downloadable CVs live in `public/documents/`.
