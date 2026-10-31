@@ -4,7 +4,7 @@ export const profile = {
   location: "Bandung, West Java, Indonesia",
   phone: "0856-1963-999",
   email: "andripramuji88@gmail.com",
-  linkedin: "https://www.linkedin.com/in/andri-pramuji-47aa42220/",
+  linkedin: "https://www.linkedin.com/in/andri-p-47aa42220/",
   summary:
     "Software engineer with 13+ years in technology and 25 applications delivered across web, mobile, desktop, and banking payment platforms.\n\nLed cross-functional teams of up to 12 people across Frontend, Backend, and QA, owning end-to-end Agile delivery while remaining hands-on in full-stack development and system integration.\n\nCombines team leadership, stakeholder coordination, and AI-assisted engineering to improve productivity, software quality, and operational efficiency. Helps developers adopt structured prompting, spec-driven development, and AI-assisted testing and code review.",
 };
