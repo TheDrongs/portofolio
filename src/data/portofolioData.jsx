@@ -4,25 +4,32 @@ export const profile = {
   location: "Bandung, West Java, Indonesia",
   phone: "0856-1963-999",
   email: "andripramuji88@gmail.com",
-  linkedin: "https://www.linkedin.com/in/andri-p-47aa42220/",
+  linkedin: "https://www.linkedin.com/in/andri-pramuji-47aa42220/",
   summary:
-    "Software engineer with 13+ years in technology, specializing in frontend and full-stack development. Started in IT Operations before moving into payment systems and enterprise application development. \n\nDelivered 25 applications across web, mobile, desktop, and banking payment platforms. Led teams of up to 12 people and coordinated delivery across Frontend, Backend, and QA.\n\nCombines hands-on engineering, technical leadership, and practical adoption of agentic AI development tools to improve engineering productivity, software quality, and operational efficiency.",
+    "Software engineer with 13+ years in technology and 25 applications delivered across web, mobile, desktop, and banking payment platforms.\n\nLed cross-functional teams of up to 12 people across Frontend, Backend, and QA, owning end-to-end Agile delivery while remaining hands-on in full-stack development and system integration.\n\nCombines team leadership, stakeholder coordination, and AI-assisted engineering to improve productivity, software quality, and operational efficiency. Helps developers adopt structured prompting, spec-driven development, and AI-assisted testing and code review.",
 };
 
 export const hero = {
   eyebrow: "Professional Summary",
   title: "Hands-on Engineering & Technical Leadership",
   description:
-    "Focused on team alignment, clear execution, sustainable delivery, and maintaining engineering quality across custom SaaS, enterprise platforms, internal business systems, field operations, and payment transaction systems.",
+    "Turning business needs into full-stack solutions across commerce, enterprise platforms, field operations, and banking payments. Hands-on delivery, cross-functional collaboration, and practical AI adoption.",
 };
 
 export const metrics = [
   {
+    icon: "ai-adoption",
+    value: "29% → 100%",
+    title: "Developer AI Adoption",
+    description:
+      "As Squad Leader at Nabati, helped 7 of 7 developers adopt AI tools, up from 2 of 7, through mentoring and guidance. QA is excluded from this measure.",
+  },
+  {
     icon: "team-efficiency",
     value: "10%",
-    title: "Frontend Team Efficiency & Productivity Improved",
+    title: "Team Productivity Improved",
     description:
-      "At Nabati, through modernization, build optimization, and stronger engineering practices, measured in weekly reports.",
+      "As Technical Lead at Nabati, through modernization, build optimization, and stronger engineering practices, tracked in weekly reports.",
   },
   {
     icon: "transaction-packets",
@@ -50,26 +57,26 @@ export const metrics = [
     value: "12",
     title: "Largest Team Led",
     description:
-      "12-person frontend team; 9-person cross-functional squad across Frontend, Backend, and QA.",
+      "Led a 12-person team as Technical Lead and a 9-person cross-functional squad across Frontend, Backend, and QA as Squad Leader.",
   },
   {
     icon: "tech-debt",
     value: "~90%",
-    title: "Technical Debt Reduced",
+    title: "SonarQube Issues Reduced",
     description:
-      "5,000+ to 450 within 6 months, through SonarQube quality gates and refactoring.",
+      "Reduced technical debt, bringing SonarQube-reported issues from 5,000+ to 450 within 6 months.",
   },
   {
     icon: "build-time",
     value: "~80%",
     title: "UI Library Build Time Reduced",
     description:
-      "8-10 to 1-2 minutes within 3 months, through code cleanup and build and architecture optimization.",
+      "Led Storybook.js and Rollup.js optimization, reducing build time from 8-10 to 1-2 minutes within 3 months.",
   },
   {
     icon: "code-issues",
     value: "~70%",
-    title: "Frontend Bug Tickets Reduced",
+    title: "Weekly Bug Tickets Reduced",
     description:
       "20-30 to 5-10 tickets/week in 4 months. Jest, 1:1 reviews, modernization, and engineering standards.",
   },
@@ -86,12 +93,12 @@ export const leadershipSkillGroups = [
       },
       {
         name: "Team Leadership",
-        experience: "3 Years Experience",
+        experience: "2+ Years Experience",
         iconKey: "teamleadership",
       },
       {
-        name: "Man Power Planning",
-        experience: "3 Years Experience",
+        name: "Workforce Planning",
+        experience: "2+ Years Experience",
         iconKey: "manpowerplanning",
       },
       {
@@ -416,7 +423,7 @@ export const techStack = [
     {
       name: "Microservices",
       iconKey: "microservices",
-      experience: "Sales, Inventory & Reporting",
+      experience: "Sales, Inventory, Reporting, Logistics & Shipments",
     },
     {
       name: "REST API",
@@ -710,7 +717,7 @@ export const techStack = [
       badges: [],
     },
   ]),
-  ...createSkillGroup(GROUPS.delivery, "Agentic AI", [
+  ...createSkillGroup(GROUPS.delivery, "AI Tools & Practices", [
     {
       name: "Codex",
       iconKey: "codex",
@@ -724,15 +731,21 @@ export const techStack = [
       badges: [],
     },
     {
-      name: "Kiro AWS",
+      name: "Kiro (AWS)",
       iconKey: "kiro",
       experience: "Agentic AI development tools",
       badges: [],
     },
     {
-      name: "Antigravity",
+      name: "Antigravity (Google)",
       iconKey: "antigravity",
       experience: "Agentic AI development tools",
+      badges: [],
+    },
+    {
+      name: "Hermes Agent",
+      iconKey: "hermesagent",
+      experience: "AI-assisted workflows",
       badges: [],
     },
   ]),
@@ -742,12 +755,17 @@ export const coreSkills = [
   {
     category: "Engineering Leadership",
     items:
-      "Engineering Leadership, Technical Leadership, Mentoring, Stakeholder Alignment, Delivery Planning, Risk Management, Performance Review Input, Workforce Planning, Project Management.",
+      "Engineering Leadership, Technical Leadership, Cross-Functional Team Leadership, Mentoring, AI Adoption, Stakeholder Alignment, Delivery Planning, Risk Management, Performance Review Input, Workforce Planning, Project Management.",
   },
   {
     category: "Delivery & Engineering Practices",
     items:
-      "Agile, Scrum, Waterfall, Sprint Planning, Backlog Refinement, Code Review, Trunk-Based Development, Release Planning, Technical Documentation, Engineering Standardization, AI-Assisted Development.",
+      "Agile, Scrum, Waterfall, Spec-Driven Development (SDD), Test-Driven Development (TDD), Sprint Planning, Backlog Refinement, Code Review, Pair Programming, Trunk-Based Development, Release Planning, Technical Documentation, Technical Debt Reduction, AI-Assisted Development.",
+  },
+  {
+    category: "AI Tools & Practices",
+    items:
+      "Prompt Engineering, Prompt-Driven AI Orchestration, Codex, Claude Code, Kiro (AWS), Antigravity (Google), Hermes Agent.",
   },
   {
     category: "Frontend Stack",
@@ -757,12 +775,12 @@ export const coreSkills = [
   {
     category: "Backend, BaaS, API & Integration",
     items:
-      "Go, Node.js, Express.js, REST APIs, GraphQL, gRPC, Protocol Buffers, Microservices, RabbitMQ, Redis, MySQL, MongoDB, PHP, Firebase, cron jobs.",
+      "Go, Node.js, Express.js, REST APIs, Third-Party Integrations, gRPC, Protocol Buffers, Microservices, RabbitMQ, Redis, MySQL, MongoDB, PHP, Firebase, cron jobs.",
   },
   {
     category: "Quality, Observability & DevOps",
     items:
-      "Jest, Playwright, SonarQube, Docker, Kubernetes, OpenTelemetry, Elastic APM, Vault, Grafana, Argo CD.",
+      "Jest, Playwright, SonarQube, Automated Testing, AI-Assisted Test Development, API Testing, Test Planning, Use Case Analysis, Edge Case Analysis, UAT Support, Docker, Kubernetes, OpenTelemetry, Elastic APM, Vault, Grafana, Argo CD.",
   },
   {
     category: "Management Tools",
@@ -807,16 +825,21 @@ export const timelineItems = [
     location: "Bandung, Indonesia",
     responsibilities: [
       "Led a 9-person cross-functional squad across Frontend, Backend, and QA, translating business goals into sprint-ready delivery plans.",
-      "Coordinated priorities, workloads, dependencies, risks, documentation, and engineering quality across Agile releases.",
-      "Developed and maintained frontend applications within monorepo and microfrontend environments.",
-      "Developed and maintained backend microservices across Sales, Inventory, and Reporting.",
-      "Supported and maintained Logistics, Shipments, and third-party integrations through API improvements and UAT support.",
-      "Improved delivery quality through code reviews, refactoring, automated testing with Jest and Playwright, and AI-assisted development workflows.",
+      "Owned end-to-end Agile delivery using AI-assisted workflows, coordinating stakeholders, priorities, risks, and documentation.",
+      "Used Spec-Driven Development (SDD) and structured AI prompt engineering to build and maintain 8 React.js/Next.js apps and 5 Go microservices, implement third-party integrations, and support UAT.",
+      "Led squad-wide adoption of AI tools and mentored developers in prompt-driven workflows to accelerate development.",
+      "Used prompt-driven AI orchestration to automate API testing workflows.",
+      "Applied TDD using AI-generated Jest/Playwright tests aligned with stakeholder use cases and edge cases, alongside AI-assisted code reviews.",
     ],
     techStackIconKeys: [
       "react",
       "nextjs",
       "typescript",
+      "radixui",
+      "antdesign",
+      "tailwind",
+      "redux",
+      "zustand",
       "go",
       "mongodb",
       "redis",
@@ -834,19 +857,19 @@ export const timelineItems = [
     ],
   },
   {
-    role: "Technical Lead Frontend",
+    role: "Technical Lead",
     period: "Apr 2024 - Dec 2025",
     duration: "1 yr 9 months",
     employmentType: "Full-time",
     company: "PT. Kaldu Sari Nabati Indonesia (NABATI)",
     location: "Bandung, Indonesia",
     responsibilities: [
-      "Led a 12-person frontend team across delivery, legacy support, workforce planning, KPIs, performance review input, hiring, and technical decisions.",
-      "Reduced technical debt by 90%, from 5,000+ to 450 within 6 months, through SonarQube quality gates and refactoring.",
-      "Cut UI library build time by 80%, from 8-10 to 1-2 minutes within 3 months, through code cleanup and build and architecture optimization.",
-      "Reduced weekly frontend bug tickets by approximately 70%, from 20-30 to 5-10 within 4 months, through Jest testing, 1:1 code reviews, codebase modernization, and engineering standardization.",
-      "Built and maintained internal full-stack Reporting tools for senior management using monolithic and layered architecture.",
-      "Developed and maintained monorepo and microfrontend web apps and mobile apps across ERP, SFA, HRIS, and field operations.",
+      "Led a 12-person team across quality, workforce planning, KPIs, performance review input, hiring, and technical decisions.",
+      "Reduced technical debt, bringing SonarQube-reported issues from 5,000+ to 450 (approximately 90%) within 6 months.",
+      "Led UI library optimization using Storybook.js and Rollup.js, reducing build time by approximately 80%, from 8-10 to 1-2 minutes within 3 months.",
+      "Designed and implemented Jest testing, 1:1 code reviews, codebase modernization, and engineering standardization with the team, cutting weekly bug tickets by approximately 70%, from 20-30 to 5-10 within 4 months.",
+      "Engineered 4 full-stack apps for senior management using React.js, Vite.js, Go, Node.js, Express.js, and monolithic/layered architecture.",
+      "Built and maintained 12 frontend apps in monorepo and microfrontend environments using React.js, Next.js, and Vite.js, alongside React Native mobile apps, across ERP, SFA, HRIS, FICO, VIM, Logistics, and other field operations tools.",
     ],
     techStackIconKeys: [
       "react",
@@ -878,7 +901,7 @@ export const timelineItems = [
     company: "PT. Kaldu Sari Nabati Indonesia (NABATI)",
     location: "Bandung, Indonesia",
     responsibilities: [
-      "Developed and delivered ERP web modules within a microfrontend architecture, alongside mobile applications, building reusable frontend workflows and collaborating with backend engineers on API integration, testing, and production releases.",
+      "Delivered 4 ERP web and mobile apps using React.js, Next.js, and React Native, with reusable frontend workflows and microfrontend architecture for web, collaborating with Backend and QA on API integration, testing, and production releases.",
     ],
     techStackIconKeys: ["react", "nextjs", "antdesign", "reactnative", "api"],
   },
@@ -890,13 +913,12 @@ export const timelineItems = [
     company: "PT. Arah Dinamika Abadi",
     location: "DKI Jakarta, Indonesia",
     responsibilities: [
-      "Delivered secure NSICCS-compliant ISO8583 EDC, POS, and Terminal Management System solutions for 7 Indonesian banks.",
-      "Supported mandatory updates, pre- and post-UAT, issue analysis, regulatory compliance, and legacy system continuity.",
+      "Delivered EDC, POS, and TMS solutions for 8 Indonesian banks using C, C++, PHP, and Kotlin, covering NSICCS-compliant ISO8583 implementations, mandatory updates, pre/post-UAT, troubleshooting, compliance, and legacy support.",
       "Mentored 3 junior developers and interns from Feb 2021 to Dec 2022.",
     ],
     notableProjectsTitle: "Notable Projects",
     notableProjects: [
-      "BPD Bali, BPD NTT, BNI, Bank Syariah Mandiri (Now BSI), Bank Aceh Syariah, Bank Victoria, BPD Jateng",
+      "BPD Bali, BPD Jateng, Bank Victoria, BNI, Bank Syariah Mandiri (now BSI), Bank Aceh, and Bank NTT; legacy support and updates for Bank Mandiri.",
     ],
     techStackIconKeys: ["c", "cplusplus", "php", "kotlin"],
   },
@@ -925,6 +947,15 @@ export const timelineItems = [
 
 export const selectedProjects = [
   {
+    title: "rimce.id — Bakery E-Commerce & Management System",
+    period: "Sep 2026 - Ongoing",
+    screenshotFolder: "rimce",
+    description:
+      "Digitalizing a 6-year-old bakery business serving 20+ customers monthly across Jakarta and Bandung. A preorder e-commerce platform with 5 services supports order, payment, production, delivery, and financial management.",
+    url: "https://rimce.id",
+    techStackIconKeys: [],
+  },
+  {
     title: "Enterprise Web, SaaS & Internal Business Platforms",
     period: "Mar 2023 - Oct 2026",
     screenshotFolder: "ksni",
@@ -938,7 +969,7 @@ export const selectedProjects = [
       "surveyor-app.png",
     ],
     description:
-      "Delivered ERP, SFA, HRIS, Salesman Tracker for 8,000+ outlets, Surveyor App, Routing and Tracker System, Logistics Monitoring System, Restaurant Mapping, and a multi-user Meeting App.",
+      "Web ERP, SFA, VIM, and FICO with SAP integration, alongside HRIS, Salesman Tracker for 8,000+ outlets, Surveyor App, Routing and Tracker System, Logistics Monitoring System, Restaurant Mapping, and a multi-user Meeting App.",
     techStackIconKeys: [
       "react",
       "nextjs",
@@ -981,7 +1012,7 @@ export const selectedProjects = [
   },
   {
     title: "Company Website & IDX Content Updates",
-    period: "Oct 2018 – Feb 2019",
+    period: "Mar 2013 - Nov 2016",
     screenshotFolder: "nelly",
     description:
       "Built and maintained a company website that required regular content updates for IDX-related checking and public information needs.",
@@ -1000,7 +1031,8 @@ export const selectedProjects = [
 ];
 
 export const keyAchievements = [
-  "At Nabati, improved frontend team efficiency and productivity by 10% through modernization, build optimization, and stronger engineering practices, as measured in weekly reports.",
+  "At Nabati as Squad Leader, helped increase developer AI adoption from 29% to 100% (2 to 7 of 7 developers) through mentoring and guidance.",
+  "At Nabati as Technical Lead, improved team productivity by 10% through modernization, build optimization, and stronger engineering practices, as tracked in weekly reports.",
   "At Arahnet, refactored BPD Bali's EDC application, reducing transaction packet sizes by approximately 50% and cutting response times for complex transactions from 4-5 seconds to 2 seconds.",
   "At Nelly, reduced weekly SMS reporting consolidation time by 60% by building a web-based SMS gateway supporting 30 vessels.",
 ];
@@ -1058,8 +1090,16 @@ export const cvSkillGroups = [
         iconKey: "cpu",
       },
       {
+        name: "Cross-Functional Team Leadership",
+        iconKey: "users",
+      },
+      {
         name: "Mentoring",
         iconKey: "users",
+      },
+      {
+        name: "AI Adoption",
+        iconKey: "ai",
       },
       {
         name: "Stakeholder Alignment",
@@ -1140,6 +1180,14 @@ export const cvSkillGroups = [
         iconKey: "layered",
       },
       {
+        name: "Spec-Driven Development (SDD)",
+        iconKey: "documentation",
+      },
+      {
+        name: "Test-Driven Development (TDD)",
+        iconKey: "quality",
+      },
+      {
         name: "Sprint Planning",
         iconKey: "calendar",
       },
@@ -1150,6 +1198,10 @@ export const cvSkillGroups = [
       {
         name: "Code Review",
         iconKey: "quality",
+      },
+      {
+        name: "Pair Programming",
+        iconKey: "users",
       },
       {
         name: "Trunk-Based Development",
@@ -1164,7 +1216,7 @@ export const cvSkillGroups = [
         iconKey: "documentation",
       },
       {
-        name: "Engineering Standardization",
+        name: "Technical Debt Reduction",
         iconKey: "shield",
       },
       {
@@ -1175,9 +1227,17 @@ export const cvSkillGroups = [
   },
   {
     key: "agentic-ai",
-    label: "Agentic AI",
+    label: "AI Tools & Practices",
     iconKey: "ai",
     items: [
+      {
+        name: "Prompt Engineering",
+        iconKey: "message",
+      },
+      {
+        name: "Prompt-Driven AI Orchestration",
+        iconKey: "ai",
+      },
       {
         name: "Codex",
         iconKey: "codex",
@@ -1187,12 +1247,16 @@ export const cvSkillGroups = [
         iconKey: "claudecode",
       },
       {
-        name: "Kiro AWS",
+        name: "Kiro (AWS)",
         iconKey: "kiro",
       },
       {
-        name: "Antigravity",
+        name: "Antigravity (Google)",
         iconKey: "antigravity",
+      },
+      {
+        name: "Hermes Agent",
+        iconKey: "hermesagent",
       },
     ],
   },
@@ -1289,8 +1353,8 @@ export const cvSkillGroups = [
         iconKey: "api",
       },
       {
-        name: "GraphQL",
-        iconKey: "graphql",
+        name: "Third-Party Integrations",
+        iconKey: "grpc",
       },
       {
         name: "gRPC",
@@ -1346,6 +1410,34 @@ export const cvSkillGroups = [
       {
         name: "SonarQube",
         iconKey: "sonarqube",
+      },
+      {
+        name: "Automated Testing",
+        iconKey: "quality",
+      },
+      {
+        name: "AI-Assisted Test Development",
+        iconKey: "ai",
+      },
+      {
+        name: "API Testing",
+        iconKey: "api",
+      },
+      {
+        name: "Test Planning",
+        iconKey: "clipboard",
+      },
+      {
+        name: "Use Case Analysis",
+        iconKey: "message",
+      },
+      {
+        name: "Edge Case Analysis",
+        iconKey: "quality",
+      },
+      {
+        name: "UAT Support",
+        iconKey: "user-check",
       },
     ],
   },

@@ -33,6 +33,7 @@ const icons = {
   claudecode: SiClaude,
   kiro: FiCpu,
   antigravity: FiZap,
+  hermesagent: FiCpu,
 };
 
 
@@ -47,7 +48,7 @@ const iconColors = {
   clean: '#14936e', hexagonal: '#5b73d5', iteration: '#d5742e',
   delivery: '#dc8430', quality: '#23966c', documentation: '#4f7fce',
   ai: '#9d58d5', aws: '#e98b0b', codex: '#10a37f', claudecode: '#c96945',
-  kiro: '#9862d1', antigravity: '#427ce4',
+  kiro: '#9862d1', antigravity: '#427ce4', hermesagent: '#d19b45',
   javascript: '#c49a08', typescript: '#3178c6', react: '#098faf',
   reactnative: '#098faf', nextjs: '#7056c8', radixui: '#9764ce',
   express: '#659337', opentelemetry: '#e48f13', protobuf: '#7161be',

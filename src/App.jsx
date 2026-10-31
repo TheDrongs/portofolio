@@ -139,12 +139,13 @@ function Home({ navigate }) {
         <em>that work.</em>
       </h1>
       <p className="home-role">
-        Software engineer. Technical leader.
+        Full-stack engineer. Technical leader.
         <br />
       </p>
       <p>
-        From banking payment systems to enterprise platforms, I turn complex
-        problems into useful software, and help teams do their best work.
+        From commerce and banking payments to enterprise operations, I turn
+        business needs into useful software and help teams adopt AI-assisted
+        workflows.
       </p>
       <button className="text-link" onClick={() => navigate("about")}>
         Let's start the story <FiArrowUpRight />
@@ -322,7 +323,7 @@ function Projects() {
         <em>to Production.</em>
       </h1>
       <p>
-        Enterprise applications, payment systems, and a few things in between.
+        Commerce platforms, enterprise applications, and banking payment systems.
         Open a project to have a closer look.
       </p>
       <div className="project-list">
