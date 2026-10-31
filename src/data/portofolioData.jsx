@@ -397,7 +397,7 @@ export const techStack = [
       name: "PHP",
       iconKey: "php",
       color: "#777BB4",
-      experience: "3+ Years Experience",
+      experience: "4+ Years Experience",
       badges: BADGES.handsOnProduction,
     },
     {
